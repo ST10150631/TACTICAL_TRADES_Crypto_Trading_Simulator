@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/BackGround"
+    tools:context=".RegisterActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:text="REGISTER"
+            android:textAlignment="center"
+            android:textColor="@color/PrimaryTxtColor"
+            android:textSize="40sp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logoregister" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:padding="10dp"
+            >
+
+            <TextView
+                style="@style/TxtPrimaryStyle"
+                android:fontFamily="@font/inter_bold"
+                android:text="Username: " />
+
+            <EditText
+                android:id="@+id/editTxtUsername"
+                style="@style/CustomEditText"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:background="@drawable/edittxtdark"
+                android:fontFamily="@font/inter_medium"
+                android:inputType="text"
+                android:text="Username"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/TxtPrimaryStyle"
+                android:fontFamily="@font/inter_bold"
+                android:text="Name:" />
+
+            <EditText
+                android:id="@+id/editTxtName"
+                style="@style/CustomEditText"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:background="@drawable/edittxtdark"
+                android:fontFamily="@font/inter_medium"
+                android:inputType="text"
+                android:text="Name"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/TxtPrimaryStyle"
+                android:fontFamily="@font/inter_bold"
+                android:text="Email:" />
+
+            <EditText
+                android:id="@+id/editTextTextEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittxtdark"
+                android:ems="10"
+                android:fontFamily="@font/inter_medium"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                style="@style/TxtPrimaryStyle"
+                android:fontFamily="@font/inter_bold"
+                android:text="Password:" />
+
+            <EditText
+                android:id="@+id/EditTxtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittxtdark"
+                android:ems="10"
+                android:fontFamily="@font/inter_medium"
+                android:inputType="textPassword" />
+
+            <TextView
+                style="@style/TxtPrimaryStyle"
+                android:fontFamily="@font/inter_bold"
+                android:text="Confirm Password:" />
+
+            <EditText
+                android:id="@+id/EditTxtConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittxtdark"
+                android:ems="10"
+                android:fontFamily="@font/inter_medium"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/BtnRegister"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btnregisterbg"
+                android:fontFamily="@font/inter_bold"
+                android:text="Register"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="Already have an account?"
+                android:textAlignment="textStart"
+                android:textColor="@color/PrimaryTxtColor"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/BtnLogin"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:fontFamily="@font/inter_bold"
+                android:text="Click here to login"
+                android:textColor="@color/LinkBlue" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</ScrollView>
