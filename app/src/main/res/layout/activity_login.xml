@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackGround"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:text="Login"
+            android:textAlignment="center"
+            android:textColor="@color/PrimaryTxtColor"
+            android:textSize="40sp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logoregister" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:padding="10dp"
+            >
+
+            <TextView
+                style="@style/TxtPrimaryStyle"
+                android:fontFamily="@font/inter_bold"
+                android:text="Username OR Email: " />
+
+            <EditText
+                android:id="@+id/editTxtUsername"
+                style="@style/CustomEditText"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittxtdark"
+                android:fontFamily="@font/inter_medium"
+                android:inputType="text"
+                android:text="Username/Email"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/TxtPrimaryStyle"
+                android:fontFamily="@font/inter_bold"
+                android:text="Password:" />
+
+            <EditText
+                android:id="@+id/EditTxtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittxtdark"
+                android:ems="10"
+                android:fontFamily="@font/inter_medium"
+                android:inputType="textPassword" />
+            <Button
+                android:id="@+id/BtnRegister"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btnregisterbg"
+                android:fontFamily="@font/inter_bold"
+                android:text="Login"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="Don't have an account?"
+                android:textAlignment="textStart"
+                android:textColor="@color/PrimaryTxtColor"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/BtnLogin"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:fontFamily="@font/inter_bold"
+                android:text="Click here to Register"
+                android:textColor="@color/LinkBlue" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>
