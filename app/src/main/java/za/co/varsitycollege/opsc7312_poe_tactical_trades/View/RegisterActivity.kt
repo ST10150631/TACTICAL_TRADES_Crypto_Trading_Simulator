@@ -1,4 +1,4 @@
-package za.co.varsitycollege.opsc7312_poe_tactical_trades
+package za.co.varsitycollege.opsc7312_poe_tactical_trades.View
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.FirebaseHelper.firebaseAuth
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper.firebaseAuth
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 
 class RegisterActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package za.co.varsitycollege.opsc7312_poe_tactical_trades.ui.tradecoins.placeholder
+package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.tradecoins.placeholder
 
 import java.util.ArrayList
 import java.util.HashMap

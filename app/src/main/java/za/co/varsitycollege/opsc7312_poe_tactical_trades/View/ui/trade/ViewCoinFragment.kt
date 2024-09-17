@@ -1,4 +1,4 @@
-package za.co.varsitycollege.opsc7312_poe_tactical_trades.ui.trade
+package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.trade
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".ui.tradecoins.TradeFragment"
+    tools:context=".View.ui.tradecoins.TradeFragment"
     tools:listitem="@layout/fragment_trade" />

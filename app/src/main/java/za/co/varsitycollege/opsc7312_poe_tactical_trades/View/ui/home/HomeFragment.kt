@@ -1,4 +1,4 @@
-package za.co.varsitycollege.opsc7312_poe_tactical_trades.ui.home
+package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater

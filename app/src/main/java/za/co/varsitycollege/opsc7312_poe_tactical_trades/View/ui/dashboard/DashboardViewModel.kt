@@ -1,4 +1,4 @@
-package za.co.varsitycollege.opsc7312_poe_tactical_trades.ui.dashboard
+package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

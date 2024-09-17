@@ -1,11 +1,11 @@
-package za.co.varsitycollege.opsc7312_poe_tactical_trades.ui.tradecoins
+package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.tradecoins
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.ui.tradecoins.placeholder.PlaceholderContent.PlaceholderItem
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.tradecoins.placeholder.PlaceholderContent.PlaceholderItem
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentTradeBinding
 
 /**

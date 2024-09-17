@@ -1,4 +1,4 @@
-package za.co.varsitycollege.opsc7312_poe_tactical_trades.ui.tradecoins
+package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.tradecoins
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.ui.tradecoins.placeholder.PlaceholderContent
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.tradecoins.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
