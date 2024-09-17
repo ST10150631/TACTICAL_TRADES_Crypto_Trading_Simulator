@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="za.co.varsitycollege.opsc7312_poe_tactical_trades" />
+                  <option name="mobileSdkAppId" value="1:402281489438:android:ea500a942aafeaf50d7a0f" />
+                  <option name="projectId" value="opsc7312-poe-tactical-trades" />
+                  <option name="projectNumber" value="402281489438" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
