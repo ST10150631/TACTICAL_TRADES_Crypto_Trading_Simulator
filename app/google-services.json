@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "402281489438",
+    "project_id": "opsc7312-poe-tactical-trades",
+    "storage_bucket": "opsc7312-poe-tactical-trades.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402281489438:android:ea500a942aafeaf50d7a0f",
+        "android_client_info": {
+          "package_name": "za.co.varsitycollege.opsc7312_poe_tactical_trades"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9iyr5-g48T1_UQhymWAXWqb5uBQ2sSNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

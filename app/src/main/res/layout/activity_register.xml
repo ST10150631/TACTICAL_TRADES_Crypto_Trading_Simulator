@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:background="@color/BackGround"
     tools:context=".RegisterActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,7 +51,8 @@
                 android:background="@drawable/edittxtdark"
                 android:fontFamily="@font/inter_medium"
                 android:inputType="text"
-                android:text="Username"
+                android:hint="Username"
+                android:textColorHint="@color/purple_200"
                 android:textColor="@color/white" />
 
             <TextView
@@ -67,7 +69,8 @@
                 android:background="@drawable/edittxtdark"
                 android:fontFamily="@font/inter_medium"
                 android:inputType="text"
-                android:text="Name"
+                android:hint="Name"
+                android:textColorHint="@color/purple_200"
                 android:textColor="@color/white" />
 
             <TextView
@@ -76,13 +79,16 @@
                 android:text="Email:" />
 
             <EditText
-                android:id="@+id/editTextTextEmailAddress"
+                android:id="@+id/editTxtEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittxtdark"
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:hint=" Email"
+                android:textColorHint="@color/purple_200"
+                android:textColor="@color/white" />
 
             <TextView
                 style="@style/TxtPrimaryStyle"
@@ -90,13 +96,16 @@
                 android:text="Password:" />
 
             <EditText
-                android:id="@+id/EditTxtPassword"
+                android:id="@+id/editTxtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittxtdark"
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:hint=" Password"
+                android:textColorHint="@color/purple_200"
+                android:textColor="@color/white" />
 
             <TextView
                 style="@style/TxtPrimaryStyle"
@@ -104,25 +113,41 @@
                 android:text="Confirm Password:" />
 
             <EditText
-                android:id="@+id/EditTxtConfirmPassword"
+                android:id="@+id/editTxtConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittxtdark"
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:hint=" Confirm Password"
+                android:textColorHint="@color/purple_200"
+                android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/BtnRegister"
+
+            <FrameLayout
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/btnregisterbg"
-                android:fontFamily="@font/inter_bold"
-                android:text="Register"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:layout_marginBottom="10dp">
+
+                <ImageButton
+                    android:id="@+id/btnRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btnregisterbg"
+                    android:padding="10dp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Register"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </FrameLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -134,14 +159,23 @@
                 android:textSize="20sp" />
 
             <Button
-                android:id="@+id/BtnLogin"
+                android:id="@+id/btnLogin"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
                 android:fontFamily="@font/inter_bold"
                 android:text="Click here to login"
                 android:textColor="@color/LinkBlue" />
-
+            <Button
+                android:id="@+id/btnSignOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign Out"
+                android:background="@drawable/btnregisterbg"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="18sp"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
 
