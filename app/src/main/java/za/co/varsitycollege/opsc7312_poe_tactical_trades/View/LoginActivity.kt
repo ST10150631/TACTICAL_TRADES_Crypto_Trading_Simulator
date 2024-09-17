@@ -20,20 +20,27 @@ class LoginActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        val emailEditText: EditText = findViewById(R.id.editTxtUsername)
+        val emailEditText: EditText = findViewById(R.id.EditTxtEmail)
         val passwordEditText: EditText = findViewById(R.id.EditTxtPassword)
         val loginButton: ImageButton = findViewById(R.id.BtnLogin)
         val registerButton: Button = findViewById(R.id.BtnRegister)
 
         loginButton.setOnClickListener {
-            val email = emailEditText.text.toString().trim()
+            val loginDetail = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                loginUser(email, password)
-            } else {
-                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+            if (android.util.Patterns.EMAIL_ADDRESS.matcher(loginDetail).matches())
+            {
+                val email = loginDetail
+                if (email.isNotEmpty() && password.isNotEmpty()) {
+                    loginUser(email, password)
+                } else {
+                    Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                }
+            }else {
+                Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
             }
+
         }
 
         registerButton.setOnClickListener {

@@ -80,13 +80,14 @@
 
             <EditText
                 android:id="@+id/editTxtEmailAddress"
+                style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittxtdark"
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
                 android:inputType="textEmailAddress"
-                android:hint=" Email"
+                android:hint="Email"
                 android:textColorHint="@color/purple_200"
                 android:textColor="@color/white" />
 
@@ -97,13 +98,14 @@
 
             <EditText
                 android:id="@+id/editTxtPassword"
+                style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittxtdark"
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
                 android:inputType="textPassword"
-                android:hint=" Password"
+                android:hint="Password"
                 android:textColorHint="@color/purple_200"
                 android:textColor="@color/white" />
 
@@ -114,13 +116,14 @@
 
             <EditText
                 android:id="@+id/editTxtConfirmPassword"
+                style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittxtdark"
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
                 android:inputType="textPassword"
-                android:hint=" Confirm Password"
+                android:hint="Confirm Password"
                 android:textColorHint="@color/purple_200"
                 android:textColor="@color/white" />
 

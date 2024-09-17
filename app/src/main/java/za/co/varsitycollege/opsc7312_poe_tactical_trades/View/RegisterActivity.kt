@@ -19,16 +19,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
 
-    private lateinit var editTxtUsername: EditText
-    private lateinit var editTxtName: EditText
-    private lateinit var editTxtEmailAddress: EditText
-    private lateinit var editTxtPassword: EditText
-    private lateinit var editTxtConfirmPassword: EditText
-
-    private lateinit var btnRegister: ImageButton
-    private lateinit var btnLogin: Button
-    private lateinit var btnSignOut: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -37,15 +27,15 @@ class RegisterActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
 
-        editTxtUsername = findViewById(R.id.editTxtUsername)
-        editTxtName = findViewById(R.id.editTxtName)
-        editTxtEmailAddress = findViewById(R.id.editTxtEmailAddress)
-        editTxtPassword = findViewById(R.id.editTxtPassword)
-        editTxtConfirmPassword = findViewById(R.id.editTxtConfirmPassword)
+        val editTxtUsername : EditText = findViewById(R.id.editTxtUsername)
+        val editTxtName : EditText = findViewById(R.id.editTxtName)
+        val editTxtEmailAddress : EditText = findViewById(R.id.editTxtEmailAddress)
+        val editTxtPassword : EditText = findViewById(R.id.editTxtPassword)
+        val editTxtConfirmPassword : EditText = findViewById(R.id.editTxtConfirmPassword)
 
-        btnRegister = findViewById(R.id.btnRegister)
-        btnLogin = findViewById(R.id.btnLogin)
-        btnSignOut = findViewById(R.id.btnSignOut)
+        val btnRegister : ImageButton = findViewById(R.id.btnRegister)
+        val btnLogin: Button = findViewById(R.id.btnLogin)
+        val btnSignOut: Button = findViewById(R.id.btnSignOut)
 
         btnRegister.setOnClickListener {
             val username = editTxtUsername.text.toString().trim()

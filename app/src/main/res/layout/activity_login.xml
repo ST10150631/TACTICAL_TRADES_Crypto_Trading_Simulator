@@ -40,17 +40,17 @@
             <TextView
                 style="@style/TxtPrimaryStyle"
                 android:fontFamily="@font/inter_bold"
-                android:text="Username OR Email: " />
+                android:text="Email: " />
 
             <EditText
-                android:id="@+id/editTxtUsername"
+                android:id="@+id/EditTxtEmail"
                 style="@style/CustomEditText"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittxtdark"
                 android:fontFamily="@font/inter_medium"
                 android:inputType="text"
-                android:hint="Username/Email"
+                android:hint="Email"
                 android:textColorHint="@color/purple_200"
                 android:textColor="@color/white" />
 
@@ -61,13 +61,14 @@
 
             <EditText
                 android:id="@+id/EditTxtPassword"
+                style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittxtdark"
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
                 android:inputType="textPassword"
-                android:hint="  Password"
+                android:hint="Password"
                 android:textColorHint="@color/purple_200"
                 android:textColor="@color/white"/>
 
