@@ -55,8 +55,13 @@ dependencies {
     implementation(libs.firebase.database)
     implementation("com.google.android.gms:play-services-auth:20.5.0")
     implementation(libs.firebase.storage.ktx)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0") // Check for the latest version
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.github.bumptech.glide:glide:4.15.0")
     kapt("com.github.bumptech.glide:compiler:4.15.0")
