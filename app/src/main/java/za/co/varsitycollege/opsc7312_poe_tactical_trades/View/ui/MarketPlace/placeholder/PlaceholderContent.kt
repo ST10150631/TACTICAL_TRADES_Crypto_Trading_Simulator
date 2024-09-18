@@ -1,4 +1,4 @@
-package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.tradecoins.placeholder
+package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.MarketPlace.placeholder
 
 import java.util.ArrayList
 import java.util.HashMap
@@ -51,7 +51,7 @@ object PlaceholderContent {
     /**
      * A placeholder item representing a piece of content.
      */
-    data class PlaceholderItem(val id: String, val content: String, val details: String) {
+    data class PlaceholderItem(val id: String, val content: String, val price: String) {
         override fun toString(): String = content
     }
 }
