@@ -10,7 +10,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.User
 import java.util.UUID
-import android.widget.*
 
 object FirebaseHelper {
     // Firebase Authentication instance
@@ -99,51 +98,4 @@ object FirebaseHelper {
             Toast.makeText(context, "Failed to fetch user data: ${it.message}", Toast.LENGTH_LONG).show()
         }
     }
-
-    fun storeUserData(
-        context: Context,
-        userId: String,
-        username: String?,
-        name: String?,
-        email: String,
-        theme: String?,
-        graphTheme: String?,
-        language: String?
-    ) {
-        signOut()
-
-        val userReference = databaseReference.child(userId)
-
-        userReference.get().addOnSuccessListener { snapshot ->
-            val currentUser = snapshot.getValue(User::class.java)
-
-            if (currentUser == null) {
-                // No user found, create a new user entry
-                val newUser = User(
-                    username = username ?: "",
-                    name = name ?: "",
-                    email = email,
-                    theme = theme ?: "",
-                    graphTheme = graphTheme ?: "",
-                    language = language ?: "",
-                    profilePictureUrl = ""
-                )
-
-                // Store the new user data in the database
-                userReference.setValue(newUser).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(context, "User data stored successfully.", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, "Failed to store user data: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-                    }
-                }
-            } else {
-                // User already exists
-                Toast.makeText(context, "User already exists.", Toast.LENGTH_LONG).show()
-            }
-        }.addOnFailureListener { exception ->
-            Toast.makeText(context, "Failed to fetch user data: ${exception.message}", Toast.LENGTH_LONG).show()
-        }
-    }
-
 }

@@ -13,10 +13,8 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.User
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.storage.FirebaseStorage
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -39,8 +37,6 @@ class SettingsFragment : Fragment() {
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        //auth = FirebaseAuth.getInstance()
 
         loadProfilePicture()
         loadNotificationSettings()
