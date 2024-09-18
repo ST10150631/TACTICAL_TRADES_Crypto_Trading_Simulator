@@ -35,7 +35,6 @@ class RegisterActivity : AppCompatActivity() {
 
         val btnRegister : ImageButton = findViewById(R.id.btnRegister)
         val btnLogin: Button = findViewById(R.id.btnLogin)
-        val btnSignOut: Button = findViewById(R.id.btnSignOut)
 
         btnRegister.setOnClickListener {
             val username = editTxtUsername.text.toString().trim()
@@ -51,13 +50,6 @@ class RegisterActivity : AppCompatActivity() {
 
         btnLogin.setOnClickListener {
             navigateToLoginActivity()
-        }
-
-        btnSignOut.setOnClickListener {
-            firebaseAuth.signOut()
-            // Navigate to LoginActivity after signing out
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
         }
     }
 

@@ -7,7 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
+    <color name="gray">#3F4851</color>
+    <color name="red">#9B0910</color>
     <!-- Colour Schemes for the app  -->
     <color name="BackGround">#0E1128</color>
     <color name="BackgroundTxtBx">#13141B</color>

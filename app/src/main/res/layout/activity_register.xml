@@ -169,17 +169,7 @@
                 android:fontFamily="@font/inter_bold"
                 android:text="Click here to login"
                 android:textColor="@color/LinkBlue" />
-            <Button
-                android:id="@+id/btnSignOut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sign Out"
-                android:background="@drawable/btnregisterbg"
-                android:textColor="@color/white"
-                android:fontFamily="@font/inter_bold"
-                android:textSize="18sp"
-                android:layout_gravity="center"/>
-        </LinearLayout>
+           </LinearLayout>
 
 
     </LinearLayout>

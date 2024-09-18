@@ -1,7 +1,11 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View
 
 data class User(
-    val username: String,
-    val name: String,
-    val email: String
+    var username: String? = null,
+    var name: String? = null,
+    var email: String? = null,
+    val theme: String? = null,
+    val graphTheme: String? = null,
+    val language: String? = null,
+    val profilePictureUrl: String? = null
 )
