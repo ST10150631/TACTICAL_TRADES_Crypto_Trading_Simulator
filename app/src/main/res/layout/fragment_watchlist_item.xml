@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_filled_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/stockIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/circle"
+            android:clipToOutline="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/amazon_icon" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/TxtViewID"
+                style="@style/TxtSmallPrimaryStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+
+                android:textSize="20dp"
+                android:text="AMZN" />
+
+            <TextView
+                android:id="@+id/TxtViewName"
+                style="@style/TxtSmallPrimaryStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amazon Inc"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"                android:textSize="14dp"
+                android:textColor="@color/LightGray"/>
+
+        </LinearLayout>
+
+
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+
+        <ImageView
+            android:id="@+id/stockGraph"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:clipToOutline="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/stock_up_vector" />
+
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/TxtViewCurrent"
+                style="@style/TxtSmallPrimaryStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:textSize="20dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:text="$113.22" />
+
+            <TextView
+                android:id="@+id/TxtViewDifference"
+                style="@style/TxtSmallPrimaryStyle"
+                android:layout_width="74dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:text="+9.77%"
+                android:textAlignment="textEnd"
+                android:textColor="@color/green"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+    </LinearLayout>
+</LinearLayout>
