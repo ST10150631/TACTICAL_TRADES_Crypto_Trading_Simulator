@@ -18,10 +18,16 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_watchlist"
+        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.watchlist.WatchListFragment"
+        android:label="WatchList"
+        tools:layout="@layout/fragment_watchlist" />
+
+    <fragment
+        android:id="@+id/navigation_coinviewtest"
+        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.coinview.CoinViewTestFragment"
+        android:label="CoinViewTest"
+        tools:layout="@layout/fragment_coinview_test" />
 
     <fragment
         android:id="@+id/navigation_settings"
