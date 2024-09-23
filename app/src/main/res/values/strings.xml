@@ -7,4 +7,9 @@
 
     <string name="amazon_icon">amazon_icon</string>
 
+    <string-array name="spinner_itemsForWalletType">
+        <item>BTC</item>
+        <item>ETH</item>
+        <item>USDT</item>
+    </string-array>
 </resources>
