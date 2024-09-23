@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.AddWallet.AddWalletFragment
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.BuyCrypto.BuyCryptoFragment
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets.WalletsFragment
 
 class TestActivity : AppCompatActivity() {
@@ -21,8 +22,8 @@ class TestActivity : AppCompatActivity() {
            // .commit()
 
         // Create a bundle to pass data
-        val bundle = Bundle()
-        bundle.putString("wallet_type", "Sample Wallet")
+        //val bundle = Bundle()
+        //bundle.putString("wallet_type", "Sample Wallet")
 
         // Create the fragment and set arguments
         //val fragment = WalletsFragment()
@@ -31,7 +32,7 @@ class TestActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             // Initialize with AddWalletFragment
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, AddWalletFragment.newInstance())
+                .replace(R.id.fragment_container, BuyCryptoFragment.newInstance())
                 .commit()
         }
 
