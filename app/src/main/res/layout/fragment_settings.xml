@@ -18,6 +18,7 @@
             android:gravity="center_vertical">
 
             <ImageButton
+                android:id="@+id/BtnBack"
                 android:layout_width="41dp"
                 android:layout_height="61dp"
                 android:layout_margin="10dp"

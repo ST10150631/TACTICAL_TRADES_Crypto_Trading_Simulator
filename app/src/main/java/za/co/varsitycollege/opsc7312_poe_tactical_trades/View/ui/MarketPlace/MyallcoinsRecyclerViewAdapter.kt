@@ -36,8 +36,8 @@ class MyallcoinsRecyclerViewAdapter(
         holder.ivLogo.setImageResource(item.logo)
         holder.idView.text = item.assetId
         holder.nameView.text = item.name
-        //val price = DecimalFormat("#,###.00").format(item.priceUsd)
-        holder.priceView.text = item.priceUsd.toString() //price.toString()
+        val price = DecimalFormat("#,###.00").format(item.priceUsd)
+        holder.priceView.text = price.toString()
     }
 
     override fun getItemCount(): Int = values.size
