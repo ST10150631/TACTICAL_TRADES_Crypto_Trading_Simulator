@@ -46,11 +46,11 @@
 
         <ImageButton
             android:id="@+id/imgBtnSettingsWallets"
-            android:layout_width="48dp"
-            android:layout_height="43dp"
+            android:layout_width="51dp"
+            android:layout_height="51dp"
             android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/gear_solid" />
+            android:background="@drawable/gear_solid"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -73,21 +73,29 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <LinearLayout
-            android:id="@+id/new_wallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:orientation="horizontal">
             <ImageButton
                 android:id="@+id/imgBtnBackToAddWalletOption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="16dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/add_wallet_button_icon" />
+            <LinearLayout
+                android:id="@+id/new_wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+
         </LinearLayout>
+
+
     </HorizontalScrollView>
 </LinearLayout>
