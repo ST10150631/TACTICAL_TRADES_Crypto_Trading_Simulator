@@ -4,23 +4,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.NewsAPIHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import kotlin.concurrent.thread
 
 class NewsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: NewsAdapter
+    private lateinit var settingsButton: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_news, container, false)
+        settingsButton = view.findViewById(R.id.ImgBtnSettings)
+        setupBackButton(view)
+        settingsButton.setOnClickListener {
+            // Navigate to the SettingsFragment using the Bottom Navigation
+            val navController = (requireActivity() as MainActivity).navController
+            navController.navigate(R.id.navigateToSettingsFragment)
+        }
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         // Fetch articles in a separate thread
@@ -41,4 +51,13 @@ class NewsFragment : Fragment() {
         }
         return view
     }
+    //Method that sends the user back to the add wallets screen
+    private fun setupBackButton(view: View)
+    {
+        val backButton: ImageButton = view.findViewById(R.id.BtnBack)
+        backButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+    }
+    //---------------------------------------------------//
 }

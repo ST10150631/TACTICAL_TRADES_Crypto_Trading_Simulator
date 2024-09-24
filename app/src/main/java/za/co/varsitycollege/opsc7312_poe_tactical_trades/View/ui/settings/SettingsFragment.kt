@@ -37,6 +37,7 @@ class SettingsFragment : Fragment() {
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        setupBackButton(root)
 
         loadProfilePicture()
         loadNotificationSettings()
@@ -305,4 +306,14 @@ class SettingsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    //Method that sends the user back to the add wallets screen
+    private fun setupBackButton(view: View)
+    {
+        val backButton: ImageButton = view.findViewById(R.id.BtnBack)
+        backButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+    }
+    //---------------------------------------------------//
+
 }
