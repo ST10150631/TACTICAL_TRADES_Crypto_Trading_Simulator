@@ -12,4 +12,10 @@
         <item>ETH</item>
         <item>USDT</item>
     </string-array>
+
+    <string-array name="spinner_coin_names">
+        <item>BTC</item>
+        <item>ETH</item>
+        <item>USDT</item>
+    </string-array>
 </resources>

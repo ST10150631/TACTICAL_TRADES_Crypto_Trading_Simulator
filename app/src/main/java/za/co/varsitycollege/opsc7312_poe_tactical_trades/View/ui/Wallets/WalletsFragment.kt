@@ -1,7 +1,5 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets
 
-import android.graphics.drawable.GradientDrawable
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,9 +11,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.AddWallet.AddWalletFragment
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletRepository
 
 class WalletsFragment : Fragment() {
     //---------------------------------------------------//
@@ -49,33 +46,30 @@ class WalletsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBackButton(view)
-        if (AddWalletFragment.WalletRepository.wallets.isEmpty()) {
-            Toast.makeText(context, "No wallets added yet", Toast.LENGTH_SHORT).show()
-        } else {
             refreshWallets(view)
-        }
     }
     //---------------------------------------------------//
-    //Method that itterates through the list of wallets and adds them to the view
+    //Function that itterates through the wallet list and adds it to the new_wallet view dynamically
     private fun refreshWallets(view: View) {
         val layout: LinearLayout = view.findViewById(R.id.new_wallet)
         layout.removeAllViews()
-        val cryptoGradients = mapOf(
-            "BTC" to R.drawable.gradient_for_bitcoin,
-            "ETH" to R.drawable.gradient_for_ethereum,
-            "USDT" to R.drawable.gradient_for_tether
-
-        )
-        for (wallet in AddWalletFragment.WalletRepository.wallets) {
+        val walletMargin = 10 // Define a margin variable
+        for (wallet in WalletRepository.wallets) {
             val walletView = layoutInflater.inflate(R.layout.wallet_item, layout, false)
             walletView.findViewById<TextView>(R.id.wallet_name_text).text = wallet.walletType
-            val gradientResId = cryptoGradients[wallet.walletType] ?: R.drawable.default_gradient_for_wallet // Fallback drawable
             walletView.findViewById<View>(R.id.wallet_color_block).background =
-                ContextCompat.getDrawable(requireContext(), gradientResId)
+                ContextCompat.getDrawable(requireContext(), wallet.walletGradient)
             val imageView: ImageView = walletView.findViewById(R.id.wallet_image)
             imageView.setImageResource(wallet.walletImage)
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            params.setMargins(walletMargin, walletMargin, walletMargin, walletMargin)
+            walletView.layoutParams = params
             layout.addView(walletView)
         }
+        layout.requestLayout()
     }
     //---------------------------------------------------//
     //Method that sends the user back to the add wallets screen
