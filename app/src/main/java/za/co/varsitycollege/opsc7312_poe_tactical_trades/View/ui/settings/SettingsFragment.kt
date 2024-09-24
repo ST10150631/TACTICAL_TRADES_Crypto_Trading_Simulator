@@ -20,6 +20,7 @@ import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 
 class SettingsFragment : Fragment() {
 
@@ -34,19 +35,18 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
-
+        val rootView = inflater.inflate(R.layout.fragment_settings, container, false)
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        setupBackButton(root)
+
 
         loadProfilePicture()
         loadNotificationSettings()
         setupSpinners()
         setupRadioGroup()
         setupButtons()
-
-        return root
+        setupBackButton(rootView)
+        return rootView
     }
 
     private fun setupSpinners() {
@@ -345,7 +345,8 @@ class SettingsFragment : Fragment() {
     {
         val backButton: ImageButton = view.findViewById(R.id.BtnBack)
         backButton.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            val navController = (requireActivity() as MainActivity).navController
+            navController.navigate(R.id.navigation_home)
         }
     }
     //---------------------------------------------------//
