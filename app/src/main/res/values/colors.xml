@@ -20,5 +20,6 @@
     <color name="BackgroundTxtBx">#13141B</color>
     <color name="PrimaryTxtColor">#FFFFFFFF</color>
     <color name="LinkBlue">#2386E9</color>
+    <color name="LightGrey">#7C858E</color>
     <!-- *************************************************************************************************-->
 </resources>

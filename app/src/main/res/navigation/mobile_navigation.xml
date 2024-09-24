@@ -12,16 +12,26 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_wallets"
+        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets.WalletsFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_wallets" />
 
     <fragment
         android:id="@+id/navigation_watchlist"
         android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.watchlist.WatchListFragment"
         android:label="WatchList"
         tools:layout="@layout/fragment_watchlist" />
+    <fragment
+        android:id="@+id/navigation_news"
+        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.news.NewsFragment"
+        android:label="News"
+        tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/navigation_marketplace"
+        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.MarketPlace.MarketFragment"
+        android:label="MarketPlace"
+        tools:layout="@layout/fragment_market" />
 
     <fragment
         android:id="@+id/navigation_coinviewtest"

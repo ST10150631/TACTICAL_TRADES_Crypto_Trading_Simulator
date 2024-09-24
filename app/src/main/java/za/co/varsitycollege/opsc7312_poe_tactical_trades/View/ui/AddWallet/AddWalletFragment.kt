@@ -25,9 +25,9 @@ class AddWalletFragment : Fragment() {
     }
     //val that assigns an image to the coin
     private val coinImages = mapOf(
-        "BTC" to R.drawable.bitcoin,
-        "ETH" to R.drawable.ethereum,
-         "USDT" to R.drawable.dollar
+        "BTC" to R.drawable.btc_logo,
+        "ETH" to R.drawable.eth_logo,
+         "USDT" to R.drawable.usdt_logo
     )
     //Value that assigns each colour for the coin
     private val coinColors = mapOf(

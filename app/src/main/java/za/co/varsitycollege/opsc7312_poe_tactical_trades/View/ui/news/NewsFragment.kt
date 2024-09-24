@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.NewsAPIHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.NewsItem
+import kotlin.concurrent.thread
 
 class NewsFragment : Fragment() {
 
@@ -22,16 +23,22 @@ class NewsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_news, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        // Fetch articles in a separate thread
+        thread {
+            val newsList = try {
+                NewsAPIHelper().getArticles()
+            } catch (e: Exception) {
+                // Handle exception and return an empty list
+                e.printStackTrace()
+                emptyList()
+            }
 
-        val dummyNews = listOf(
-            NewsItem("TESLA CEO ELON MUSK ARRESTED FOR TAX FRAUD", "Today", "Tesla CEO Elon Musk arrested on allegations of tax fraud and fraudulent transactions...read more", 2131230840),
-            NewsItem("Mark Zuckerberg announces plans to use Ethereum as Meta Currency", "Yesterday", "Mark Zuckerberg announces plans to use Ethereum as Meta Currency...read more", 2131230840),
-        )
-
-        adapter = NewsAdapter()
-        adapter.submitList(dummyNews)
-        recyclerView.adapter = adapter
-
+            // Update UI on the main thread
+            activity?.runOnUiThread {
+                adapter = NewsAdapter(newsList)
+                recyclerView.adapter = adapter // Set the adapter to RecyclerView
+            }
+        }
         return view
     }
 }
