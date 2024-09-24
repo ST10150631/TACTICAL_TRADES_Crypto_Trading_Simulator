@@ -44,6 +44,7 @@
                 android:layout_weight="1" />
 
             <ImageButton
+                android:id="@+id/BtnSettings"
                 android:layout_width="51dp"
                 android:layout_height="51dp"
                 android:layout_margin="10dp"

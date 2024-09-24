@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
@@ -59,6 +60,21 @@ class SettingsFragment : Fragment() {
             themeSpinner.adapter = adapter
         }
 
+        // Listener for theme selection
+        themeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedTheme = parent.getItemAtPosition(position) as String
+                when (selectedTheme) {
+                    "Light Theme" -> applyLightTheme()
+                    "Dark Theme" -> applyDarkTheme()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
+            }
+        }
+
         // Graph Theme Spinner
         val graphThemeSpinner: Spinner = binding.DropDownGraphTheme
         ArrayAdapter.createFromResource(
@@ -81,6 +97,24 @@ class SettingsFragment : Fragment() {
             languageSpinner.adapter = adapter
         }
     }
+
+    private fun applyLightTheme() {
+        // Set light theme
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO) // Set to light mode
+        recreateActivity() // Recreate activity to apply the theme
+    }
+
+    private fun applyDarkTheme() {
+        // Set dark theme
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES) // Set to dark mode
+        recreateActivity() // Recreate activity to apply the theme
+    }
+
+    private fun recreateActivity() {
+        activity?.recreate() // Recreate the current activity to apply the new theme
+    }
+
+
 
     private fun setupRadioGroup() {
         val notificationGroup: RadioGroup = binding.NotificationRadioGroup

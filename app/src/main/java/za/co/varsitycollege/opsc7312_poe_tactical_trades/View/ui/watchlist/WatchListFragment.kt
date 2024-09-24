@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.settings.SettingsFragment
 
 class WatchListFragment : Fragment() {
 
@@ -35,6 +38,21 @@ class WatchListFragment : Fragment() {
         viewModel.watchList.observe(viewLifecycleOwner, { items ->
             adapter.submitList(items)
         })
+
+        val settingsButton: ImageButton = view.findViewById(R.id.BtnSettings)
+        settingsButton.setOnClickListener {
+            redirectToSettingsFragment()
+        }
+
+    }
+
+    private fun redirectToSettingsFragment() {
+        val fragment = SettingsFragment()
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.navigation_watchlist, fragment)
+            .addToBackStack(null)
+            .commit()
 
 
     }
