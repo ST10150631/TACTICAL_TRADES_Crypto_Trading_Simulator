@@ -35,7 +35,6 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val rootView = inflater.inflate(R.layout.fragment_settings, container, false)
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -45,8 +44,8 @@ class SettingsFragment : Fragment() {
         setupSpinners()
         setupRadioGroup()
         setupButtons()
-        setupBackButton(rootView)
-        return rootView
+        setupBackButton(root)
+        return root
     }
 
     private fun setupSpinners() {
