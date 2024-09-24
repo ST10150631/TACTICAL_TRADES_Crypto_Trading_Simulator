@@ -1,27 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/asset_background"
+        />
 
-    <TextView
-        android:id="@+id/tvID"
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_gravity="start|center"
+        app:srcCompat="@drawable/bitcoin_btc_logo" />
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="70dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/tvID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:textSize="16sp"
+            style="@style/TxtPrimaryStyle"
+            android:textAppearance="?attr/textAppearanceListItem" />
 
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="Name"
+            style="@style/TxtPrimaryStyle"
+            android:textColor="@color/LightGrey"
+            android:textSize="16sp"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivTrend"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/arrow_trend_up_solid"
+        />
+
+
+
 
     <TextView
         android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_gravity="end|top"
+        style="@style/TxtPrimaryStyle"
+        android:text="$ Price"
+        android:layout_marginEnd="10dp"
         android:textAppearance="?attr/textAppearanceListItem" />
-</LinearLayout>
+</FrameLayout>

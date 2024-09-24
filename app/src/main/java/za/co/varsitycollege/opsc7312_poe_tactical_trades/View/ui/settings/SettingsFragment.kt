@@ -19,6 +19,7 @@ import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 
 class SettingsFragment : Fragment() {
 
@@ -33,17 +34,16 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
-
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
 
         loadProfilePicture()
         loadNotificationSettings()
         setupSpinners()
         setupRadioGroup()
         setupButtons()
-
+        setupBackButton(root)
         return root
     }
 
@@ -305,4 +305,15 @@ class SettingsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    //Method that sends the user back to the add wallets screen
+    private fun setupBackButton(view: View)
+    {
+        val backButton: ImageButton = view.findViewById(R.id.BtnBack)
+        backButton.setOnClickListener {
+            val navController = (requireActivity() as MainActivity).navController
+            navController.navigate(R.id.navigation_home)
+        }
+    }
+    //---------------------------------------------------//
+
 }

@@ -23,7 +23,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.MarketPlace.allcoinsFragment"
+        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.news.NewsFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

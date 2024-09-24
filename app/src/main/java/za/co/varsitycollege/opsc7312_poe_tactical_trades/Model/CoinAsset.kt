@@ -18,8 +18,10 @@ data class CoinAsset(
   @SerializedName("volume_1mth_usd") var volume1mthUsd: Double? = null,
   @SerializedName("price_usd") var priceUsd: Double? = null,
   @SerializedName("chain_addresses") var chainAddresses: List<ChainAddress>? = null,
+  @SerializedName("id_icon") var idIcon: String? = null,
   @SerializedName("data_start") var dataStart: String? = null,
-  @SerializedName("data_end") var dataEnd: String? = null
+  @SerializedName("data_end") var dataEnd: String? = null,
+  var logo: Int = 0
 )
 data class ChainAddress(
   @SerializedName("chain_id") var chainId: String? = null,
