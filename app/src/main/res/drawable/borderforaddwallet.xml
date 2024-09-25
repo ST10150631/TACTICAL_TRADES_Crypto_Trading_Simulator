@@ -5,5 +5,5 @@
         android:width="2dp"
     android:color="#808080" />
     <corners
-        android:radius="6dp" />    <!-- Corner radius for rounding -->
+        android:radius="30dp" />    <!-- Corner radius for rounding -->
 </shape>

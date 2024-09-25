@@ -1,36 +1,30 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.AddWallet
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletDialogListener
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletRepository
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets.WalletsFragment
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets.WalletsViewModel
 
-class AddWalletFragment : Fragment() {
-    //Object that saves the wallets to a list so that they can be displayed in the wallets fragment
-    object WalletRepository {
-        val wallets = mutableListOf<WalletModel>()
-    }
+
+class AddWalletFragment : Fragment(),WalletDialogListener {
     //val that assigns an image to the coin
-    private val coinImages = mapOf(
-        "BTC" to R.drawable.btc_logo,
-        "ETH" to R.drawable.eth_logo,
-         "USDT" to R.drawable.usdt_logo
+     val coinImages = mapOf(
+        "BTC" to R.drawable.bitcoin,
+        "ETH" to R.drawable.ethereum,
+         "USDT" to R.drawable.dollar
     )
     //Value that assigns each colour for the coin
-    private val coinColors = mapOf(
+     val coinColors = mapOf(
         "BTC" to R.color.green,
         "ETH" to R.color.red,
         "USDT" to R.color.purple_200
@@ -53,41 +47,34 @@ class AddWalletFragment : Fragment() {
     //---------------------------------------------------//
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpSpinner(view)
-        addWalletBlockToWalletScreen(view)
-    }
-    //---------------------------------------------------//
-    //Method that populates the spinner and adds its layout
-    private fun setUpSpinner(view: View)
-    {
-        val spinner: Spinner = view.findViewById(R.id.spnWalletType)
-        val adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.spinner_itemsForWalletType,
-            android.R.layout.simple_spinner_item
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-    }
-    //---------------------------------------------------//
-    //Method that saves the wallet data
-    private fun addWalletBlockToWalletScreen(view:View)
-    {
-        setUpSpinner(view)
+        // Set up the Add Wallet button
         val buttonAdd: ImageButton = view.findViewById(R.id.imgButtonAddWallet)
         buttonAdd.setOnClickListener {
-            val spinner: Spinner = view.findViewById(R.id.spnWalletType)
-            val selectedWallet = spinner.selectedItem.toString()
-            val walletImage = coinImages[selectedWallet] ?: R.drawable.amazon_icon
-            val walletColor = coinColors[selectedWallet] ?: R.color.green
-            WalletRepository.wallets.add(WalletModel(selectedWallet, "0%", "0", walletImage, walletColor))
-            Toast.makeText(context, "Wallet Added", Toast.LENGTH_SHORT).show()
-            val walletFragment = WalletsFragment.newInstance()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, walletFragment)
-                .addToBackStack(null)
-                .commit()
+            val walletDialog = WalletDialogFragment.newInstance(coinImages, coinColors)
+            walletDialog.setTargetFragment(this, 0) // Set the target fragment for callback
+            walletDialog.show(parentFragmentManager, "WalletDialogFragment")
         }
     }
+    //---------------------------------------------------//
+    //Function that saves the wallet details
+    override fun onWalletSaved(selectedCoin: String, selectedGradient: String) {
+        val walletImage = coinImages[selectedCoin] ?: R.drawable.amazon_icon
+        val walletColor = coinColors[selectedCoin] ?: R.color.green
+        val gradientResId = when (selectedGradient) {
+            "gradient_for_bitcoin" -> R.drawable.gradient_for_bitcoin
+            "gradient_for_ethereum" -> R.drawable.gradient_for_ethereum
+            "gradient_for_tether" -> R.drawable.gradient_for_tether
+            "gradient_colour_four" -> R.drawable.gradient_for_wallet_4
+            "gradient_colour_five" -> R.drawable.gradient_five
+            "gradient_colour_six" -> R.drawable.gradient_six
+            else -> R.drawable.default_gradient_for_wallet
+        }
+        WalletRepository.wallets.add(
+            WalletModel(selectedCoin, "0%", "0", walletImage, walletColor, gradientResId)
+        )
+        Toast.makeText(context, "Wallet Saved", Toast.LENGTH_SHORT).show()
+    }
+    //---------------------------------------------------//
+
 }
 //------------------------------END OF FILE---------------------------------//

@@ -8,5 +8,6 @@ data class WalletModel
             var percentage: String? = null,
             var amountInCoin: String? = null,
             val walletImage: Int,
-                    val color: Int
-            )
+            val color: Int,
+            val walletGradient: Int
+)

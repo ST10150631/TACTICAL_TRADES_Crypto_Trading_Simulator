@@ -40,7 +40,7 @@ class CoinViewTestFragment : Fragment() {
         val coinPrice = binding.TxtViewCurrent.text.toString()
         val priceChange = binding.TxtViewDifference.text.toString()
 
-        val imageResId = (binding.stockIconImage.drawable as? BitmapDrawable)?.bitmap?.let {
+        val imageResId = (binding.CoinIconImage.drawable as? BitmapDrawable)?.bitmap?.let {
             getImageResIdFromDrawable(it)
         } ?: R.drawable.logoregister
 
@@ -108,7 +108,7 @@ class CoinViewTestFragment : Fragment() {
 
     private fun getImageResIdFromDrawable(bitmap: Bitmap): Int {
         val drawable = BitmapDrawable(resources, bitmap)
-        return resources.getIdentifier(binding.stockIconImage.getTag().toString(), "drawable", requireActivity().packageName)
+        return resources.getIdentifier(binding.CoinIconImage.getTag().toString(), "drawable", requireActivity().packageName)
     }
 
 
