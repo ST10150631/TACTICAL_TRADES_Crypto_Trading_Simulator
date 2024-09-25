@@ -2,6 +2,7 @@ package za.co.varsitycollege.opsc7312_poe_tactical_trades.View
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -14,6 +15,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 
 class MainActivity : AppCompatActivity() {
@@ -26,15 +28,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        navController = navHostFragment.navController
+
+
+       // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         firebaseAuth = FirebaseAuth.getInstance()
 
         setupAuthStateListener()
         setupNavigation()
+        applyTheme()
     }
 
     override fun onStart() {
@@ -51,13 +59,31 @@ class MainActivity : AppCompatActivity() {
         authStateListener = FirebaseAuth.AuthStateListener { auth ->
             val user = auth.currentUser
             if (user != null) {
-                // User is signed in
                 setupNavigation()
             } else {
                 // User is signed out
                 startActivity(Intent(this, RegisterActivity::class.java))
                 finish()
             }
+        }
+    }
+
+    private fun applyTheme() {
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            FirebaseHelper.getTheme(currentUser.uid) { theme, error ->
+                if (error != null) {
+                    Log.e("AuthStateListener", "Error retrieving theme: $error")
+                } else if (theme != null) {
+                    when (theme) {
+                        "Dark Theme" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        "Light Theme" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    }
+                }
+            }
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
     }
 

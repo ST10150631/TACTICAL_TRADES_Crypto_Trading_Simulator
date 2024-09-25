@@ -49,6 +49,20 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <style name="CustomImageButtonStyle">
+        <item name="android:layout_width">41dp</item>
+        <item name="android:layout_height">61dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background">@drawable/backbtndrawable</item>
+    </style>
+
+
+    <style name="SettingsImageButtonStyle">
+        <item name="android:layout_width">51dp</item>
+        <item name="android:layout_height">51dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background">@drawable/gear_solid</item>
+    </style>
 
     <string-array name="theme_options">
         <item>Light Theme</item>

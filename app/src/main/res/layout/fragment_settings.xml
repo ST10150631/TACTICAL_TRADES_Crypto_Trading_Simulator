@@ -19,10 +19,7 @@
 
             <ImageButton
                 android:id="@+id/BtnBack"
-                android:layout_width="41dp"
-                android:layout_height="61dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/backbtndrawable" />
+                style="@style/CustomImageButtonStyle" />
 
             <Space
                 android:layout_width="0dp"
@@ -396,6 +393,7 @@
                         android:textAlignment="center"
                         android:button="@null"
                         android:background="@drawable/btnon"
+
                         />
 
                     <RadioButton
@@ -483,5 +481,9 @@
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </FrameLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5" />
     </LinearLayout>
 </ScrollView>

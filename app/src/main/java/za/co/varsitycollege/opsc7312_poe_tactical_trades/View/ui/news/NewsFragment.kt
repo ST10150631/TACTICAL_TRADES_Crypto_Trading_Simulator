@@ -29,8 +29,10 @@ class NewsFragment : Fragment() {
         settingsButton.setOnClickListener {
             // Navigate to the SettingsFragment using the Bottom Navigation
             val navController = (requireActivity() as MainActivity).navController
-            navController.navigate(R.id.navigateToSettingsFragment)
+            navController.navigate(R.id.navigation_settings)
         }
+
+
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         // Fetch articles in a separate thread

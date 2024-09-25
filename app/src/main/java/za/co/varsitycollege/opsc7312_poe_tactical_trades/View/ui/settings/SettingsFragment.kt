@@ -2,8 +2,10 @@ package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.settings
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +22,7 @@ import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper.firebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 
 class SettingsFragment : Fragment() {
@@ -60,20 +63,6 @@ class SettingsFragment : Fragment() {
             themeSpinner.adapter = adapter
         }
 
-        // Listener for theme selection
-        themeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedTheme = parent.getItemAtPosition(position) as String
-                when (selectedTheme) {
-                    "Light Theme" -> applyLightTheme()
-                    "Dark Theme" -> applyDarkTheme()
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Do nothing
-            }
-        }
 
         // Graph Theme Spinner
         val graphThemeSpinner: Spinner = binding.DropDownGraphTheme
@@ -98,23 +87,10 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun applyLightTheme() {
-        // Set light theme
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO) // Set to light mode
-        recreateActivity() // Recreate activity to apply the theme
-    }
-
-    private fun applyDarkTheme() {
-        // Set dark theme
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES) // Set to dark mode
-        recreateActivity() // Recreate activity to apply the theme
-    }
 
     private fun recreateActivity() {
-        activity?.recreate() // Recreate the current activity to apply the new theme
+        activity?.recreate()
     }
-
-
 
     private fun setupRadioGroup() {
         val notificationGroup: RadioGroup = binding.NotificationRadioGroup
@@ -133,22 +109,22 @@ class SettingsFragment : Fragment() {
             }
         }
     }
-    private fun setRadioButtonTint(radioButton: RadioButton, isSelected: Boolean) {
-        val tintColor = if (isSelected) {
-            ContextCompat.getColor(requireContext(), R.color.LinkBlue)
-        } else {
-            ContextCompat.getColor(requireContext(), R.color.gray)
-        }
 
+    private fun setRadioButtonTint(radioButton: RadioButton, isSelected: Boolean) {
         val drawable = radioButton.background?.mutate()
 
         if (drawable != null) {
             DrawableCompat.wrap(drawable).apply {
-                DrawableCompat.setTint(this, tintColor)
+                if (isSelected) {
+                    DrawableCompat.setTintList(this, null)
+                } else {
+                    DrawableCompat.setTint(this, ContextCompat.getColor(requireContext(), R.color.gray))
+                }
             }
             radioButton.background = drawable
         }
     }
+
 
 
     private fun updateNotificationSettings(isOn: Boolean) {
@@ -188,6 +164,7 @@ class SettingsFragment : Fragment() {
             val selectedLanguage = binding.DropDownLanguage.selectedItem.toString()
 
             updateUserData(username, name, password, selectedTheme, selectedGraphTheme, selectedLanguage)
+            applyTheme()
         }
 
         binding.BtnDiscardChanges.setOnClickListener {
@@ -244,6 +221,27 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private fun applyTheme() {
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            FirebaseHelper.getTheme(currentUser.uid) { theme, error ->
+                if (error != null) {
+                    Log.e("AuthStateListener", "Error retrieving theme: $error")
+                } else if (theme != null) {
+                    when (theme) {
+                        "Dark Theme" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        "Light Theme" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    }
+                    recreateActivity()
+                }
+
+            }
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            recreateActivity()
+        }
+    }
     private fun storeUserData(userId: String, username: String, name: String, email: String, theme: String, graphTheme: String, language: String) {
         FirebaseHelper.updateUserData(
             context = requireContext(),

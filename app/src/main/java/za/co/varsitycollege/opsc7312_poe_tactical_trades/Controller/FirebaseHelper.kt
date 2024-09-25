@@ -58,6 +58,19 @@ object FirebaseHelper {
         }
     }
 
+    fun getTheme(userId: String, onComplete: (String?, String?) -> Unit) {
+        val userRef = databaseReference.child(userId).child("theme")
+        userRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val theme = task.result?.getValue(String::class.java)
+                onComplete(theme, null)
+            } else {
+                onComplete(null, task.exception?.message)
+            }
+        }
+    }
+
+
     fun updateUserData(
         context: Context,
         userId: String,

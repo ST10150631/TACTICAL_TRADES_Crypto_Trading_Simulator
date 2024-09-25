@@ -10,50 +10,40 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="89dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <ImageButton
-            android:id="@+id/imgBtnBackWallet"
-            android:layout_width="20dp"
-            android:layout_height="57dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:src="@drawable/backbtndrawable"
-            android:background="@android:color/transparent"
-             />
+            android:id="@+id/BtnBack"
+            style="@style/CustomImageButtonStyle"/>
 
         <Space
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <TextView
             android:id="@+id/txtWallets"
-            android:layout_width="135dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
             android:fontFamily="@font/inter_bold"
-            android:text="Wallets"
-            android:textColor="@color/PrimaryTxtColor"
-            android:textSize="35sp" />
+            android:textAlignment="center"
+            style="@style/TxtPrimaryStyle"
+            android:textSize="30sp"
+            android:text="Wallets" />
 
         <Space
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/imgBtnSettingsWallets"
-            android:layout_width="48dp"
-            android:layout_height="43dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/gear_solid" />
+            android:id="@+id/ImgBtnSettings"
+            style="@style/SettingsImageButtonStyle"
+            />
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
