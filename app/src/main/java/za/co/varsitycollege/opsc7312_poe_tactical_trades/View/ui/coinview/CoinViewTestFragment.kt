@@ -6,10 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentCoinviewTestBinding
@@ -18,6 +21,7 @@ class CoinViewTestFragment : Fragment() {
 
     private var _binding: FragmentCoinviewTestBinding? = null
     private val binding get() = _binding!!
+    private lateinit var coin: CoinAsset
 
     private val auth: FirebaseAuth by lazy { FirebaseHelper.firebaseAuth }
 
@@ -26,12 +30,31 @@ class CoinViewTestFragment : Fragment() {
     ): View {
         _binding = FragmentCoinviewTestBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        setupBackButton(root)
+        val coinData = arguments?.getString("coinData")
+        if (coinData != null) {
+            coin = coins.find { it.assetId == coinData } ?: coins[0]
+            updateUI(coin)
+        }
         binding.BtnAddToWatchList.setOnClickListener {
             addToWatchList()
         }
 
+
         return root
+    }
+
+    private fun updateUI(coinAsset: CoinAsset) {
+        binding.CoinIconImage.setImageResource(coinAsset.logo)
+        binding.TxtViewID.text = coinAsset.assetId
+        binding.TxtViewName.text = coinAsset.name
+        binding.txtEthLabel.text = coinAsset.name
+        binding.TxtViewCurrent.text = coinAsset.priceUsd.toString()
+        binding.txtWalletBalance.text = coinAsset.priceUsd.toString()
+        binding.txtEthLabel.text = coinAsset.name
+        binding.txtCurrency.text = coinAsset.assetId
+        binding.txtPercentageChange.text = coinAsset.volume1dayUsd.toString()
+
     }
 
     private fun addToWatchList() {
@@ -111,7 +134,14 @@ class CoinViewTestFragment : Fragment() {
         return resources.getIdentifier(binding.CoinIconImage.getTag().toString(), "drawable", requireActivity().packageName)
     }
 
-
+    //Method that sends the user back to the add wallets screen
+    private fun setupBackButton(view: View)
+    {
+        val backButton: ImageButton = view.findViewById(R.id.BtnBack)
+        backButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

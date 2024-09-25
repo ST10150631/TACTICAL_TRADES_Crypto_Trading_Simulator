@@ -18,6 +18,7 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/BtnBack"
                 style="@style/CustomImageButtonStyle"
                 />
 
