@@ -10,14 +10,15 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinsAssets
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 
-const val API_KEY = "fd0612a2-3ef6-48aa-824a-1c025b0e12e9"
-//const val API_KEY = "D7460598-F041-4EF0-9AB5-B2BE1679C1A8" // Replace with your API key
+//const val API_KEY = "fd0612a2-3ef6-48aa-824a-1c025b0e12e9"
+const val API_KEY = "D7460598-F041-4EF0-9AB5-B2BE1679C1A8" // Replace with your API key
 class CoinAPIHelper {
 /*
     fun fetchAssets(): String? {
@@ -152,7 +153,7 @@ class CoinAPIHelper {
  */
     fun top25FromAPI(): List<CoinAsset> {
 
-        if(coinAssets.isEmpty()){
+        if(coins.isEmpty()){
             for (coin in top25CryptoIds) {
                 // Construct the URL correctly using the asset ID
                 val coinUrl = "https://rest.coinapi.io/v1/assets/$coin"
@@ -184,7 +185,7 @@ class CoinAPIHelper {
                         coinData.forEach {
                             it.logo = top25CryptoIcons[top25CryptoIds.indexOf(it.assetId)]
                         }
-                        coinAssets.addAll(coinData) // Add all coins to the list
+                        coins.addAll(coinData) // Add all coins to the list
                     } catch (e: Exception) {
                         Log.e(LOGGING_TAG, "Error parsing JSON: ${e.message}")
                     }
@@ -193,10 +194,10 @@ class CoinAPIHelper {
                 }
             }
 
-            return coinAssets // Return the list of CoinAssets
+            return coins // Return the list of CoinAssets
         }
     else
-        return coinAssets
+        return coins
 
     }
 

@@ -14,8 +14,14 @@
     </string-array>
 
     <string-array name="spinner_coin_names">
-        <item>BTC</item>
-        <item>ETH</item>
-        <item>USDT</item>
+        <item>Bitcoin</item>
+        <item>Ethereum</item>
+        <item>Tether</item>
+        <item>Binance Coin</item>
+        <item>Solana</item>
+        <item>USD Coin</item>
+        <item>XRP</item>
+        <item>Dogecoin</item>
+        <item>Litecoin</item>
     </string-array>
 </resources>
