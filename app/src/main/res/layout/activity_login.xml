@@ -51,7 +51,7 @@
                 android:inputType="text"
                 android:hint="Email"
                 android:textColorHint="@color/purple_200"
-                android:textColor="@color/white" />
+                 />
 
             <TextView
                 style="@style/TxtPrimaryStyle"
@@ -68,7 +68,7 @@
                 android:inputType="textPassword"
                 android:hint="Password"
                 android:textColorHint="@color/purple_200"
-                android:textColor="@color/white"/>
+                />
 
             <FrameLayout
                 android:layout_width="300dp"
