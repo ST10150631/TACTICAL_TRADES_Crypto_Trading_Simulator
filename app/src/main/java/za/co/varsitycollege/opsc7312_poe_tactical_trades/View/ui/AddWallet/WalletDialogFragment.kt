@@ -106,20 +106,6 @@ class WalletDialogFragment : DialogFragment() {
             selectedGradient = "gradient_colour_six"
             highlightSelectedGradient(gradient6, allGradients)
         }
-        val btnSave: Button = view.findViewById(R.id.btnSaveWallet)
-        btnSave.setOnClickListener {
-            selectedCoin = spinner.selectedItem.toString()
-            if (!selectedCoin.isNullOrEmpty() && !selectedGradient.isNullOrEmpty()) {
-                saveWallet(selectedCoin!!, selectedGradient!!) // Call the save method
-                val walletFragment = WalletsFragment.newInstance()
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, walletFragment)
-                    .addToBackStack(null)
-                    .commit()
-            } else {
-                Toast.makeText(context, "Please select both a coin and a gradient", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
     //---------------------------------------------------//
     //Function that highlights the selected colour for the wallet
