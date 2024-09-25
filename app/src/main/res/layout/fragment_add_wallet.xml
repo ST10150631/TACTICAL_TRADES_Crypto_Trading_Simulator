@@ -16,11 +16,8 @@
 
         <ImageButton
             android:id="@+id/imgBtnBack"
-            android:layout_width="41dp"
-            android:layout_height="61dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/backbtndrawable" />
+            style="@style/CustomImageButtonStyle"
+            />
 
         <Space
             android:layout_width="wrap_content"
@@ -45,10 +42,8 @@
 
         <ImageButton
             android:id="@+id/imgBtnSettings"
-            android:layout_width="51dp"
-            android:layout_height="48dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/gear_solid" />
+            style="@style/SettingsImageButtonStyle"
+        />
 
     </LinearLayout>
 

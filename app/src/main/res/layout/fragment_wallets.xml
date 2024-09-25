@@ -11,46 +11,40 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="89dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/imgBtnBackWallet"
-            android:layout_width="20dp"
-            android:layout_height="57dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:src="@drawable/backbtndrawable"
-            android:background="@android:color/transparent" />
+            style="@style/CustomImageButtonStyle"
+            />
 
         <Space
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <TextView
             android:id="@+id/txtWallets"
-            android:layout_width="135dp"
+            style="@style/TxtPrimaryStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
             android:fontFamily="@font/inter_bold"
             android:text="Wallets"
-            android:textColor="@color/PrimaryTxtColor"
-            android:textSize="35sp" />
+            android:textAlignment="center"
+            android:textSize="30sp" />
 
         <Space
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imgBtnSettingsWallets"
-            android:layout_width="51dp"
-            android:layout_height="51dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/gear_solid"
+            style="@style/SettingsImageButtonStyle"
             />
+
     </LinearLayout>
 
     <LinearLayout
