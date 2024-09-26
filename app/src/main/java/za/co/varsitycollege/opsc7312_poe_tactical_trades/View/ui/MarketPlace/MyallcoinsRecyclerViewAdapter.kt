@@ -40,8 +40,14 @@ class MyallcoinsRecyclerViewAdapter(
         holder.ivLogo.setImageResource(item.logo)
         holder.idView.text = item.assetId
         holder.nameView.text = item.name
-        val price = DecimalFormat("#,###.00").format(item.priceUsd)
-        holder.priceView.text = price.toString()
+        try {
+            val price = DecimalFormat("#,###.00").format(item.priceUsd)
+            holder.priceView.text = price.toString()
+        }
+        catch(e: Exception){
+            e.printStackTrace()
+            holder.priceView.text = item.priceUsd.toString()
+        }
         holder.btnViewCoin.setOnClickListener {
             val navController = findNavController(holder.itemView)
             val bundle = Bundle()
