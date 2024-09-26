@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
 
@@ -27,10 +28,18 @@ class WatchListAdapter : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
-        holder.stockIcon.setImageResource(item.imageRes)
+        Glide.with(holder.itemView.context)
+            .load(item.imageRes)
+            .placeholder(R.drawable.logoregister)
+            .error(R.drawable.logoregister)
+            .into(holder.stockIcon)
+
         holder.stockId.text = item.stockId
         holder.stockName.text = item.name
-        holder.currentPrice.text = item.currentPrice
+
+        val formattedPrice = "$${String.format("%.2f", item.currentPrice.toDoubleOrNull() ?: 0.0)}"
+        holder.currentPrice.text = formattedPrice
+
         holder.priceDifference.text = item.priceDifference
 
         val colorRes = if (item.upDown) R.color.green else R.color.red

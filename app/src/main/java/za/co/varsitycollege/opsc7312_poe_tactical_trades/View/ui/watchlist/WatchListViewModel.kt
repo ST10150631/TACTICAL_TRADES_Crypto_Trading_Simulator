@@ -36,21 +36,24 @@ class WatchListViewModel : ViewModel() {
                     for (stockSnapshot in snapshot.children) {
                         val stockId = stockSnapshot.child("stockId").getValue(String::class.java)
                         val name = stockSnapshot.child("name").getValue(String::class.java)
-                        val imageRes = stockSnapshot.child("imageRes").getValue(Int::class.java)
+                        val imageRes = stockSnapshot.child("imageRes").getValue(String::class.java) // Now handled as String (URL)
                         val upDown = stockSnapshot.child("upDown").getValue(Boolean::class.java)
                         val currentPrice = stockSnapshot.child("currentPrice").getValue(String::class.java)
                         val priceDifference = stockSnapshot.child("priceDifference").getValue(String::class.java)
 
-                        if (stockId != null && name != null && imageRes != null && upDown != null &&
-                            currentPrice != null && priceDifference != null) {
+                        // Handling potential Long-to-String conversion for price fields
+                        if (stockId != null && name != null && imageRes != null && upDown != null) {
+                            val currentPriceValue = currentPrice?.toString() ?: "0" // Ensure it's a String
+                            val priceDiffValue = priceDifference?.toString() ?: "0"
+
                             stockItems.add(
                                 StockItem(
                                     stockId,
                                     name,
                                     imageRes,
                                     upDown,
-                                    currentPrice,
-                                    priceDifference
+                                    currentPriceValue,
+                                    priceDiffValue
                                 )
                             )
                         }
@@ -67,6 +70,7 @@ class WatchListViewModel : ViewModel() {
             Log.e("WatchListViewModel", "User ID is null, cannot fetch watchlist")
         }
     }
+
 
     fun updateWatchListItems(items: List<StockItem>) {
         _watchList.value = items

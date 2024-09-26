@@ -1,6 +1,8 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.coinview
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,20 +10,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentCoinviewTestBinding
+import java.io.ByteArrayOutputStream
 
 class CoinViewTestFragment : Fragment() {
 
     private var _binding: FragmentCoinviewTestBinding? = null
     private val binding get() = _binding!!
     private lateinit var coin: CoinAsset
+    private val storageRef = FirebaseStorage.getInstance().reference
 
     private val auth: FirebaseAuth by lazy { FirebaseHelper.firebaseAuth }
 
@@ -30,14 +38,18 @@ class CoinViewTestFragment : Fragment() {
     ): View {
         _binding = FragmentCoinviewTestBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        setupBackButton(root)
+
         val coinData = arguments?.getString("coinData")
         if (coinData != null) {
             coin = coins.find { it.assetId == coinData } ?: coins[0]
             updateUI(coin)
         }
+
         binding.BtnAddToWatchList.setOnClickListener {
-            addToWatchList()
+            if (coinData != null) {
+                coin = coins.find { it.assetId == coinData } ?: coins[0]
+                addToWatchList(coin)
+            }
         }
 
 
@@ -46,7 +58,16 @@ class CoinViewTestFragment : Fragment() {
 
     private fun updateUI(coinAsset: CoinAsset) {
         binding.CoinIconImage.setImageResource(coinAsset.logo)
-        binding.TxtViewID.text = coinAsset.assetId
+
+        var assetId = coinAsset.assetId.toString()
+
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.navigation_home) {
+            if (activity is MainActivity) {
+                (activity as MainActivity).setHeaderTitle(assetId)
+            }
+        }
+
         binding.TxtViewName.text = coinAsset.name
         binding.txtEthLabel.text = coinAsset.name
         binding.TxtViewCurrent.text = coinAsset.priceUsd.toString()
@@ -57,34 +78,73 @@ class CoinViewTestFragment : Fragment() {
 
     }
 
-    private fun addToWatchList() {
-        val coinId = binding.TxtViewID.text.toString()
+    private fun addToWatchList(coinAsset: CoinAsset) {
+        val coinId = coinAsset.assetId.toString()
         val coinName = binding.TxtViewName.text.toString()
         val coinPrice = binding.TxtViewCurrent.text.toString()
         val priceChange = binding.TxtViewDifference.text.toString()
-
-        val imageResId = (binding.CoinIconImage.drawable as? BitmapDrawable)?.bitmap?.let {
-            getImageResIdFromDrawable(it)
-        } ?: R.drawable.logoregister
-
-
         val upDown: Boolean = priceChange.startsWith("+")
 
-        // Create a StockItem instance
-        val stockItem = StockItem(
-            name = coinName,
-            currentPrice = coinPrice,
-            priceDifference = priceChange,
-            upDown = upDown,
-            imageRes = imageResId,
-            stockId = coinId
-        )
+        val imageResId = coinAsset.logo
 
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            addStockToUserWatchlist(stockItem, currentUser.uid)
+        val bitmap = getBitmapFromDrawable(imageResId)
+
+        if (bitmap != null) {
+            uploadImageToFirebase(bitmap) { imageUrl ->
+                if (imageUrl != null) {
+                    val stockItem = StockItem(
+                        name = coinName,
+                        currentPrice = coinPrice,
+                        priceDifference = priceChange,
+                        upDown = upDown,
+                        imageRes = imageUrl,
+                        stockId = coinId
+                    )
+
+                    val currentUser = auth.currentUser
+                    if (currentUser != null) {
+                        addStockToUserWatchlist(stockItem, currentUser.uid)
+                    } else {
+                        Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Image upload failed", Toast.LENGTH_SHORT).show()
+                }
+            }
         } else {
-            Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Failed to retrieve coin image", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun getBitmapFromDrawable(drawableId: Int): Bitmap? {
+        val drawable = ContextCompat.getDrawable(requireContext(), drawableId)
+        return if (drawable != null) {
+            val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, canvas.width, canvas.height)
+            drawable.draw(canvas)
+            bitmap
+        } else {
+            null
+        }
+    }
+
+    private fun uploadImageToFirebase(bitmap: Bitmap, callback: (String?) -> Unit) {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val imageData = baos.toByteArray()
+
+        val imageRef = storageRef.child("images/${System.currentTimeMillis()}.jpg")
+
+        val uploadTask = imageRef.putBytes(imageData)
+        uploadTask.addOnSuccessListener {
+            imageRef.downloadUrl.addOnSuccessListener { uri ->
+                callback(uri.toString())
+            }.addOnFailureListener {
+                callback(null)
+            }
+        }.addOnFailureListener {
+            callback(null)
         }
     }
 
@@ -134,14 +194,6 @@ class CoinViewTestFragment : Fragment() {
         return resources.getIdentifier(binding.CoinIconImage.getTag().toString(), "drawable", requireActivity().packageName)
     }
 
-    //Method that sends the user back to the add wallets screen
-    private fun setupBackButton(view: View)
-    {
-        val backButton: ImageButton = view.findViewById(R.id.BtnBack)
-        backButton.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

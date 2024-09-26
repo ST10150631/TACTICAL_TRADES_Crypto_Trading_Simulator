@@ -56,6 +56,10 @@
         <item name="android:background">@drawable/backbtndrawable_black</item>
     </style>
 
+    <style name="CustomImageButtonStyleAssets">
+        <item name="android:background">@drawable/asset_background_light</item>
+    </style>
+
 
     <style name="SettingsImageButtonStyle">
         <item name="android:layout_width">51dp</item>

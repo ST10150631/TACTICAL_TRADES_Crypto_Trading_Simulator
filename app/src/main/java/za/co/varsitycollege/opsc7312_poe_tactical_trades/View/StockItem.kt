@@ -5,7 +5,7 @@ import java.io.Serializable
 data class StockItem(
     val stockId: String = "",
     val name: String = "",
-    val imageRes: Int = 0,
+    val imageRes: String = "",
     val upDown: Boolean = false,
     val currentPrice: String = "",
     val priceDifference: String = ""
