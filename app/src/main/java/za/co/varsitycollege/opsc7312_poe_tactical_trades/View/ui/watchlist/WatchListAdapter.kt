@@ -37,8 +37,8 @@ class WatchListAdapter : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
         holder.stockId.text = item.stockId
         holder.stockName.text = item.name
 
-        val formattedPrice = "$${String.format("%.2f", item.currentPrice.toDoubleOrNull() ?: 0.0)}"
-        holder.currentPrice.text = formattedPrice
+
+        holder.currentPrice.text = item.currentPrice
 
         holder.priceDifference.text = item.priceDifference
 
