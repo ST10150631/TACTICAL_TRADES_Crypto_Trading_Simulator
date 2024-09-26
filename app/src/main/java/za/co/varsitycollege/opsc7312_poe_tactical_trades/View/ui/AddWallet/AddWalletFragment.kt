@@ -9,7 +9,9 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletDialogListener
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletRepository
@@ -53,6 +55,13 @@ class AddWalletFragment : Fragment(),WalletDialogListener {
             val walletDialog = WalletDialogFragment.newInstance(coinImages, coinColors)
             walletDialog.setTargetFragment(this, 0) // Set the target fragment for callback
             walletDialog.show(parentFragmentManager, "WalletDialogFragment")
+        }
+
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.navigation_home) {
+            if (activity is MainActivity) {
+                (activity as MainActivity).setHeaderTitle("Add Wallet")
+            }
         }
     }
     //---------------------------------------------------//

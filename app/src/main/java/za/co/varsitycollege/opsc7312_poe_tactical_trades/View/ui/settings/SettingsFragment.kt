@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -41,13 +42,20 @@ class SettingsFragment : Fragment() {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val navController = findNavController()
+
+        if (navController.currentDestination?.id != R.id.navigation_home) {
+            if (activity is MainActivity) {
+                (activity as MainActivity).setHeaderTitle("Settings")
+            }
+        }
 
         loadProfilePicture()
         loadNotificationSettings()
         setupSpinners()
         setupRadioGroup()
         setupButtons()
-        setupBackButton(root)
+       // setupBackButton(root)
         return root
     }
 
@@ -85,6 +93,19 @@ class SettingsFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             languageSpinner.adapter = adapter
         }
+
+        // Start Value Spinner
+        val startValueSpinner: Spinner = binding.DropDownStartValue
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.starting_value_options,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            startValueSpinner.adapter = adapter
+        }
+
+
     }
 
 
@@ -162,8 +183,9 @@ class SettingsFragment : Fragment() {
             val selectedTheme = binding.DropDownTheme.selectedItem.toString()
             val selectedGraphTheme = binding.DropDownGraphTheme.selectedItem.toString()
             val selectedLanguage = binding.DropDownLanguage.selectedItem.toString()
+            val startValue = binding.DropDownStartValue.selectedItem.toString()
 
-            updateUserData(username, name, password, selectedTheme, selectedGraphTheme, selectedLanguage)
+            updateUserData(username, name, password, startValue, selectedTheme, selectedGraphTheme, selectedLanguage)
             applyTheme()
         }
 
@@ -193,7 +215,7 @@ class SettingsFragment : Fragment() {
         clearInputs()
     }
 
-    private fun updateUserData(username: String, name: String, password: String, theme: String, graphTheme: String, language: String) {
+    private fun updateUserData(username: String, name: String, password: String, startValue:String, theme: String, graphTheme: String, language: String) {
         val user = auth.currentUser
         user?.let {
             val userId = it.uid
@@ -204,7 +226,7 @@ class SettingsFragment : Fragment() {
 
             if ((password.isNotEmpty()) && (passwordPattern.matches(password))) {
                 user.updatePassword(password)
-                storeUserData(userId, username, name, it.email ?: "", theme, graphTheme, language)
+                storeUserData(userId, username, name, it.email ?: "", startValue, theme, graphTheme, language)
 
                 discardChanges()
             }
@@ -215,7 +237,7 @@ class SettingsFragment : Fragment() {
             }
             else if (password.isEmpty())
             {
-                storeUserData(userId, username, name, it.email ?: "", theme, graphTheme, language)
+                storeUserData(userId, username, name, it.email ?: "",startValue, theme, graphTheme, language)
                 discardChanges()
             }
         }
@@ -242,13 +264,14 @@ class SettingsFragment : Fragment() {
             recreateActivity()
         }
     }
-    private fun storeUserData(userId: String, username: String, name: String, email: String, theme: String, graphTheme: String, language: String) {
+    private fun storeUserData(userId: String, username: String, name: String, email: String, startValue: String, theme: String, graphTheme: String, language: String) {
         FirebaseHelper.updateUserData(
             context = requireContext(),
             userId = userId,
             username = username,
             name = name,
             email = email,
+            startValue =  startValue,
             theme = theme,
             graphTheme = graphTheme,
             language = language
@@ -337,15 +360,4 @@ class SettingsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    //Method that sends the user back to the add wallets screen
-    private fun setupBackButton(view: View)
-    {
-        val backButton: ImageButton = view.findViewById(R.id.BtnBack)
-        backButton.setOnClickListener {
-            val navController = (requireActivity() as MainActivity).navController
-            navController.navigate(R.id.navigation_home)
-        }
-    }
-    //---------------------------------------------------//
-
 }

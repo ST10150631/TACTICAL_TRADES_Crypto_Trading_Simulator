@@ -30,6 +30,66 @@ object FirebaseHelper {
         firebaseAuth.signOut()
     }
 
+    /*
+
+    so this will be to use that update total balance in the firebase
+    //when adding (selling)
+    FirebaseHelper.updateTotalBalance(FirebaseHelper.firebaseAuth.currentUser?.uid ?: "", 50.0, true) { success, error ->
+        if (success) {
+            Toast.makeText(context, "Balance updated successfully!", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Error updating balance: $error", Toast.LENGTH_LONG).show()
+        }
+    }
+    //when substracting (buying)
+    FirebaseHelper.updateTotalBalance(FirebaseHelper.firebaseAuth.currentUser?.uid ?: "", 20.0, false) { success, error ->
+        if (success) {
+            Toast.makeText(context, "Balance updated successfully!", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Error updating balance: $error", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    */
+
+    fun updateTotalBalance(userId: String, amount: Double, isAddition: Boolean, onComplete: (Boolean, String?) -> Unit) {
+        val userRef = databaseReference.child(userId).child("totalBalance")
+
+        userRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val currentBalance = task.result?.getValue(Double::class.java) ?: 0.0
+
+                val newBalance = if (isAddition) {
+                    currentBalance + amount
+                } else {
+                    currentBalance - amount
+                }
+
+                userRef.setValue(newBalance).addOnCompleteListener { updateTask ->
+                    if (updateTask.isSuccessful) {
+                        onComplete(true, null)
+                    } else {
+                        onComplete(false, updateTask.exception?.message)
+                    }
+                }
+            } else {
+                onComplete(false, task.exception?.message)
+            }
+        }
+    }
+
+
+    fun getTotalBalance(userId: String, onComplete: (Double?, String?) -> Unit) {
+        val userRef = databaseReference.child(userId).child("totalBalance")
+        userRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val totalBalance = task.result?.getValue(Double::class.java)
+                onComplete(totalBalance, null)
+            } else {
+                onComplete(null, task.exception?.message)
+            }
+        }
+    }
 
     fun uploadProfilePicture(userId: String, imageUri: Uri, onComplete: (String?, String?) -> Unit) {
         val fileName = UUID.randomUUID().toString()
@@ -77,6 +137,7 @@ object FirebaseHelper {
         username: String?,
         name: String?,
         email: String,
+        startValue : String?,
         theme: String?,
         graphTheme: String?,
         language: String?
@@ -85,12 +146,14 @@ object FirebaseHelper {
 
         userReference.get().addOnSuccessListener { snapshot ->
             val currentUser = snapshot.getValue(User::class.java)
+            val totalBalance = startValue?.toDoubleOrNull()
 
             if (currentUser != null) {
                 val updatedUser = User(
                     username = if (!username.isNullOrEmpty()) username else currentUser.username,
                     name = if (!name.isNullOrEmpty()) name else currentUser.name,
                     email = currentUser.email,
+                    totalBalance = totalBalance,
                     theme = if (!theme.isNullOrEmpty()) theme else currentUser.theme,
                     graphTheme = if (!graphTheme.isNullOrEmpty()) graphTheme else currentUser.graphTheme,
                     language = if (!language.isNullOrEmpty()) language else currentUser.language,

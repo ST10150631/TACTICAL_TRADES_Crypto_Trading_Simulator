@@ -11,44 +11,6 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/imgBtnBackWallet"
-            style="@style/CustomImageButtonStyle"
-            />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/txtWallets"
-            style="@style/TxtPrimaryStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_bold"
-            android:text="Wallets"
-            android:textAlignment="center"
-            android:textSize="30sp" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/imgBtnSettingsWallets"
-            style="@style/SettingsImageButtonStyle"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="55dp"
         android:orientation="horizontal">
 
@@ -95,12 +57,14 @@
 
         </LinearLayout>
     </HorizontalScrollView>
+
     <LinearLayout
         android:id="@+id/AddWalletSection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:layout_height="237dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <TextView
             android:id="@+id/txtSelectCoin"
             android:layout_width="wrap_content"
@@ -118,11 +82,15 @@
 
             <Spinner
                 android:id="@+id/spinnerCoinName"
+                style="@style/CustomSpinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:background="@color/white"
-                android:entries="@array/spinner_coin_names" />
+                android:entries="@array/spinner_coin_names"
+                android:hint="Select Coin"
+                android:popupTheme="@style/CustomSpinnerDropdown" />
 
         </LinearLayout>
 
@@ -166,33 +134,36 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="8dp"
-                            android:background="@drawable/walletbg_1"
-                            />
+                            android:background="@drawable/walletbg_1" />
+
                         <RadioButton
                             android:id="@+id/gradient2"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="8dp"
-                            android:background="@drawable/walletbg_2"
-                            />
+                            android:background="@drawable/walletbg_2" />
+
                         <RadioButton
                             android:id="@+id/gradient3"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="8dp"
-                            android:background="@drawable/walletbg_3"/>
+                            android:background="@drawable/walletbg_3" />
+
                         <RadioButton
                             android:id="@+id/gradient4"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="8dp"
                             android:background="@drawable/walletbg_4" />
+
                         <RadioButton
                             android:id="@+id/gradient5"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="8dp"
                             android:background="@drawable/walletbg_5" />
+
                         <RadioButton
                             android:id="@+id/gradient6"
                             android:layout_width="50dp"
@@ -208,13 +179,13 @@
 
 
         </LinearLayout>
+
         <Button
             android:id="@+id/btnSaveWallet"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Save"
-            />
+            android:text="Save" />
 
 
     </LinearLayout>

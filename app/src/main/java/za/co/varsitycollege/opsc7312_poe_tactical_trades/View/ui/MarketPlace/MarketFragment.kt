@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.settings.SettingsFragment
@@ -26,12 +27,12 @@ class MarketFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val rootView = inflater.inflate(R.layout.fragment_market, container, false)
-        setupBackButton(rootView)
-        settingsButton = rootView.findViewById(R.id.ImgBtnSettings)
-        settingsButton.setOnClickListener {
-            // Navigate to the SettingsFragment using the Bottom Navigation
-            val navController = (requireActivity() as MainActivity).navController
-            navController.navigate(R.id.navigateToSettingsFragment)
+
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.navigation_home) {
+            if (activity is MainActivity) {
+                (activity as MainActivity).setHeaderTitle("Trade")
+            }
         }
 
         return rootView

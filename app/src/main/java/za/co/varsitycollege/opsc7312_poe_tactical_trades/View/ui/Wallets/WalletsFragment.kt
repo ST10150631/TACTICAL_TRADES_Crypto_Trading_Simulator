@@ -14,7 +14,9 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletRepository
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.AddWallet.AddWalletFragment
@@ -51,7 +53,14 @@ class WalletsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBackButton(view)
+
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.navigation_home) {
+            if (activity is MainActivity) {
+                (activity as MainActivity).setHeaderTitle("Wallets")
+            }
+        }
+
         btnAddWallet = view.findViewById(R.id.imgBtnAddWallet)
         addWalletSection = view.findViewById(R.id.AddWalletSection)
 
@@ -119,11 +128,4 @@ class WalletsFragment : Fragment() {
 
     }
 
-
-    private fun setupBackButton(view: View) {
-        val backButton: ImageButton = view.findViewById(R.id.imgBtnBackWallet)
-        backButton.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-    }
 }

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/BackGround"
-    android:orientation="vertical">
+    tools:context=".View.ui.settings.SettingsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,53 +15,36 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+        <!-- Account Section -->
+                <TextView
+                    style="@style/TxtPrimaryStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Account"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+        <!-- Centered ImageView with Rounded Corners -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <ImageButton
-                android:id="@+id/BtnBack"
-                style="@style/CustomImageButtonStyle" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_bold"
-                android:textAlignment="center"
-                style="@style/TxtPrimaryStyle"
-                android:textSize="30sp"
-                android:text="Settings" />
-
-            <Space
-                android:layout_width="51dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <!-- Account Section -->
-        <TextView
-            style="@style/TxtPrimaryStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_bold"
-            android:text="Account"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
-        <!-- Centered ImageView with Rounded Corners -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:gravity="center_vertical">
+
+            <Space
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <!-- ImageButton to Update Profile Picture -->
             <ImageButton
@@ -68,7 +55,6 @@
                 android:layout_gravity="bottom"
                 android:background="@drawable/profile_vector" />
 
-            <!-- Centered ImageView with Rounded Corners -->
             <ImageView
                 android:id="@+id/myImageView"
                 android:layout_width="110dp"
@@ -234,7 +220,7 @@
 
         <TextView
             style="@style/TxtPrimaryStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
             android:text="Display"
@@ -337,7 +323,7 @@
         </LinearLayout>
         <TextView
             style="@style/TxtPrimaryStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
             android:text="Notifications"
@@ -410,8 +396,52 @@
                 </RadioGroup>
             </LinearLayout>
         </LinearLayout>
+
+                <TextView
+                    style="@style/TxtPrimaryStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Balance"
+                    android:textAlignment="center"
+                    android:paddingTop="10dp"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_box"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_marginLeft="15dp"
+                        style="@style/TxtSmallPrimaryStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Starting Value"/>
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5" />
+
+                    <Spinner
+                        android:id="@+id/DropDownStartValue"
+                        style="@style/CustomSpinner"
+                        android:layout_width="241dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Select Starting Value"
+                        android:foregroundTint="@color/white"
+                        android:popupTheme="@style/CustomSpinnerDropdown" />
+
+
+
+                </LinearLayout>
         <FrameLayout
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp">
@@ -422,6 +452,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btnsave"
                 android:padding="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:visibility="visible" />
 
             <TextView
@@ -435,7 +467,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp">
@@ -446,6 +478,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btndiscard"
                 android:padding="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:visibility="visible" />
 
             <TextView
@@ -459,7 +493,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp">
@@ -470,6 +504,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btnsignout"
                 android:padding="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:visibility="visible" />
 
             <TextView
@@ -485,5 +521,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="0.5" />
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

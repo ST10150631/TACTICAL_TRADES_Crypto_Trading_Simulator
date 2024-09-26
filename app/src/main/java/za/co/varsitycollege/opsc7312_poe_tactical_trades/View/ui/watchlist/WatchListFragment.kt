@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.settings.SettingsFragment
@@ -25,12 +28,13 @@ class WatchListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_watchlist, container, false)
-        setupBackButton(view)
-        settingsButton = view.findViewById(R.id.ImgBtnSettings)
-        settingsButton.setOnClickListener {
-            // Navigate to the SettingsFragment using the Bottom Navigation
-            val navController = (requireActivity() as MainActivity).navController
-            navController.navigate(R.id.navigateToSettingsFragment)
+       // setupBackButton(view)
+
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.navigation_home) {
+            if (activity is MainActivity) {
+                (activity as MainActivity).setHeaderTitle("Watch List")
+            }
         }
 
         return view
@@ -49,17 +53,8 @@ class WatchListFragment : Fragment() {
         viewModel.watchList.observe(viewLifecycleOwner, { items ->
             adapter.submitList(items)
         })
-
-
     }
-    //Method that sends the user back to the add wallets screen
-    private fun setupBackButton(view: View)
-    {
-        val backButton: ImageButton = view.findViewById(R.id.BtnBack)
-        backButton.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-    }
+
     //---------------------------------------------------//
 
 }

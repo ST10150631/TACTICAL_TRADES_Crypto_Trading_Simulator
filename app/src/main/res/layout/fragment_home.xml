@@ -5,16 +5,126 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/BackGround"
     tools:context=".View.ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/text_home"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/container"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/myImageView"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/profile_image"
+                    android:background="@drawable/rounded_corners"
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"/>
+
+                <Space
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total balance"
+                        android:textSize="18dp"
+                        android:layout_marginBottom="1dp"
+                        style="@style/TxtSmallPrimaryStyle"/>
+
+                    <TextView
+                        android:id="@+id/TxtBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:text=""
+                        android:textSize="27dp"
+                        style="@style/TxtSmallPrimaryStyle"/>
+
+
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/stockGraph"
+                        android:layout_width="69dp"
+                        android:layout_height="30dp"
+                        android:layout_marginBottom="1dp"
+                        android:src="@drawable/stock_up_vector"
+                        android:scaleType="fitCenter"
+                        android:clipToOutline="true"/>
+
+                    <TextView
+                        android:id="@+id/TxtDifference"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+ $240"
+                        android:textSize="20dp"
+                        android:layout_marginTop="1dp"
+                        style="@style/TxtSmallPrimaryStyle"
+                        android:textColor="@color/green"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView3"
+                android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets.WalletsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView4"
+                android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.news.NewsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView5"
+                android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.watchlist.WatchListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

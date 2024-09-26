@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.NewsAPIHelper
@@ -24,14 +25,13 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_news, container, false)
-        settingsButton = view.findViewById(R.id.ImgBtnSettings)
-        setupBackButton(view)
-        settingsButton.setOnClickListener {
-            // Navigate to the SettingsFragment using the Bottom Navigation
-            val navController = (requireActivity() as MainActivity).navController
-            navController.navigate(R.id.navigation_settings)
-        }
 
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.navigation_home) {
+            if (activity is MainActivity) {
+                (activity as MainActivity).setHeaderTitle("News")
+            }
+        }
 
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -61,5 +61,6 @@ class NewsFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
     }
+
     //---------------------------------------------------//
 }

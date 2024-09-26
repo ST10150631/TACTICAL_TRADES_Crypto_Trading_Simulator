@@ -5,16 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.FirebaseAuth
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private val auth: FirebaseAuth by lazy { FirebaseHelper.firebaseAuth }
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -28,13 +33,56 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        (activity as MainActivity).setHeaderTitle("Home")
+
+        loadProfilePicture()
+        loadTotalBalance()
+
         return root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+            (activity as MainActivity).setHeaderTitle("Home")
+
+    }
+
+    private fun loadTotalBalance() {
+        FirebaseHelper.getTotalBalance(FirebaseHelper.firebaseAuth.currentUser?.uid ?: "") { balance, error ->
+            if (error != null) {
+                Toast.makeText(context, "Error fetching balance: $error", Toast.LENGTH_LONG).show()
+                val formattedBalance = "$0.00"
+                binding.TxtBalance.text = formattedBalance
+            } else {
+                balance?.let {
+                    val formattedBalance = String.format("$%,.2f", it)
+                    binding.TxtBalance.text = formattedBalance
+                } ?: run {
+                    Toast.makeText(context, "Balance is null", Toast.LENGTH_SHORT).show()
+                    val formattedBalance = "$0.00"
+                    binding.TxtBalance.text = formattedBalance
+                }
+            }
+        }
+    }
+
+
+    private fun loadProfilePicture() {
+        val user = auth.currentUser
+        user?.let {
+            FirebaseHelper.getProfilePictureUrl(it.uid) { url, message ->
+                if (url != null) {
+                    Glide.with(this)
+                        .load(url)
+                        .apply(RequestOptions().transform(RoundedCorners(16)))
+                        .into(binding.myImageView)
+                } else {
+
+                    Toast.makeText(requireContext(), "Failed to load profile picture: $message", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

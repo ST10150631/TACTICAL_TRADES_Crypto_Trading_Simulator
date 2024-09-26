@@ -13,7 +13,9 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.SellCrypto.SellCryptoFragment
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets.WalletsFragment
 
@@ -35,6 +37,13 @@ class BuyCryptoFragment : Fragment() {
     //---------------------------------------------------//
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.navigation_home) {
+            if (activity is MainActivity) {
+                (activity as MainActivity).setHeaderTitle("Buy BTC")
+            }
+        }
 
         val confirmPurchase: ImageButton = view.findViewById(R.id.imgBtnConfirmPurchase)
         confirmPurchase.setOnClickListener()
