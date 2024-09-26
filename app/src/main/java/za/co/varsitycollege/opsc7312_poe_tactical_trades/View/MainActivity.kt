@@ -83,7 +83,13 @@ class MainActivity : AppCompatActivity() {
         if (navController.currentDestination?.id == R.id.nav_host_fragment_activity_main) {
             super.onBackPressed()
         } else {
-            navController.popBackStack()
+            if (navController.currentDestination?.id != R.id.navigation_home) {
+                navController.popBackStack()
+            }
+            else
+            {
+                super.onBackPressed()
+            }
         }
     }
 
