@@ -41,11 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        headerTitle = findViewById(R.id.headerTitle)
-        headerTitle.text = "Home"
-
         setupAuthStateListener()
-        setupNavigation()
+        //setupNavigation()
         applyTheme()
 
         settingsButton.setOnClickListener {
@@ -97,6 +94,10 @@ class MainActivity : AppCompatActivity() {
         authStateListener = FirebaseAuth.AuthStateListener { auth ->
             val user = auth.currentUser
             if (user != null) {
+
+                headerTitle = findViewById(R.id.headerTitle)
+                headerTitle.text = "Home"
+
                 setupNavigation()
             } else {
                 // User is signed out
