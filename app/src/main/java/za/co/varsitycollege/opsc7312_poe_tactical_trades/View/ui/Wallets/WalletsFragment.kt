@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
@@ -113,27 +114,40 @@ class WalletsFragment : Fragment() {
             }
         }
 
-        refreshWallets(view)
+        val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: return
+
+        fetchAndDisplayWallets(view, userId)
+
         btnAddWallet = view.findViewById(R.id.imgBtnAddWallet)
         addWalletSection = view.findViewById(R.id.AddWalletSection)
-
 
         btnAddWallet.setOnClickListener {
             addWalletSection.visibility = View.VISIBLE
             btnAddWallet.visibility = View.GONE
         }
+
         RbtnGroup = view.findViewById(R.id.gradientSelectorGroup)
         btnSaveWallet = view.findViewById(R.id.btnSaveWallet)
         spinner = view.findViewById(R.id.spinnerCoinName)
+
         btnSaveWallet.setOnClickListener {
             val coinName = spinner.selectedItem.toString()
             val gradientId = RbtnGroup.checkedRadioButtonId
             val selectedRadioButton = view.findViewById<RadioButton>(gradientId)
 
-            saveWallet(coinName, selectedRadioButton.text.toString())
-            refreshWallets(view)
+            saveWalletToFirebase(coinName, selectedRadioButton.text.toString(), userId)
+            fetchAndDisplayWallets(view, userId)
             addWalletSection.visibility = View.GONE
             btnAddWallet.visibility = View.VISIBLE
+        }
+    }
+    private fun fetchAndDisplayWallets(view: View, userId: String) {
+        FirebaseHelper.getWalletsFromFirebase(userId) { wallets, error ->
+            if (wallets != null) {
+                displayWallets(view, wallets)
+            } else {
+                Toast.makeText(context, "Failed to load wallets: $error", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -141,22 +155,17 @@ class WalletsFragment : Fragment() {
         val layout: LinearLayout = view.findViewById(R.id.new_wallet)
         layout.removeAllViews()
 
-        // Convert 10dp to pixels
         val walletMargin = (10 * resources.displayMetrics.density).toInt()
 
         for (wallet in WalletRepository.wallets) {
             val walletView = layoutInflater.inflate(R.layout.wallet_item, layout, false)
             walletView.findViewById<TextView>(R.id.wallet_name_text).text = wallet.walletType
             walletView.findViewById<View>(R.id.wallet_color_block).background =
-                getDrawable(requireContext(), wallet.walletGradient)
+                wallet.walletGradient?.let { getDrawable(requireContext(), it) }
 
             val imageView: ImageView = walletView.findViewById(R.id.wallet_image)
-            wallet.walletImage.let { imageView.setImageResource(it) }
+            wallet.walletImage.let { it?.let { it1 -> imageView.setImageResource(it1) } }
 
-            // Set ImageView size to 20dp by 20dp
-
-
-            // Set layout params for walletView with margin and center gravity
             val params = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -171,27 +180,57 @@ class WalletsFragment : Fragment() {
         layout.requestLayout()
     }
 
+    private fun displayWallets(view: View, wallets: List<WalletModel>) {
+        val layout: LinearLayout = view.findViewById(R.id.new_wallet)
+        layout.removeAllViews()
 
-    private fun saveWallet(selectedCoin: String, selectedGradient: String) {
+        val walletMargin = (10 * resources.displayMetrics.density).toInt()
 
-            val walletImage:Int = assetLogoIdMap[selectedCoin]!!
-            val selectedCoinCode =assetIdMap[selectedCoin]
+        for (wallet in wallets) {
+            val walletView = layoutInflater.inflate(R.layout.wallet_item, layout, false)
+            walletView.findViewById<TextView>(R.id.wallet_name_text).text = wallet.walletType
+            walletView.findViewById<View>(R.id.wallet_color_block).background =
+                wallet.walletGradient?.let { getDrawable(requireContext(), it) }
 
-            val gradientResId = when (selectedGradient) {
-                "1" -> R.drawable.walletbg_1
-                "2" -> R.drawable.walletbg_2
-                "3" -> R.drawable.walletbg_3
-                "4" -> R.drawable.walletbg_4
-                "5" -> R.drawable.walletbg_5
-                "6" -> R.drawable.walletbg_6
-                else -> R.drawable.default_gradient_for_wallet // Fallback drawable
+            val imageView: ImageView = walletView.findViewById(R.id.wallet_image)
+            wallet.walletImage.let { it?.let { it1 -> imageView.setImageResource(it1) } }
+
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(walletMargin, 0, walletMargin, 0)
             }
 
-            WalletRepository.wallets.add(
-                WalletModel(selectedCoinCode, "0%", "0", walletImage,gradientResId , gradientResId)
-            )
-            Toast.makeText(context, "Wallet Saved", Toast.LENGTH_SHORT).show()
+            walletView.layoutParams = params
+            layout.addView(walletView)
+        }
+        layout.requestLayout()
+    }
 
+    private fun saveWalletToFirebase(selectedCoin: String, selectedGradient: String, userId: String) {
+        val walletImage: Int = assetLogoIdMap[selectedCoin]!!
+        val selectedCoinCode = assetIdMap[selectedCoin]
+
+        val gradientResId = when (selectedGradient) {
+            "1" -> R.drawable.walletbg_1
+            "2" -> R.drawable.walletbg_2
+            "3" -> R.drawable.walletbg_3
+            "4" -> R.drawable.walletbg_4
+            "5" -> R.drawable.walletbg_5
+            "6" -> R.drawable.walletbg_6
+            else -> R.drawable.default_gradient_for_wallet // Fallback drawable
+        }
+
+        val newWallet = WalletModel(selectedCoinCode, "0%", "0", walletImage, gradientResId, gradientResId)
+
+        FirebaseHelper.saveWalletToFirebase(userId, newWallet) { success, error ->
+            if (success) {
+                Toast.makeText(context, "Wallet saved successfully!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Error saving wallet: $error", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

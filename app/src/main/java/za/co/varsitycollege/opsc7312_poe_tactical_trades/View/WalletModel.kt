@@ -7,7 +7,9 @@ data class WalletModel
             var walletType: String? = null,
             var percentage: String? = null,
             var amountInCoin: String? = null,
-            val walletImage: Int,
-            val color: Int,
-            val walletGradient: Int
-)
+            val walletImage: Int?,
+            val color: Int?,
+            val walletGradient: Int?
+) {
+    constructor() : this(null, null, null, null, null, null)
+}

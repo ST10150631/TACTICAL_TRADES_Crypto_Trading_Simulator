@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.User
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
 import java.util.UUID
 
 object FirebaseHelper {
@@ -137,7 +138,7 @@ object FirebaseHelper {
         username: String?,
         name: String?,
         email: String,
-        startValue : String?,
+        startValue: String?,
         theme: String?,
         graphTheme: String?,
         language: String?
@@ -149,18 +150,18 @@ object FirebaseHelper {
             val totalBalance = startValue?.toDoubleOrNull()
 
             if (currentUser != null) {
-                val updatedUser = User(
-                    username = if (!username.isNullOrEmpty()) username else currentUser.username,
-                    name = if (!name.isNullOrEmpty()) name else currentUser.name,
-                    email = currentUser.email,
-                    totalBalance = totalBalance,
-                    theme = if (!theme.isNullOrEmpty()) theme else currentUser.theme,
-                    graphTheme = if (!graphTheme.isNullOrEmpty()) graphTheme else currentUser.graphTheme,
-                    language = if (!language.isNullOrEmpty()) language else currentUser.language,
-                    profilePictureUrl = currentUser.profilePictureUrl
-                )
+                val updatedData = mutableMapOf<String, Any?>()
 
-                userReference.setValue(updatedUser).addOnCompleteListener { task ->
+                if (!username.isNullOrEmpty()) updatedData["username"] = username
+                if (!name.isNullOrEmpty()) updatedData["name"] = name
+                updatedData["email"] = currentUser.email
+                if (totalBalance != null) updatedData["totalBalance"] = totalBalance
+                if (!theme.isNullOrEmpty()) updatedData["theme"] = theme
+                if (!graphTheme.isNullOrEmpty()) updatedData["graphTheme"] = graphTheme
+                if (!language.isNullOrEmpty()) updatedData["language"] = language
+                updatedData["profilePictureUrl"] = currentUser.profilePictureUrl
+
+                userReference.updateChildren(updatedData).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Toast.makeText(context, "User data updated successfully.", Toast.LENGTH_SHORT).show()
                     } else {
@@ -174,4 +175,30 @@ object FirebaseHelper {
             Toast.makeText(context, "Failed to fetch user data: ${it.message}", Toast.LENGTH_LONG).show()
         }
     }
+
+
+    fun saveWalletToFirebase(userId: String, wallet: WalletModel, onComplete: (Boolean, String?) -> Unit) {
+        databaseReference.child(userId).child("wallets").child(wallet.walletType.toString()).setValue(wallet)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onComplete(true, null)
+                } else {
+                    onComplete(false, task.exception?.message)
+                }
+            }
+    }
+
+    fun getWalletsFromFirebase(userId: String, onComplete: (List<WalletModel>?, String?) -> Unit) {
+        val walletsRef = databaseReference.child(userId).child("wallets")
+        walletsRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val wallets = task.result?.children?.mapNotNull { it.getValue(WalletModel::class.java) }
+                onComplete(wallets, null)
+            } else {
+                onComplete(null, task.exception?.message)
+            }
+        }
+    }
+
+
 }
