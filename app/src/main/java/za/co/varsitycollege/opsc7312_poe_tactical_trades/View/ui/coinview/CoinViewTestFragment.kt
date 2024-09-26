@@ -57,10 +57,11 @@ class CoinViewTestFragment : Fragment() {
     }
 
     private fun updateUI(coinAsset: CoinAsset) {
+        // Set coin logo
         binding.CoinIconImage.setImageResource(coinAsset.logo)
 
-        var assetId = coinAsset.assetId.toString()
-
+        // Set asset ID for the header title
+        val assetId = coinAsset.assetId.toString()
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.navigation_home) {
             if (activity is MainActivity) {
@@ -68,14 +69,19 @@ class CoinViewTestFragment : Fragment() {
             }
         }
 
+        // Set coin name and other details
         binding.TxtViewName.text = coinAsset.name
-        binding.txtEthLabel.text = coinAsset.name
-        binding.TxtViewCurrent.text = coinAsset.priceUsd.toString()
-        binding.txtWalletBalance.text = coinAsset.priceUsd.toString()
-        binding.txtEthLabel.text = coinAsset.name
-        binding.txtCurrency.text = coinAsset.assetId
-        binding.txtPercentageChange.text = coinAsset.volume1dayUsd.toString()
+        binding.txtWalletLabel.text = coinAsset.name
 
+
+        // Format price to two decimal places
+        val formattedPrice = String.format("%.2f", coinAsset.priceUsd)
+        binding.TxtViewCurrent.text = "$" + formattedPrice
+        binding.txtWalletBalance.text = "$" + formattedPrice
+
+        // Format volume or percentage change as an integer or truncate decimals
+        val formattedVolume = String.format("%.0f", coinAsset.volume1dayUsd) // No decimal places for volume
+        binding.txtPercentageChange.text = formattedVolume
     }
 
     private fun addToWatchList(coinAsset: CoinAsset) {
