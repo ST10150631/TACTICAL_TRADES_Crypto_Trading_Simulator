@@ -10,10 +10,12 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
@@ -125,8 +127,10 @@ class WalletsFragment : Fragment() {
         spinner = view.findViewById(R.id.spinnerCoinName)
         btnSaveWallet.setOnClickListener {
             val coinName = spinner.selectedItem.toString()
-            val gradientId = RbtnGroup.checkedRadioButtonId.toString()
-            saveWallet(coinName, gradientId)
+            val gradientId = RbtnGroup.checkedRadioButtonId
+            val selectedRadioButton = view.findViewById<RadioButton>(gradientId)
+
+            saveWallet(coinName, selectedRadioButton.text.toString())
             refreshWallets(view)
             addWalletSection.visibility = View.GONE
             btnAddWallet.visibility = View.VISIBLE
@@ -144,10 +148,10 @@ class WalletsFragment : Fragment() {
             val walletView = layoutInflater.inflate(R.layout.wallet_item, layout, false)
             walletView.findViewById<TextView>(R.id.wallet_name_text).text = wallet.walletType
             walletView.findViewById<View>(R.id.wallet_color_block).background =
-                ContextCompat.getDrawable(requireContext(), wallet.walletGradient)
+                getDrawable(requireContext(), wallet.walletGradient)
 
             val imageView: ImageView = walletView.findViewById(R.id.wallet_image)
-            wallet.walletImage?.let { imageView.setImageResource(it) }
+            wallet.walletImage.let { imageView.setImageResource(it) }
 
             // Set ImageView size to 20dp by 20dp
 
@@ -170,21 +174,21 @@ class WalletsFragment : Fragment() {
 
     private fun saveWallet(selectedCoin: String, selectedGradient: String) {
 
-            val walletImage:Int? = assetLogoIdMap[selectedCoin]
+            val walletImage:Int = assetLogoIdMap[selectedCoin]!!
             val selectedCoinCode =assetIdMap[selectedCoin]
 
             val gradientResId = when (selectedGradient) {
-                "2131362046" -> R.drawable.walletbg_1
-                "2131362047" -> R.drawable.walletbg_2
-                "2131362048" -> R.drawable.walletbg_3
-                "2131362049" -> R.drawable.walletbg_4
-                "2131362050" -> R.drawable.walletbg_5
-                "2131362051" -> R.drawable.walletbg_6
+                "1" -> R.drawable.walletbg_1
+                "2" -> R.drawable.walletbg_2
+                "3" -> R.drawable.walletbg_3
+                "4" -> R.drawable.walletbg_4
+                "5" -> R.drawable.walletbg_5
+                "6" -> R.drawable.walletbg_6
                 else -> R.drawable.default_gradient_for_wallet // Fallback drawable
             }
 
             WalletRepository.wallets.add(
-                WalletModel(selectedCoinCode, "0%", "0", walletImage, gradientResId, gradientResId)
+                WalletModel(selectedCoinCode, "0%", "0", walletImage,gradientResId , gradientResId)
             )
             Toast.makeText(context, "Wallet Saved", Toast.LENGTH_SHORT).show()
 
