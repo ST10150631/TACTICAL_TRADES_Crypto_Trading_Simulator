@@ -121,7 +121,7 @@ class CoinViewTestFragment : Fragment() {
             Toast.makeText(requireContext(), "Failed to retrieve coin image", Toast.LENGTH_SHORT).show()
         }
     }
-
+/*
     private fun getBitmapFromDrawable(drawableId: Int): Bitmap? {
         val drawable = ContextCompat.getDrawable(requireContext(), drawableId)
         return if (drawable != null) {
@@ -134,6 +134,8 @@ class CoinViewTestFragment : Fragment() {
             null
         }
     }
+
+ */
 
     private fun uploadImageToFirebase(bitmap: Bitmap, callback: (String?) -> Unit) {
         val baos = ByteArrayOutputStream()
@@ -191,6 +193,26 @@ class CoinViewTestFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+    private fun getBitmapFromDrawable(drawableId: Int): Bitmap? {
+        val drawable = ContextCompat.getDrawable(requireContext(), drawableId) ?: return null
+        // Create a bitmap with a smaller size
+        val width = drawable.intrinsicWidth
+        val height = drawable.intrinsicHeight
+        // Set a max size to avoid OutOfMemoryError
+        val maxWidth = 200  // Adjust as necessary
+        val maxHeight = 200 // Adjust as necessary
+        val scale = Math.min(maxWidth.toFloat() / width, maxHeight.toFloat() / height)
+
+        val scaledWidth = (width * scale).toInt()
+        val scaledHeight = (height * scale).toInt()
+
+        val bitmap = Bitmap.createBitmap(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, scaledWidth, scaledHeight)
+        drawable.draw(canvas)
+
+        return bitmap
     }
 
 
