@@ -17,8 +17,9 @@ import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 
-//const val API_KEY = "fd0612a2-3ef6-48aa-824a-1c025b0e12e9"
-const val API_KEY = "D7460598-F041-4EF0-9AB5-B2BE1679C1A8" // Replace with your API key
+var API_KEY = "52470BBE-DFDE-453F-BE9A-E93B6B82D77F"//"fd0612a2-3ef6-48aa-824a-1c025b0e12e9"
+const val API_KEY2 ="389E6140-D2F4-4539-BCA2-396577CC3821"
+const val API_KEY3 = "D7460598-F041-4EF0-9AB5-B2BE1679C1A8" // Replace with your API key
 class CoinAPIHelper {
 /*
     fun fetchAssets(): String? {
@@ -38,71 +39,37 @@ class CoinAPIHelper {
 */
     private val coin_URL = "https://rest.coinapi.io/v1/assets"
     private val PARAM_API_KEY ="apikey"
-
-    var coinAssets = mutableListOf<CoinAsset>()
     //Array of top 25 crypto Icons
-    val  top25CryptoIcons = arrayOf(
-        R.drawable.btc_logo,
-        R.drawable.eth_logo,
-        R.drawable.usdt_logo,
-        R.drawable.bnb_logo,
-        R.drawable.sol_logo,
-        R.drawable.usdc_logo,
-        R.drawable.xrp_logo,
-        //R.drawable.steth_logo,
-        R.drawable.doge_logo,
-        /*
-        R.drawable.ton_logo,
-        R.drawable.trx_logo,
-        R.drawable.ada_logo,
-        R.drawable.avax_logo,
-        R.drawable.steth_logo,
-        R.drawable.wbtc_logo,
-        R.drawable.shib_logo,
-        R.drawable.weth_logo,
-        R.drawable.link_logo,
-        R.drawable.bch_logo,
-        R.drawable.dot_logo,
-        R.drawable.leo_logo,
-        R.drawable.dai_logo,
-        R.drawable.uni_logo,
-
-         */
-        R.drawable.ltc_logo
-       // R.drawable.near_logo
-
+    val assetLogoMap = mapOf(
+        "BTC" to R.drawable.btc_logo,
+        "ETH" to R.drawable.eth_logo,
+        "USDT" to R.drawable.usdt_logo,
+        "BNB" to R.drawable.bnb_logo,
+        "SOL" to R.drawable.sol_logo,
+        "USDC" to R.drawable.usdc_logo,
+        "XRP" to R.drawable.xrp_logo,
+        "DOGE" to R.drawable.doge_logo,
+        "TRX" to R.drawable.trx_logo,
+        "ADA" to R.drawable.ada_logo,
+        "AVAX" to R.drawable.avax_logo,
+        "LTC" to R.drawable.ltc_logo,
+        "LINK" to R.drawable.link_logo,
+        "BCH" to R.drawable.bch_logo,
+        "DOT" to R.drawable.dot_logo,
+        "LEO" to R.drawable.leo_logo,
+        "DAI" to R.drawable.dai_logo,
+        "UNI" to R.drawable.uni_logo,
+        "WBTC" to R.drawable.wbtc_logo,
+        "STETH" to R.drawable.steth_logo,
+        "NEAR" to R.drawable.near_logo,
+        "SHIB" to R.drawable.shib_logo,
+        "TON" to R.drawable.ton_logo
     )
     // Array of the top 25 cryptocurrency IDs
-    val top25CryptoIds = arrayOf(
-        "BTC",  // Bitcoin
-        "ETH",  // Ethereum
-        "USDT", // Tether
-        "BNB",  // Binance Coin
-        "SOL",  // Solana
-        "USDC", // USD Coin
-        "XRP",  // XRP
-        //"STETH", // Lido Staked Ether
-        "DOGE", // Dogecoin
-        /*
-        "TON",  // Toncoin
-        "TRX",  // TRON
-        "ADA",  // Cardano
-        "AVAX", // Avalanche
-        "WSTETH", // Wrapped stETH
-        "WBTC", // Wrapped Bitcoin
-        "SHIB", // Shiba Inu
-        "WETH", // Wrapped Ethereum
-        "LINK", // Chainlink
-        "BCH",  // Bitcoin Cash
-        "DOT",  // Polkadot
-        "LEO",  // LEO Token
-        "DAI",  // Dai
-        "UNI",  // Uniswap
-        */
+    val top25CryptoIds ="BTC;ETH;USDT;BNB;SOL;USDC;XRP;DOGE;STETH;TON;TRX;ADA;AVAX;WSTETH;WBTC;SHIB;LINK;BCH;DOT;LEO;0DAI;UNI;LTC;NEAR"
 
-        "LTC"  // Litecoin
-        //"NEAR"  // NEAR Protocol
-    )
+
+
 
 /* INITIAL ONE
 
@@ -154,9 +121,8 @@ class CoinAPIHelper {
     fun top25FromAPI(): List<CoinAsset> {
 
         if(coins.isEmpty()){
-            for (coin in top25CryptoIds) {
                 // Construct the URL correctly using the asset ID
-                val coinUrl = "https://rest.coinapi.io/v1/assets/$coin"
+                val coinUrl ="https://rest.coinapi.io/v1/assets?filter_asset_id=$top25CryptoIds"  //https://rest.coinapi.io/v1/assets/$coin
                 val buildUri: Uri = Uri.parse(coinUrl).buildUpon()
                     .appendQueryParameter(PARAM_API_KEY, API_KEY) // passing in API key
                     .build()
@@ -166,12 +132,11 @@ class CoinAPIHelper {
                     url = URL(buildUri.toString())
                 } catch (e: MalformedURLException) {
                     e.printStackTrace()
-                    continue // Skip this iteration if the URL is malformed
                 }
 
                 Log.i(LOGGING_TAG, "Building URL for coin: $url")
 
-                val connection = url.openConnection() as HttpURLConnection
+                val connection = url?.openConnection() as HttpURLConnection
                 connection.requestMethod = "GET"
                 connection.setRequestProperty("X-CoinAPI-Key", API_KEY)
 
@@ -182,17 +147,25 @@ class CoinAPIHelper {
                     try {
                         // Since the response is an array, we parse it as a list
                         val coinData: List<CoinAsset> = gson.fromJson(coinJSON, object : TypeToken<List<CoinAsset>>() {}.type)
-                        coinData.forEach {
-                            it.logo = top25CryptoIcons[top25CryptoIds.indexOf(it.assetId)]
+                        coinData.forEach {asset ->
+                            asset.logo = assignLogo(asset.assetId)
                         }
-                        coins.addAll(coinData) // Add all coins to the list
+                        coins.addAll(coinData.sortedByDescending { it.priceUsd })// Add all coins to the list
                     } catch (e: Exception) {
                         Log.e(LOGGING_TAG, "Error parsing JSON: ${e.message}")
                     }
                 } else {
                     Log.e(LOGGING_TAG, "Error: Received response code $responseCode")
+
+                    var retry = retryTop25FromAPI(API_KEY2)
+                    if (retry.isEmpty()){
+                        retry = retryTop25FromAPI(API_KEY3)
+                    }
+                    return retry
+
+
                 }
-            }
+
 
             return coins // Return the list of CoinAssets
         }
@@ -201,6 +174,61 @@ class CoinAPIHelper {
 
     }
 
+    fun retryTop25FromAPI(apiKey : String): List<CoinAsset> {
+
+        if(coins.isEmpty()){
+            // Construct the URL correctly using the asset ID
+            val coinUrl ="https://rest.coinapi.io/v1/assets?filter_asset_id=$top25CryptoIds"  //https://rest.coinapi.io/v1/assets/$coin
+            val buildUri: Uri = Uri.parse(coinUrl).buildUpon()
+                .appendQueryParameter(PARAM_API_KEY, apiKey) // passing in API key
+                .build()
+
+            var url: URL? = null
+            try {
+                url = URL(buildUri.toString())
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            }
+
+            Log.i(LOGGING_TAG, "Building URL for coin: $url")
+
+            val connection = url?.openConnection() as HttpURLConnection
+            connection.requestMethod = "GET"
+            connection.setRequestProperty("X-CoinAPI-Key", apiKey)
+
+            val responseCode = connection.responseCode
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                val coinJSON = connection.inputStream.bufferedReader().use { it.readText() }
+                val gson = Gson()
+                try {
+                    // Since the response is an array, we parse it as a list
+                    val coinData: List<CoinAsset> = gson.fromJson(coinJSON, object : TypeToken<List<CoinAsset>>() {}.type)
+                    coinData.forEach {asset ->
+                        asset.logo = assignLogo(asset.assetId)
+                    }
+                    coins.addAll(coinData.sortedByDescending { it.priceUsd })// Add all coins to the list
+                } catch (e: Exception) {
+                    Log.e(LOGGING_TAG, "Error parsing JSON: ${e.message}")
+                }
+            } else {
+                Log.e(LOGGING_TAG, "Error: Received response code $responseCode")
+                /*
+                var retry = retryTop25FromAPI(API_KEY2)
+                if (retry.isEmpty()){
+                    retry = retryTop25FromAPI(API_KEY3)
+                }
+                return retry
+
+                 */
+            }
+
+
+            return coins // Return the list of CoinAssets
+        }
+        else
+        return coins
+
+    }
 
 
     val LOGGING_TAG = "URLWECREATED"
@@ -220,6 +248,10 @@ class CoinAPIHelper {
         }
         Log.i(LOGGING_TAG, "buildURLforCoin: $url")
         return url
+    }
+    // Function to assign the logo based on the asset ID
+    private fun assignLogo(assetId: String?): Int {
+        return assetLogoMap[assetId] ?: 0 // Return a default icon if not found
     }
 
 
