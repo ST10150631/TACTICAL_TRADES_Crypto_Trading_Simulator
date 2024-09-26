@@ -30,6 +30,7 @@
         app:destination="@id/navigation_settings"
         />
 
+
     <fragment
         android:id="@+id/navigation_watchlist"
         android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.watchlist.WatchListFragment"
