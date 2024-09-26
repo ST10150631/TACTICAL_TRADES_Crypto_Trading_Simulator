@@ -28,27 +28,27 @@
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:padding="10dp"
-        android:layout_height="wrap_content">
+
+        android:layout_height="120dp">
 
 
         <LinearLayout
 
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
             android:orientation="horizontal">
             <ImageButton
                 android:id="@+id/imgBtnAddWallet"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="100dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/add_wallet_button_icon" />
             <LinearLayout
                 android:id="@+id/new_wallet"
-                android:padding="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
+                android:padding="1dp"
                 android:orientation="horizontal"
                 >
 

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="8dp">
+    >
 
     <!-- Container for the color block and text overlay -->
     <FrameLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp">
 
         <!-- Color block -->
         <View
             android:id="@+id/wallet_color_block"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@color/green" />
 
         <!-- Container for ImageView and TextView -->
@@ -26,21 +26,54 @@
             android:layout_gravity="start"> <!-- Align to the left -->
 
             <!-- Wallet Image -->
-            <ImageView
-                android:id="@+id/wallet_image"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/other" />
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/circle_white" />
+                <ImageView
+                    android:id="@+id/wallet_image"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/other" />
+            </FrameLayout>
 
-            <!-- Wallet Name Text -->
-            <TextView
-                android:id="@+id/wallet_name_text"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textSize="18sp"
-                android:textColor="@android:color/white"
-                android:text="Wallet Name" />
+                android:orientation="horizontal">
+                <!-- Wallet Name Text -->
+
+                <TextView
+                    android:id="@+id/wallet_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_vertical|left"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    android:text="Wallet Name" />
+                <!-- Wallet Value Text -->
+                <TextView
+                    android:id="@+id/txtwallet_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    android:text="0.0" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </FrameLayout>

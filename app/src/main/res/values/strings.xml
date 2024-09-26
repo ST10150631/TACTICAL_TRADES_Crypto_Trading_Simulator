@@ -22,6 +22,22 @@
         <item>USD Coin</item>
         <item>XRP</item>
         <item>Dogecoin</item>
+        <item>Lido Staked Ether</item>
+        <item>Toncoin</item>
+        <item>TRON</item>
+        <item>Cardano</item>
+        <item>Avalanche</item>
+        <item>Wrapped stETH</item>
+        <item>Wrapped Bitcoin</item>
+        <item>Shiba Inu</item>
+        <item>Wrapped Ethereum</item>
+        <item>Chainlink</item>
+        <item>Bitcoin Cash</item>
+        <item>Polkadot</item>
+        <item>LEO Token</item>
+        <item>Dai</item>
+        <item>Uniswap</item>
         <item>Litecoin</item>
+        <item>NEAR Protocol</item>
     </string-array>
 </resources>
