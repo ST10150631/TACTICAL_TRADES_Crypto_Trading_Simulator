@@ -80,8 +80,8 @@ class CoinViewTestFragment : Fragment() {
         binding.txtWalletBalance.text = "$" + formattedPrice
 
         // Format volume or percentage change as an integer or truncate decimals
-        val formattedVolume = String.format("%.2f", coinAsset.volume1dayUsd)
-        binding.txtPercentageChange.text = formattedVolume
+       // val formattedVolume = String.format("%.2f", coinAsset.volume1dayUsd)
+        //binding.txtPercentageChange.text = formattedVolume
     }
 
     private fun addToWatchList(coinAsset: CoinAsset) {
