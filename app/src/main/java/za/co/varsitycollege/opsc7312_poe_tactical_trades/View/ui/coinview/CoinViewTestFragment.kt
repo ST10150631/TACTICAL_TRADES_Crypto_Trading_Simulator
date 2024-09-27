@@ -44,8 +44,13 @@ class CoinViewTestFragment : Fragment() {
 
         val coinData = arguments?.getString("coinData")
         if (coinData != null) {
-            coin = coins.find { it.assetId == coinData } ?: coins[0]
-            updateUI(coin)
+            try {
+                coin = coins.find { it.assetId == coinData } ?: coins[0]
+                updateUI(coin)
+            }catch (e: Exception){
+                Toast.makeText(context, "Failed to load coin: $e", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         val userId = FirebaseHelper.firebaseAuth.currentUser?.uid

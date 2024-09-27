@@ -17,9 +17,9 @@ import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 
-var API_KEY = "52470BBE-DFDE-453F-BE9A-E93B6B82D77F"//"fd0612a2-3ef6-48aa-824a-1c025b0e12e9"
+var API_KEY3 = "52470BBE-DFDE-453F-BE9A-E93B6B82D77F"//"fd0612a2-3ef6-48aa-824a-1c025b0e12e9"
 const val API_KEY2 ="389E6140-D2F4-4539-BCA2-396577CC3821"
-const val API_KEY3 = "D7460598-F041-4EF0-9AB5-B2BE1679C1A8" // Replace with your API key
+const val API_KEY = "D7460598-F041-4EF0-9AB5-B2BE1679C1A8" // Replace with your API key
 class CoinAPIHelper {
 /*
     fun fetchAssets(): String? {
@@ -153,16 +153,19 @@ class CoinAPIHelper {
                         coins.addAll(coinData.sortedByDescending { it.priceUsd })// Add all coins to the list
                     } catch (e: Exception) {
                         Log.e(LOGGING_TAG, "Error parsing JSON: ${e.message}")
+                        var retry = retryTop25FromAPI(API_KEY2)
+                        if (retry.isEmpty()){
+                            retry = retryTop25FromAPI(API_KEY3)
+                        }
+                        return retry
                     }
                 } else {
                     Log.e(LOGGING_TAG, "Error: Received response code $responseCode")
-
                     var retry = retryTop25FromAPI(API_KEY2)
                     if (retry.isEmpty()){
                         retry = retryTop25FromAPI(API_KEY3)
                     }
                     return retry
-
 
                 }
 

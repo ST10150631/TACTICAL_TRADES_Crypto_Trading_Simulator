@@ -191,22 +191,24 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="209dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/WalletGradient"
-                    android:layout_width="341dp"
-                    android:layout_height="199dp"
-                    android:background="@drawable/gradient_for_ethereum"
+                    android:layout_width="330dp"
+                    android:layout_height="260dp"
+                    android:background="@drawable/walletbg_1"
                     android:gravity="center"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <GridLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:alignmentMode="alignMargins"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
                         android:columnCount="2"
                         android:rowCount="2"
                         android:useDefaultMargins="true">

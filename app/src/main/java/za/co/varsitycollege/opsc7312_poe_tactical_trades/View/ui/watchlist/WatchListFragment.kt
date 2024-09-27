@@ -12,10 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.CoinAPIHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.MarketPlace.MyallcoinsRecyclerViewAdapter
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.settings.SettingsFragment
+import kotlin.concurrent.thread
 
 class WatchListFragment : Fragment() {
 
@@ -29,6 +32,13 @@ class WatchListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_watchlist, container, false)
        // setupBackButton(view)
+        thread {
+            val CoinList = try {
+                CoinAPIHelper().top25FromAPI()
+            } catch (e: Exception) {
+                return@thread
+            }
+        }
 
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.navigation_home) {

@@ -1,10 +1,13 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.watchlist
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
@@ -41,6 +44,13 @@ class WatchListAdapter : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
         holder.currentPrice.text = item.currentPrice
 
         holder.priceDifference.text = item.priceDifference
+        // will navigate to stock
+        holder.stockBtn.setOnClickListener {
+            val navController = findNavController(holder.itemView)
+            val bundle = Bundle()
+            bundle.putString("coinData",item.stockId) // Pass your data here
+            navController.navigate(za.co.varsitycollege.opsc7312_poe_tactical_trades.R.id.navigation_coinViewFragment, bundle)
+        }
 
         val colorRes = if (item.upDown) R.color.green else R.color.red
         holder.priceDifference.setTextColor(holder.itemView.context.getColor(colorRes))
@@ -56,5 +66,6 @@ class WatchListAdapter : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
         val currentPrice: TextView = itemView.findViewById(R.id.TxtViewCurrent)
         val priceDifference: TextView = itemView.findViewById(R.id.TxtViewDifference)
         val stockGraph: ImageView = itemView.findViewById(R.id.stockGraph)
+        val stockBtn:ImageButton = itemView.findViewById(R.id.ImgBtnStock)
     }
 }

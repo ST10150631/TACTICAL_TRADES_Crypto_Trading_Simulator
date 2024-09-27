@@ -64,11 +64,10 @@ class BuyCryptoFragment : Fragment() {
         val swapToSellCrypto: ImageButton = view.findViewById(R.id.imgSwapToSell)
         swapToSellCrypto.setOnClickListener()
         {
-            val sellCryptoFragment = SellCryptoFragment.newInstance()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, sellCryptoFragment)
-                .addToBackStack(null)
-                .commit()
+            val bundle = Bundle()
+            bundle.putString("coinData",coin.assetId)
+            val navController = findNavController()
+            navController.navigate(R.id.navigation_SellCrypto,bundle)
         }
         val imgViewAmountOfMoneyToPay = view.findViewById<ImageView>(R.id.imgViewAmountOfMoneyToPay)
         imgViewAmountOfMoneyToPay.setOnClickListener {
