@@ -30,6 +30,16 @@
         app:destination="@id/navigation_settings"
         />
 
+    <fragment
+        android:id="@+id/navigation_buyCrypto"
+        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.BuyCrypto.BuyCryptoFragment"
+        android:label="BuyCrypto"
+        tools:layout="@layout/fragment_buy_crypto" />
+    <fragment
+        android:id="@+id/navigation_SellCrypto"
+        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.SellCrypto.SellCryptoFragment"
+        android:label="SellCrypto"
+        tools:layout="@layout/fragment_sell_crypto" />
 
     <fragment
         android:id="@+id/navigation_watchlist"

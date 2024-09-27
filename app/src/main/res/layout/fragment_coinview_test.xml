@@ -151,7 +151,7 @@
 
             <Button
                 android:backgroundTint="@color/green"
-                android:id="@+id/btnImgSwapToBuyBTC"
+                android:id="@+id/btnGoToBuyCoin"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -165,7 +165,7 @@
 
             <Button
                 android:backgroundTint="@color/red"
-                android:id="@+id/btnGoToSellBTC"
+                android:id="@+id/btnGoToSellCoin"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
