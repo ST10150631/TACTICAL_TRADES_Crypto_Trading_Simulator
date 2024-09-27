@@ -76,18 +76,23 @@
             <TextView
                 android:id="@+id/txtBitcoins"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:text="USD"
-                android:textColor="@color/PrimaryTxtColor"
-                android:textSize="16dp" />
+                android:textColor="@color/BackgroundTxtBx"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/txtAmountOfDollarsAdded"
-                android:layout_width="172dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="190dp"
-                android:textColor="@color/PrimaryTxtColor" />
+                android:background="@drawable/txtbxbgbuy"
+                android:hint="1.00"
+                android:padding="2dp"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -154,15 +159,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:text="Bitcoin"
-                android:textColor="@color/PrimaryTxtColor"
-                android:textSize="16dp" />
+                android:textColor="@color/BackgroundTxtBx"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/txtAmountOfBitcoin"
                 android:layout_width="155dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="190dp"
-                android:textColor="@color/PrimaryTxtColor" />
+                android:text="0.00"
+                android:textSize="18dp"
+                android:textColor="@color/BackgroundTxtBx" />
         </LinearLayout>
 
     </LinearLayout>

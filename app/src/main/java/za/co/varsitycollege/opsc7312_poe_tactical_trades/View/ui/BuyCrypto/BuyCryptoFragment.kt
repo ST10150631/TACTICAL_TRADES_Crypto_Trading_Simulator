@@ -48,6 +48,7 @@ class BuyCryptoFragment : Fragment() {
         val confirmPurchase: ImageButton = view.findViewById(R.id.imgBtnConfirmPurchase)
         confirmPurchase.setOnClickListener()
         {
+
             Toast.makeText(context, "Crypto Purchased", Toast.LENGTH_SHORT).show()
         }
         val swapToSellCrypto: ImageButton = view.findViewById(R.id.imgSwapToSell)
