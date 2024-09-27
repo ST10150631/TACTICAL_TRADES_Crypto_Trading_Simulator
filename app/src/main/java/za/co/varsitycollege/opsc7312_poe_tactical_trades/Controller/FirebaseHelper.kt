@@ -200,16 +200,16 @@ object FirebaseHelper {
         }
     }
 
-    fun getaWalletFromFirebase(userId: String, walletType: String, onComplete: (WalletModel?, String?) -> Unit) {
+    fun getaWalletFromFirebase(userId: String, walletType: String, onComplete: (WalletModel?) -> Unit) {
         val walletsRef = databaseReference.child(userId).child("wallets")
         walletsRef.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val wallet = task.result?.children
                     ?.mapNotNull { it.getValue(WalletModel::class.java) }
                     ?.firstOrNull { it.walletType == walletType } // Assuming WalletModel has a 'type' property
-                onComplete(wallet, null)
+                onComplete(wallet)
             } else {
-                onComplete(null, task.exception?.message)
+                onComplete(null)
             }
         }
     }

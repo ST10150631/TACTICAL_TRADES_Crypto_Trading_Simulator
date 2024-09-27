@@ -14,12 +14,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.SellCrypto.SellCryptoFragment
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets.WalletsFragment
 
 class BuyCryptoFragment : Fragment() {
+    private lateinit var coin: CoinAsset
+
     companion object {
         fun newInstance() = BuyCryptoFragment()
     }
@@ -32,12 +36,18 @@ class BuyCryptoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_buy_crypto, container, false)
+        val view = inflater.inflate(R.layout.fragment_buy_crypto, container, false)
+
+        return view
     }
     //---------------------------------------------------//
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val coinData = arguments?.getString("coinData")
+        if (coinData != null) {
+            coin = coins.find { it.assetId == coinData } ?: coins[0]
+            updateUI(coin)
+        }
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.navigation_home) {
             if (activity is MainActivity) {
@@ -75,7 +85,7 @@ class BuyCryptoFragment : Fragment() {
         builder.setView(input)
         builder.setPositiveButton("OK") { dialog, _ ->
             val enteredAmount = input.text.toString()
-            updateAmountOfBitcoins(enteredAmount)
+            updateAmountOfcoins(enteredAmount)
             dialog.dismiss()
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -83,14 +93,25 @@ class BuyCryptoFragment : Fragment() {
         }
         builder.show()
     }
+    //Updates UI based on coin passed
+    private fun updateUI(coinAsset: CoinAsset) {
+
+        val txtViewName = view?.findViewById<TextView>(R.id.txtCurrency)
+        txtViewName?.text = coinAsset.name
+
+        val coinLogo = view?.findViewById<ImageView>(R.id.imgViewBTCLogoForSell)
+        if (coinLogo != null) {
+            coinLogo.setImageResource(coin.logo)
+        }
+    }
     //---------------------------------------------------//
     //Function that gets the amount of dollars that the user enters and
     // then divides it by 63498.70 to get the amount of bitcoins
-    private fun updateAmountOfBitcoins(amount: String) {
+    private fun updateAmountOfcoins(amount: String) {
         val txtAmountOfBitcoins = view?.findViewById<TextView>(R.id.txtAmountOfBitcoin)
         val dollarAmount = amount.toDoubleOrNull()
         if (dollarAmount != null && dollarAmount > 0) {
-            val bitcoinAmount = dollarAmount / 63498.70
+            val bitcoinAmount = dollarAmount / coin.priceUsd!!
             txtAmountOfBitcoins?.text = String.format("%.8f", bitcoinAmount)
         } else {
             txtAmountOfBitcoins?.text = "0.00000000"

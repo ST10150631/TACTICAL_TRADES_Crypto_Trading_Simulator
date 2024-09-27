@@ -79,7 +79,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:text="USD"
-                android:textColor="@color/BackgroundTxtBx"
+                android:textColor="@color/white"
                 android:textSize="20dp" />
 
             <TextView
@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:text="Bitcoin"
-                android:textColor="@color/BackgroundTxtBx"
+                android:textColor="@color/white"
                 android:textSize="20dp" />
 
             <TextView
@@ -169,7 +169,7 @@
                 android:layout_marginHorizontal="190dp"
                 android:text="0.00"
                 android:textSize="18dp"
-                android:textColor="@color/BackgroundTxtBx" />
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </LinearLayout>

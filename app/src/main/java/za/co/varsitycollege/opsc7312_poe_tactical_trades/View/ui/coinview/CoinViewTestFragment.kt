@@ -22,6 +22,8 @@ import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletRepository.wallets
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentCoinviewTestBinding
 import java.io.ByteArrayOutputStream
 
@@ -54,8 +56,10 @@ class CoinViewTestFragment : Fragment() {
         }
 
         binding.btnGoToBuyCoin.setOnClickListener{
+            val bundle = Bundle()
+            bundle.putString("coinData",coin.assetId)
             val navController = findNavController()
-            navController.navigate(R.id.navigation_buyCrypto)
+            navController.navigate(R.id.navigation_buyCrypto,bundle)
         }
 
         binding.btnGoToSellCoin.setOnClickListener{
@@ -66,6 +70,7 @@ class CoinViewTestFragment : Fragment() {
 
         return root
     }
+
 
     private fun updateUI(coinAsset: CoinAsset) {
         // Set coin logo
