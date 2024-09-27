@@ -33,6 +33,7 @@ class CoinViewTestFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var coin: CoinAsset
     private val storageRef = FirebaseStorage.getInstance().reference
+    var hasWallet = false
 
     private val auth: FirebaseAuth by lazy { FirebaseHelper.firebaseAuth }
 
@@ -64,17 +65,30 @@ class CoinViewTestFragment : Fragment() {
                 addToWatchList(coin)
             }
         }
-
         binding.btnGoToBuyCoin.setOnClickListener{
-            val bundle = Bundle()
-            bundle.putString("coinData",coin.assetId)
-            val navController = findNavController()
-            navController.navigate(R.id.navigation_buyCrypto,bundle)
+            if (hasWallet)
+            {
+                val bundle = Bundle()
+                bundle.putString("coinData",coin.assetId)
+                val navController = findNavController()
+                navController.navigate(R.id.navigation_buyCrypto,bundle)
+            }
+            else{
+                Toast.makeText(this.context, "No wallet found for this coin.",  Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         binding.btnGoToSellCoin.setOnClickListener {
-            val navController = findNavController()
-            navController.navigate(R.id.navigation_SellCrypto)
+            if (hasWallet)
+            {
+                val navController = findNavController()
+                navController.navigate(R.id.navigation_SellCrypto)
+            }
+            else{
+                Toast.makeText(this.context, "No wallet found for this coin.",  Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         return root
@@ -101,6 +115,7 @@ class CoinViewTestFragment : Fragment() {
             binding.txtPercentageChange.text = "+ ${specificWallet.percentage}%"
             binding.imgEthLogo.setImageResource(specificWallet.walletImage!!)
             binding.WalletGradient.setBackgroundResource(specificWallet.walletGradient!!)
+            hasWallet = true
         } else {
             Toast.makeText(context, "No wallet found for this coin.", Toast.LENGTH_SHORT).show()
             binding.txtWalletLabel.text = ""
