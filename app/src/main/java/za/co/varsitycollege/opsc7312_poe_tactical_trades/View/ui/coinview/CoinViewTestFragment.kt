@@ -80,7 +80,7 @@ class CoinViewTestFragment : Fragment() {
         binding.txtWalletBalance.text = "$" + formattedPrice
 
         // Format volume or percentage change as an integer or truncate decimals
-        val formattedVolume = String.format("%.0f", coinAsset.volume1dayUsd) // No decimal places for volume
+        val formattedVolume = String.format("%.2f", coinAsset.volume1dayUsd)
         binding.txtPercentageChange.text = formattedVolume
     }
 
