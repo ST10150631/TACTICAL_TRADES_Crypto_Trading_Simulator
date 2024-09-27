@@ -46,10 +46,11 @@
             <EditText
                 android:id="@+id/editTxtUsername"
                 style="@style/CustomEditText"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
                 android:fontFamily="@font/inter_medium"
                 android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
                 android:hint="Username"
                 android:textColorHint="@color/purple_200"
                 />
@@ -63,12 +64,13 @@
             <EditText
                 android:id="@+id/editTxtName"
                 style="@style/CustomEditText"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
                 android:fontFamily="@font/inter_medium"
                 android:inputType="text"
                 android:hint="Name"
                 android:textColorHint="@color/purple_200"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
                 />
 
             <TextView

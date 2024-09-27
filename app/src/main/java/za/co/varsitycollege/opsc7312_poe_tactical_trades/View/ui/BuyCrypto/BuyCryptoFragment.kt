@@ -61,7 +61,7 @@ class BuyCryptoFragment : Fragment() {
         confirmPurchase.setOnClickListener {
             val dollarAmount =
                 view.findViewById<TextView>(R.id.txtAmountOfDollarsAdded).text.toString()
-            val coinAmount = view.findViewById<TextView>(R.id.txtAmountOfBitcoin).text.toString()
+            val coinAmount = view.findViewById<TextView>(R.id.txtAmountOfBitcoin).text.toString().replace(",", ".")
 
             if (dollarAmount.isEmpty()) {
                 Toast.makeText(context, "Please enter an amount in dollars.", Toast.LENGTH_SHORT)
@@ -69,8 +69,8 @@ class BuyCryptoFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            val dollars = dollarAmount.toDoubleOrNull()
-            val coins = coinAmount.toDoubleOrNull()
+            val dollars = dollarAmount.toDouble()
+            val coins = coinAmount.toDouble()
 
             val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
             FirebaseHelper.getTotalBalance(userId) { totalBalance, errorMessage ->
@@ -94,13 +94,15 @@ class BuyCryptoFragment : Fragment() {
 
                 performPurchase(dollars, coins!!) { success, errorMessage ->
                     if (success) {
-                        view.findViewById<TextView>(R.id.txtAmountOfDollarsAdded).text = "1.00"
-                        view.findViewById<TextView>(R.id.txtAmountOfBitcoin).text = "0.00"
                         Toast.makeText(context, "Crypto Purchased Successfully", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, "Purchase failed: $errorMessage", Toast.LENGTH_LONG).show()
                     }
                 }
+
+                view.findViewById<TextView>(R.id.txtAmountOfDollarsAdded).text = "1.00"
+                view.findViewById<TextView>(R.id.txtAmountOfBitcoin).text = "0.00"
+
             }
         }
 
@@ -173,8 +175,6 @@ class BuyCryptoFragment : Fragment() {
         }
     }
     //---------------------------------------------------//
-    //Function that gets the amount of dollars that the user enters and
-    // then divides it by 63498.70 to get the amount of bitcoins
     private fun updateAmountOfcoins(amount: String) {
         val txtAmountOfBitcoins = view?.findViewById<TextView>(R.id.txtAmountOfBitcoin)
         val dollarAmount = amount.toDoubleOrNull()

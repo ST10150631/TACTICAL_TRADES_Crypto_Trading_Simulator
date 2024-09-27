@@ -82,8 +82,10 @@ class CoinViewTestFragment : Fragment() {
         binding.btnGoToSellCoin.setOnClickListener {
             if (hasWallet)
             {
+                val bundle = Bundle()
+                bundle.putString("coinData",coin.assetId)
                 val navController = findNavController()
-                navController.navigate(R.id.navigation_SellCrypto)
+                navController.navigate(R.id.navigation_SellCrypto, bundle)
             }
             else{
                 Toast.makeText(this.context, "No wallet found for this coin.",  Toast.LENGTH_SHORT).show()

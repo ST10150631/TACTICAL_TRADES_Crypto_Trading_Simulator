@@ -10,14 +10,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.BuyCrypto.BuyCryptoFragment
 
 class SellCryptoFragment : Fragment() {
+    private lateinit var coin: CoinAsset
+
     companion object {
         fun newInstance() = SellCryptoFragment()
     }
@@ -37,6 +44,13 @@ class SellCryptoFragment : Fragment() {
     {
         super.onViewCreated(view, savedInstanceState)
 
+        val coinData = arguments?.getString("coinData")
+        if (coinData != null) {
+            coin = coins.find { it.assetId == coinData } ?: coins[0]
+            updateUI(coin)
+        }
+
+
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.navigation_home) {
             if (activity is MainActivity) {
@@ -47,20 +61,97 @@ class SellCryptoFragment : Fragment() {
         val confirmPurchase: ImageButton = view.findViewById(R.id.imgBtnConfirmSale)
         confirmPurchase.setOnClickListener()
         {
-            Toast.makeText(context, "Crypto Sold", Toast.LENGTH_SHORT).show()
+            val dollarAmount = view.findViewById<TextView>(R.id.txtAmountOfDollarsReceivedForSale).text.toString().replace(",", ".")
+
+            val coinAmount = view.findViewById<TextView>(R.id.txtBitcoinAvailable).text.toString()
+
+            if (coinAmount.isEmpty()) {
+                Toast.makeText(context, "Please enter a coin amount.", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
+
+            val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
+            val walletType = coin.assetId?.toString() ?: ""
+
+            FirebaseHelper.getaWalletFromFirebase(userId, walletType) { wallet ->
+                if (wallet != null) {
+                    val amountInCoin = wallet.amountInCoin?.toDoubleOrNull()
+
+                    val dollars = dollarAmount.toDouble()
+                    val coins = coinAmount.toDouble()
+
+                    if (coins == null || coins <= 0 || amountInCoin == null || coins > amountInCoin) {
+                        Toast.makeText(
+                            context,
+                            "Please enter a valid coin amount. The amount can't be more than your wallet balance.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@getaWalletFromFirebase
+                    }
+
+                    performPurchase(dollars!!, coins!!) { success, errorMessage ->
+                        if (success) {
+                            Toast.makeText(context, "Crypto Sold", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Purchase failed: $errorMessage", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    view.findViewById<TextView>(R.id.txtAmountOfDollarsReceivedForSale).text = "0.00"
+                    view.findViewById<TextView>(R.id.txtBitcoinAvailable).text = "0.00"
+
+                } else {
+                    println("Wallet not found")
+                }
+            }
         }
         val swapToBuyCrypto: ImageButton = view.findViewById(R.id.btnImgSwapToBuyBTC)
         swapToBuyCrypto.setOnClickListener()
         {
-            val buyCryptoFragment = BuyCryptoFragment.newInstance()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, buyCryptoFragment)
-                .addToBackStack(null)
-                .commit()
+            val bundle = Bundle()
+            bundle.putString("coinData",coin.assetId)
+            val navController = findNavController()
+            navController.navigate(R.id.navigation_buyCrypto,bundle)
         }
-        val imgBtnAddBTCToSell = view.findViewById<ImageButton>(R.id.imgBtnAddBTCToSell)
+
+        val imgBtnAddBTCToSell = view.findViewById<ImageButton>(R.id.imgViewAmountOfMoneyToPay)
         imgBtnAddBTCToSell.setOnClickListener {
             openBitcoinInputDialog()
+        }
+    }
+
+    private fun performPurchase(dollars: Double, coins: Double, callback: (Boolean, String?) -> Unit) {
+        val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
+
+        FirebaseHelper.updateTotalBalance(userId, dollars, true) { success, error ->
+            if (!success) {
+                callback(false, error ?: "Error updating balance.")
+                return@updateTotalBalance
+            }
+        }
+        val walletType = coin.assetId.toString()
+
+        val newAmountInCoin = coins
+
+
+        FirebaseHelper.updateWalletAmount(userId, walletType, newAmountInCoin, false) { success, errorMessage ->
+            if (success) {
+                Toast.makeText(context, "Wallet updated successfully!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Failed to update wallet: ${errorMessage ?: "Unknown error"}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun updateUI(coinAsset: CoinAsset) {
+
+        val txtViewName = view?.findViewById<TextView>(R.id.txtCurrency)
+        txtViewName?.text = coinAsset.name
+
+        val coinLogo = view?.findViewById<ImageView>(R.id.imgViewCurrencyImage)
+        if (coinLogo != null) {
+            coinLogo.setImageResource(coin.logo)
         }
     }
     //---------------------------------------------------//
@@ -84,14 +175,13 @@ class SellCryptoFragment : Fragment() {
     }
     //---------------------------------------------------//
     //Function that gets the amount of bitcoin and then multiplies it
-    //by 63498.70 and then updates the amount of dollars to the calculated amount
     private fun updateAmountOfDollarsReceived(bitcoinAmount: String) {
         val txtBitcoinAvailable = view?.findViewById<TextView>(R.id.txtBitcoinAvailable)
         val txtAmountOfDollarsReceivedForSale = view?.findViewById<TextView>(R.id.txtAmountOfDollarsReceivedForSale)
         val bitcoin = bitcoinAmount.toDoubleOrNull()
         if (bitcoin != null && bitcoin > 0) {
             txtBitcoinAvailable?.text = bitcoinAmount
-            val dollarAmount = bitcoin * 63498.70
+            val dollarAmount = bitcoin * (coin.priceUsd?.toDouble() ?: 0.0)
             txtAmountOfDollarsReceivedForSale?.text = String.format("%.2f", dollarAmount)
         } else {
             txtBitcoinAvailable?.text = "0.0"

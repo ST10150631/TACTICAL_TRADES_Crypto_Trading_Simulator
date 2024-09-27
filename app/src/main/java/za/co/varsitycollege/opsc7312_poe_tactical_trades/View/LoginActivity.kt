@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.auth.FirebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 
@@ -19,6 +20,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         firebaseAuth = FirebaseAuth.getInstance()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         val emailEditText: EditText = findViewById(R.id.EditTxtEmail)
         val passwordEditText: EditText = findViewById(R.id.EditTxtPassword)
