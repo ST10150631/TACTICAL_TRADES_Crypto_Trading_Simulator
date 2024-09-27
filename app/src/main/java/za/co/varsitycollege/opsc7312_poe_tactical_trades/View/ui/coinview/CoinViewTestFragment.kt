@@ -48,6 +48,11 @@ class CoinViewTestFragment : Fragment() {
             updateUI(coin)
         }
 
+        val userId = FirebaseHelper.firebaseAuth.currentUser?.uid
+        if (userId != null) {
+            getWallet(userId)
+        }
+
         binding.BtnAddToWatchList.setOnClickListener {
             if (coinData != null) {
                 coin = coins.find { it.assetId == coinData } ?: coins[0]
@@ -62,21 +67,61 @@ class CoinViewTestFragment : Fragment() {
             navController.navigate(R.id.navigation_buyCrypto,bundle)
         }
 
-        binding.btnGoToSellCoin.setOnClickListener{
+        binding.btnGoToSellCoin.setOnClickListener {
             val navController = findNavController()
             navController.navigate(R.id.navigation_SellCrypto)
         }
-
 
         return root
     }
 
 
+    private fun getWallet(userId: String) {
+        FirebaseHelper.getWalletsFromFirebase(userId) { wallets, error ->
+            if (wallets != null) {
+                displaySpecificWallet(wallets)
+            } else {
+                Toast.makeText(context, "Failed to load wallets: $error", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun displaySpecificWallet(wallets: List<WalletModel>) {
+        val specificWallet =
+            wallets.firstOrNull { it.walletType.equals(coin.assetId, ignoreCase = true) }
+
+        if (specificWallet != null) {
+            binding.txtWalletLabel.text = coin.name
+            binding.txtWalletBalance.text = specificWallet.amountInCoin.toString()
+            binding.txtPercentageChange.text = "+ ${specificWallet.percentage}%"
+            binding.imgEthLogo.setImageResource(specificWallet.walletImage!!)
+            binding.WalletGradient.setBackgroundResource(specificWallet.walletGradient!!)
+        } else {
+            Toast.makeText(context, "No wallet found for this coin.", Toast.LENGTH_SHORT).show()
+            binding.txtWalletLabel.text = ""
+            binding.txtWalletBalance.text = ""
+            binding.txtPercentageChange.text = ""
+            binding.imgEthLogo.setImageResource(R.drawable.rounded_box)
+            binding.WalletGradient.setBackgroundResource(R.drawable.rounded_box)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val coinData = arguments?.getString("coinData")
+        val userId = FirebaseHelper.firebaseAuth.currentUser?.uid
+
+        if (coinData != null && userId != null) {
+            coin = coins.find { it.assetId == coinData } ?: coins[0]
+            updateUI(coin)
+            getWallet(userId)
+        }
+    }
+
     private fun updateUI(coinAsset: CoinAsset) {
         // Set coin logo
         binding.CoinIconImage.setImageResource(coinAsset.logo)
 
-        // Set asset ID for the header title
         val assetId = coinAsset.assetId.toString()
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.navigation_home) {
@@ -84,21 +129,12 @@ class CoinViewTestFragment : Fragment() {
                 (activity as MainActivity).setHeaderTitle(assetId)
             }
         }
-
-        // Set coin name and other details
         binding.TxtViewName.text = coinAsset.name
-        binding.txtWalletLabel.text = coinAsset.name
-
-
-        // Format price to two decimal places
         val formattedPrice = String.format("%.2f", coinAsset.priceUsd)
         binding.TxtViewCurrent.text = "$" + formattedPrice
         binding.txtWalletBalance.text = "$" + formattedPrice
-
-        // Format volume or percentage change as an integer or truncate decimals
-       // val formattedVolume = String.format("%.2f", coinAsset.volume1dayUsd)
-        //binding.txtPercentageChange.text = formattedVolume
     }
+
 
     private fun addToWatchList(coinAsset: CoinAsset) {
         val coinId = coinAsset.assetId.toString()
@@ -130,28 +166,15 @@ class CoinViewTestFragment : Fragment() {
                         Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Image upload failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Image upload failed", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         } else {
-            Toast.makeText(requireContext(), "Failed to retrieve coin image", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Failed to retrieve coin image", Toast.LENGTH_SHORT)
+                .show()
         }
     }
-/*
-    private fun getBitmapFromDrawable(drawableId: Int): Bitmap? {
-        val drawable = ContextCompat.getDrawable(requireContext(), drawableId)
-        return if (drawable != null) {
-            val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-            drawable.setBounds(0, 0, canvas.width, canvas.height)
-            drawable.draw(canvas)
-            bitmap
-        } else {
-            null
-        }
-    }
-
- */
 
     private fun uploadImageToFirebase(bitmap: Bitmap, callback: (String?) -> Unit) {
         val baos = ByteArrayOutputStream()
@@ -210,6 +233,7 @@ class CoinViewTestFragment : Fragment() {
             ).show()
         }
     }
+
     private fun getBitmapFromDrawable(drawableId: Int): Bitmap? {
         val drawable = ContextCompat.getDrawable(requireContext(), drawableId) ?: return null
         // Create a bitmap with a smaller size
@@ -232,10 +256,13 @@ class CoinViewTestFragment : Fragment() {
     }
 
 
-
     private fun getImageResIdFromDrawable(bitmap: Bitmap): Int {
         val drawable = BitmapDrawable(resources, bitmap)
-        return resources.getIdentifier(binding.CoinIconImage.getTag().toString(), "drawable", requireActivity().packageName)
+        return resources.getIdentifier(
+            binding.CoinIconImage.getTag().toString(),
+            "drawable",
+            requireActivity().packageName
+        )
     }
 
     override fun onDestroyView() {

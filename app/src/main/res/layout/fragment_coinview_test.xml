@@ -196,6 +196,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/WalletGradient"
                     android:layout_width="341dp"
                     android:layout_height="199dp"
                     android:background="@drawable/gradient_for_ethereum"
