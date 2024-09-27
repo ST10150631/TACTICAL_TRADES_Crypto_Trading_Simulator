@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="166dp"
         android:layout_marginVertical="15dp"
+        android:layout_margin="10dp"
         android:background="@drawable/rounder_corner_for_buy_btc"
         android:orientation="vertical">
 
@@ -115,6 +116,7 @@
         android:layout_width="match_parent"
         android:layout_height="166dp"
         android:layout_marginVertical="10dp"
+        android:layout_margin="10dp"
         android:background="@drawable/rounder_corner_for_buy_btc"
         android:orientation="vertical">
 
@@ -164,12 +166,16 @@
 
             <TextView
                 android:id="@+id/txtAmountOfBitcoin"
-                android:layout_width="155dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="190dp"
-                android:text="0.00"
-                android:textSize="18dp"
-                android:textColor="@color/white" />
+                android:layout_marginHorizontal="155dp"
+                android:background="@drawable/txtbxbgbuy"
+                android:hint="0.00"
+                android:padding="2dp"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
+
         </LinearLayout>
 
     </LinearLayout>

@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
@@ -51,16 +52,58 @@ class BuyCryptoFragment : Fragment() {
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.navigation_home) {
             if (activity is MainActivity) {
-                (activity as MainActivity).setHeaderTitle("Buy BTC")
+                (activity as MainActivity).setHeaderTitle("Buy Crypto")
             }
         }
 
         val confirmPurchase: ImageButton = view.findViewById(R.id.imgBtnConfirmPurchase)
-        confirmPurchase.setOnClickListener()
-        {
 
-            Toast.makeText(context, "Crypto Purchased", Toast.LENGTH_SHORT).show()
+        confirmPurchase.setOnClickListener {
+            val dollarAmount =
+                view.findViewById<TextView>(R.id.txtAmountOfDollarsAdded).text.toString()
+            val coinAmount = view.findViewById<TextView>(R.id.txtAmountOfBitcoin).text.toString()
+
+            if (dollarAmount.isEmpty()) {
+                Toast.makeText(context, "Please enter an amount in dollars.", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
+
+            val dollars = dollarAmount.toDoubleOrNull()
+            val coins = coinAmount.toDoubleOrNull()
+
+            val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
+            FirebaseHelper.getTotalBalance(userId) { totalBalance, errorMessage ->
+                if (errorMessage != null) {
+                    Toast.makeText(
+                        context,
+                        "Error fetching balance: $errorMessage",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@getTotalBalance
+                }
+
+                if (dollars == null || dollars <= 0 || totalBalance == null || dollars > totalBalance) {
+                    Toast.makeText(
+                        context,
+                        "Please enter a valid dollar amount. The amount can't be more than your total balance.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@getTotalBalance
+                }
+
+                performPurchase(dollars, coins!!) { success, errorMessage ->
+                    if (success) {
+                        view.findViewById<TextView>(R.id.txtAmountOfDollarsAdded).text = "1.00"
+                        view.findViewById<TextView>(R.id.txtAmountOfBitcoin).text = "0.00"
+                        Toast.makeText(context, "Crypto Purchased Successfully", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Purchase failed: $errorMessage", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
         }
+
         val swapToSellCrypto: ImageButton = view.findViewById(R.id.imgSwapToSell)
         swapToSellCrypto.setOnClickListener()
         {
@@ -74,6 +117,32 @@ class BuyCryptoFragment : Fragment() {
             openAmountInputDialog()
         }
     }
+
+    private fun performPurchase(dollars: Double, coins: Double, callback: (Boolean, String?) -> Unit) {
+        val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
+
+        FirebaseHelper.updateTotalBalance(userId, dollars, false) { success, error ->
+            if (!success) {
+                callback(false, error ?: "Error updating balance.")
+                return@updateTotalBalance
+            }
+        }
+        val walletType = coin.assetId.toString()
+
+        val newAmountInCoin = coins
+
+
+        FirebaseHelper.updateWalletAmount(userId, walletType, newAmountInCoin, true) { success, errorMessage ->
+            if (success) {
+                Toast.makeText(context, "Wallet updated successfully!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Failed to update wallet: ${errorMessage ?: "Unknown error"}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+
     //---------------------------------------------------//
     //Function that opens up a menu that allows the user to enter amount of dollars they wish to spend
     private fun openAmountInputDialog() {

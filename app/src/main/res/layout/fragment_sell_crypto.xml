@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="166dp"
         android:layout_marginVertical="10dp"
+        android:layout_margin="10dp"
         android:background="@drawable/rounded_corners_for_sell_btc"
         android:orientation="vertical">
 
@@ -65,22 +66,34 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txtCurrencyUSD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:text="Bitcoin"
-                android:textColor="@color/PrimaryTxtColor"
-                android:textSize="16dp" />
 
-            <TextView
-                android:id="@+id/txtBitcoinAvailable"
-                android:layout_width="102dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="200dp"
-                android:textColor="@color/PrimaryTxtColor" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/txtCurrencyBitcoin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:text="Bitcoin"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+
+                <TextView
+                    android:id="@+id/txtBitcoinAvailable"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="170dp"
+                    android:background="@drawable/txtbxbgbuy"
+                    android:hint="0.00"
+                    android:padding="2dp"
+                    android:textColorHint="@color/white"
+                    android:textColor="@color/white"
+                    android:textSize="18dp" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
@@ -103,6 +116,8 @@
         android:layout_width="match_parent"
         android:layout_height="166dp"
         android:layout_marginVertical="15dp"
+        android:layout_margin="10dp"
+
         android:background="@drawable/rounded_corners_for_sell_btc"
         android:orientation="vertical">
 
@@ -155,16 +170,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:text="USD"
-                android:textColor="@color/PrimaryTxtColor"
+                android:textColor="@color/white"
                 android:textSize="16dp" />
+
 
             <TextView
                 android:id="@+id/txtAmountOfDollarsReceivedForSale"
-                android:layout_width="229dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="100dp"
-                android:textColor="@color/PrimaryTxtColor" />
-
+                android:layout_marginHorizontal="190dp"
+                android:background="@drawable/txtbxbgbuy"
+                android:hint="0.00"
+                android:padding="2dp"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
         </LinearLayout>
 
     </LinearLayout>

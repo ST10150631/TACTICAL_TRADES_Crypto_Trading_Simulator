@@ -151,35 +151,6 @@ class WalletsFragment : Fragment() {
         }
     }
 
-    private fun refreshWallets(view: View) {
-        val layout: LinearLayout = view.findViewById(R.id.new_wallet)
-        layout.removeAllViews()
-
-        val walletMargin = (10 * resources.displayMetrics.density).toInt()
-
-        for (wallet in WalletRepository.wallets) {
-            val walletView = layoutInflater.inflate(R.layout.wallet_item, layout, false)
-            walletView.findViewById<TextView>(R.id.wallet_name_text).text = wallet.walletType
-            walletView.findViewById<View>(R.id.wallet_color_block).background =
-                wallet.walletGradient?.let { getDrawable(requireContext(), it) }
-
-            val imageView: ImageView = walletView.findViewById(R.id.wallet_image)
-            wallet.walletImage.let { it?.let { it1 -> imageView.setImageResource(it1) } }
-
-            val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-
-                setMargins(walletMargin, 0, walletMargin, 0)
-            }
-
-            walletView.layoutParams = params
-            layout.addView(walletView)
-        }
-        layout.requestLayout()
-    }
-
     private fun displayWallets(view: View, wallets: List<WalletModel>) {
         val layout: LinearLayout = view.findViewById(R.id.new_wallet)
         layout.removeAllViews()
@@ -189,6 +160,15 @@ class WalletsFragment : Fragment() {
         for (wallet in wallets) {
             val walletView = layoutInflater.inflate(R.layout.wallet_item, layout, false)
             walletView.findViewById<TextView>(R.id.wallet_name_text).text = wallet.walletType
+
+            val amountInCoin = wallet.amountInCoin
+
+            val formattedAmount = amountInCoin?.toDoubleOrNull()?.let { amount ->
+                String.format("%.2f", amount)
+            } ?: "0.00"
+
+            walletView.findViewById<TextView>(R.id.txtwallet_value).text = formattedAmount
+
             walletView.findViewById<View>(R.id.wallet_color_block).background =
                 wallet.walletGradient?.let { getDrawable(requireContext(), it) }
 

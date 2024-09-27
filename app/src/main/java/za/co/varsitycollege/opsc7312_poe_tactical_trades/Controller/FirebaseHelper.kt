@@ -31,36 +31,15 @@ object FirebaseHelper {
         firebaseAuth.signOut()
     }
 
-    /*
 
-    so this will be to use that update total balance in the firebase
-    //when adding (selling)
-    FirebaseHelper.updateTotalBalance(FirebaseHelper.firebaseAuth.currentUser?.uid ?: "", 50.0, true) { success, error ->
-        if (success) {
-            Toast.makeText(context, "Balance updated successfully!", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, "Error updating balance: $error", Toast.LENGTH_LONG).show()
-        }
-    }
-    //when substracting (buying)
-    FirebaseHelper.updateTotalBalance(FirebaseHelper.firebaseAuth.currentUser?.uid ?: "", 20.0, false) { success, error ->
-        if (success) {
-            Toast.makeText(context, "Balance updated successfully!", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, "Error updating balance: $error", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    */
-
-    fun updateTotalBalance(userId: String, amount: Double, isAddition: Boolean, onComplete: (Boolean, String?) -> Unit) {
+    fun updateTotalBalance(userId: String, amount: Double, isBuying: Boolean, onComplete: (Boolean, String?) -> Unit) {
         val userRef = databaseReference.child(userId).child("totalBalance")
 
         userRef.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val currentBalance = task.result?.getValue(Double::class.java) ?: 0.0
 
-                val newBalance = if (isAddition) {
+                val newBalance = if (isBuying) {
                     currentBalance + amount
                 } else {
                     currentBalance - amount
@@ -199,6 +178,38 @@ object FirebaseHelper {
             }
         }
     }
+
+    fun updateWalletAmount(userId: String, walletType: String, newAmountInCoin: Double, isBuying: Boolean, onComplete: (Boolean, String?) -> Unit) {
+        val walletRef = databaseReference.child(userId).child("wallets").child(walletType)
+
+        walletRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val wallet = task.result?.getValue(WalletModel::class.java)
+                if (wallet != null) {
+                    val currentAmountInCoin = wallet.amountInCoin?.toDoubleOrNull() ?: 0.0
+
+                    wallet.amountInCoin = (if (isBuying) {
+                        currentAmountInCoin + newAmountInCoin
+                    } else {
+                        currentAmountInCoin - newAmountInCoin
+                    }).toString()
+
+                    walletRef.setValue(wallet).addOnCompleteListener { updateTask ->
+                        if (updateTask.isSuccessful) {
+                            onComplete(true, null)
+                        } else {
+                            onComplete(false, updateTask.exception?.message)
+                        }
+                    }
+                } else {
+                    onComplete(false, "Wallet not found.")
+                }
+            } else {
+                onComplete(false, task.exception?.message)
+            }
+        }
+    }
+
 
     fun getaWalletFromFirebase(userId: String, walletType: String, onComplete: (WalletModel?) -> Unit) {
         val walletsRef = databaseReference.child(userId).child("wallets")

@@ -40,7 +40,7 @@ class SellCryptoFragment : Fragment() {
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.navigation_home) {
             if (activity is MainActivity) {
-                (activity as MainActivity).setHeaderTitle("Sell BTC")
+                (activity as MainActivity).setHeaderTitle("Sell Crypto")
             }
         }
 

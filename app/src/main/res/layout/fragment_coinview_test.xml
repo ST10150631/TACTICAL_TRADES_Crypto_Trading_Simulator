@@ -52,7 +52,7 @@
                         android:layout_marginTop="1dp"
                         android:layout_marginBottom="1dp"
                         android:text="ETHEREUM"
-                        android:textColor="@color/white"
+                        android:textColor="@color/PrimaryTxtColor"
                         android:textSize="30dp" />
 
                     <FrameLayout
@@ -73,7 +73,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="top|center_horizontal"
                             android:text="APR 20, 2022"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/PrimaryTxtColor"
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -83,7 +83,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|center_horizontal"
                             android:text="$92.96"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/PrimaryTxtColor"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -109,6 +109,10 @@
                         android:textAlignment="textEnd"
                         android:textSize="20dp" />
 
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+
                     <TextView
                         android:id="@+id/TxtViewDifference"
                         style="@style/TxtSmallPrimaryStyle"
@@ -122,17 +126,35 @@
                         android:textSize="14dp" />
 
                     <Space
-                        android:layout_width="20dp"
-                        android:layout_height="30dp" />
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content" />
 
-                    <Button
-                        android:id="@+id/BtnAddToWatchList"
-                        android:layout_width="125dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="right"
-                        android:backgroundTint="@color/LinkBlue"
-                        android:text="Add to Watch List"
-                        android:textSize="4pt" />
+                    <FrameLayout
+                        android:layout_width="150dp"
+                        android:layout_height="35dp"
+                        >
+
+                        <ImageButton
+                            android:id="@+id/BtnAddToWatchList"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/rounded_corners"
+                            android:backgroundTint="@color/LinkBlue"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="Add to Watch List"
+                            android:textSize="7pt"
+                            android:textColor="@color/white" />
+                    </FrameLayout>
+
+                    <Space
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -149,28 +171,65 @@
                 android:layout_height="wrap_content">
             </Space>
 
-            <Button
-                android:backgroundTint="@color/green"
-                android:id="@+id/btnGoToBuyCoin"
-                android:layout_width="100dp"
+            <FrameLayout
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="Buy Coin">
-            </Button>
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp">
+
+                <ImageButton
+                    android:id="@+id/btnGoToBuyCoin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@drawable/buy"
+                    android:padding="10dp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Buy Coin"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </FrameLayout>
 
             <Space
-                android:layout_width="100dp"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content">
             </Space>
 
-            <Button
-                android:backgroundTint="@color/red"
-                android:id="@+id/btnGoToSellCoin"
-                android:layout_width="100dp"
+            <FrameLayout
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="Sell Coin">
-            </Button>
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp">
+
+                <ImageButton
+                    android:id="@+id/btnGoToSellCoin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@drawable/sell"
+                    android:padding="10dp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Sell Coin"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </FrameLayout>
+
+            <Space
+                android:layout_width="30dp"
+                android:layout_height="wrap_content">
+            </Space>
         </LinearLayout>
 
 
@@ -230,7 +289,7 @@
                             android:layout_column="1"
                             android:layout_gravity="top|left"
                             android:text="ETHEREUM"
-                            android:textColor="@color/PrimaryTxtColor"
+                            android:textColor="@color/white"
                             android:textSize="30sp"
                             android:textStyle="bold" />
 
@@ -242,7 +301,7 @@
                             android:layout_column="1"
                             android:layout_gravity="left|center"
                             android:text="7.32"
-                            android:textColor="@color/PrimaryTxtColor"
+                            android:textColor="@color/white"
                             android:textSize="35sp"
                             android:textStyle="bold" />
 
