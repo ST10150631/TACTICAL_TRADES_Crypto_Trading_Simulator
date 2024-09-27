@@ -95,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:textAlignment="textEnd">
 
                     <TextView
@@ -109,35 +109,33 @@
                         android:textAlignment="textEnd"
                         android:textSize="20dp" />
 
-                    <Space
-                        android:layout_width="10dp"
-                        android:layout_height="wrap_content" />
-
                     <TextView
                         android:id="@+id/TxtViewDifference"
                         style="@style/TxtSmallPrimaryStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
+                        android:layout_marginStart="2dp"
                         android:layout_marginBottom="1dp"
                         android:text="+9.77%"
                         android:textAlignment="textEnd"
                         android:textColor="@color/green"
                         android:textSize="14dp" />
 
-                    <Space
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content" />
-
                     <FrameLayout
+                        android:id="@+id/ButtonWatch"
                         android:layout_width="150dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_height="35dp"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         >
 
                         <ImageButton
                             android:id="@+id/BtnAddToWatchList"
-                            android:layout_width="match_parent"
+                            android:layout_width="155dp"
                             android:layout_height="match_parent"
+                            android:layout_gravity="end"
                             android:background="@drawable/rounded_corners"
                             android:backgroundTint="@color/LinkBlue"
                             android:visibility="visible" />
@@ -145,16 +143,15 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginEnd="10dp"
                             android:fontFamily="@font/inter_medium"
                             android:text="Add to Watch List"
-                            android:textSize="7pt"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="7pt" />
                     </FrameLayout>
 
-                    <Space
-                        android:layout_width="20dp"
-                        android:layout_height="wrap_content" />
+
 
                 </LinearLayout>
             </LinearLayout>
