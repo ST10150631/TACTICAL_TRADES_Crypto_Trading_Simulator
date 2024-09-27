@@ -52,7 +52,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Available FIAT Funds  "
+                        android:text="Total balance"
                         android:textSize="18dp"
                         android:layout_marginBottom="1dp"
                         style="@style/TxtSmallPrimaryStyle"/>
@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
-                        android:text="$3000.50"
+                        android:text=""
                         android:textSize="27dp"
                         style="@style/TxtSmallPrimaryStyle"/>
 
@@ -71,9 +71,37 @@
                 </LinearLayout>
 
                 <Space
-                    android:layout_width="60dp"
+                    android:layout_width="1dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/stockGraph"
+                        android:layout_width="69dp"
+                        android:layout_height="30dp"
+                        android:layout_marginBottom="1dp"
+                        android:src="@drawable/stock_up_vector"
+                        android:scaleType="fitCenter"
+                        android:clipToOutline="true"/>
+
+                    <TextView
+                        android:id="@+id/TxtDifference"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+ $240"
+                        android:textSize="20dp"
+                        android:layout_marginTop="1dp"
+                        style="@style/TxtSmallPrimaryStyle"
+                        android:textColor="@color/green"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

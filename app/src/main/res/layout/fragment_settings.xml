@@ -461,7 +461,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/inter_bold"
-                android:text="Save &amp; Exit"
+                android:text="Save Changes"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </FrameLayout>
