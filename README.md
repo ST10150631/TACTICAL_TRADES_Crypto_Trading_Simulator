@@ -107,6 +107,8 @@ By using github we were able to peform version control. This allowed us to be ab
 - When the "Confirm" button has been clicked the wallet that is specific to that crypto currency will be updated.
   ![image](https://github.com/user-attachments/assets/bfe335ed-25e5-4776-817e-468a10b46e3b)
 -The user is able to jump between the "Buy Crpyto" screen and the "Sell Crypto" screen by clickin the pink button in the middle of the two blocks.
+
+
  ![image](https://github.com/user-attachments/assets/299771ec-5a7c-4bfc-b6ff-008fde44ee52)
 
 ---
