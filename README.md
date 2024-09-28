@@ -11,7 +11,7 @@ You're sections headers will be used to reference location of destination.
 - [API'S](#API)
 - [Utilization of Github](#utilization-of-github)
 - [Utilization of Github Actions](#utilization-of-github-actions)
-  [Design Considerations](#design-considerations)
+- [Design Considerations](#design-considerations)
 - [License](#license)
 
 
