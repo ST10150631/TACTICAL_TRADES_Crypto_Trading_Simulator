@@ -119,7 +119,10 @@ By using github we were able to peform version control. This allowed us to be ab
 - The user is able to select the amount of crypto they wish to sell by clickin the green button with the two arrows
 - ![image](https://github.com/user-attachments/assets/885e0019-1374-4707-8bf3-813c5658d06c)
 - Once the user has clicked the green button with the arrows they will be shown a menu that will allow them to enter how much crpyto they wish to sell
+
+  
   ![image](https://github.com/user-attachments/assets/8868a966-5418-4461-912d-eaccdd15bf23)
+  
 - Once they enter how much crypto they wish to sell the "Sell Crypto" screen will be updated with how much crypto they entered and also the amount of money they will make from selling that specific crypto.
   ![image](https://github.com/user-attachments/assets/a70797f1-abe5-41d1-9a1b-b9fe028bee0f)
 - When the user has clicked the "Confirm" button their balance will be updated with the amount of money they made from selling the crypto and their wallet that stored the crypto they sold will be updated.
