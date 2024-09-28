@@ -121,67 +121,24 @@ Tactical Trades is a cryptocurrency trading application that allows users to pra
 - Once on this menu the user will be able to view all the news that is related to crypto currency and stocks.
   ![image](https://github.com/user-attachments/assets/2193f50d-4c1f-4ccd-bfca-e7a9b452fada)
 
-
-
-
-
-
-
-
-
-
-
-
+### Settings Feature
+- If the user clicks the cog wheel icon in the top right of every screen they will be taken to the settings screen.
+  ![image](https://github.com/user-attachments/assets/9c1442c4-e230-4a25-98e1-eb8f4fe45bc9)
+- On this screen the user is able to change their profile picture, username, password.
+  ![image](https://github.com/user-attachments/assets/a6b3db9a-18a9-4daa-a2eb-8b5d8a053c6e)
+- On this screen the user is also able to delete their account.
+- Once the "Delete Account" button is clicked the users account will be deleted.
+- On the "Settings" screen the user is also able to customize their application.
+- The user is able to change the Theme of the App the user is able to make their App theme either Dark Theme, or Light Theme.
+- The user is also able to change the language of the application from English to Afrikaans.
+  ![image](https://github.com/user-attachments/assets/f7ab1ec2-06e6-4815-a22b-7921353a2759)
+- On this screen the user is also able to enable notifications.
+  ![image](https://github.com/user-attachments/assets/dd5abe65-1b77-4629-b227-1cf65f90a4d6)
+- In the settings screen the user is also able to edit the balance of their account.
+  ![image](https://github.com/user-attachments/assets/6eeb865a-4c58-411d-8627-57225330a1fb)
+- The last three features on the "Settings" screen are three buttons they are "Sign Out" , "Save Changes", and "Discard Changes".
+  ![image](https://github.com/user-attachments/assets/255deada-d602-49e1-b5ee-308008088f1b)
   
-
-  
-
-
-
-
-
-  
-
-
-
-   ### How to add a Module
-  -Once the user has added a semester and wish to add modules
-  - They must select the add modules button on the left
-  - once the user has selected the add users button
-  - they will prompted with 5 text boxes
-  - the user must select the semester number they want to add the module to by clicken on the combo box
-  - once they have selected the semester they want to add the module to they must then enter the module code,number of credits,module name, and class hours per week
-  - once they have entered the details they must then select the add modules button
-  - this will then add the module to the semester 
-### How to Display Modules
--Once the user has added the semester and modules they want the user is able to display all of the modules that are connected to that semester
-- by clicking on the Display Modules button on the left
-- Once the user has selected that button they must select the semester they wish to display
-- and then they must click the display module details button
-- this will then display all of the modules connected to that semester in the table below 
- 
-
-### How to Add a record
- - If the user wishes to add the hours he spent on a module the user must click on the add records button
- - The user then select the SEMESTER first and then click select semester button
- - the Module Code combo box will then be populated with the modules that are connected to the semester
- - the user can then enter the hours he spent on the module and then select the date
- - the user must the click the add hours button this will the save the record to the database.
-
-   ### How to Display a record and add hours to records
-  - Once the user has added a record they are then able to display the record
-  - to display the record the user must click the display records button on the left
-  - the user must then select the semester they wish to display and then click the select semester button
-  - once the user has selected the select semester button the Module Code combo box will be populated
-  - the user must then select the module they wish to display
-  - the user must then click the display records button
-  - once the display record button has been clicked it will display all of the records connect to that module and semester
-  - if the user wishes to add more hours spent to the module
-  - they must select the row they wish to edit and then enter the hours they have completed
-  - and then the user must click the edit records button
-  - this will then update the hours completed and hours left column of the record.
-
-
   - 
 ## License
 
