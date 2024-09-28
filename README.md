@@ -8,9 +8,9 @@ You're sections headers will be used to reference location of destination.
 - [Description](#description)
 - [How To Use](#how-to-use)
 - [Technologies](#technologies)
-- [API'S](#API'S)
+- [API'S](#API)
 - [License](#license)
-- [Author Info](#author-info)
+
 
 ---
 
@@ -22,11 +22,11 @@ Tactical Trades is a cryptocurrency trading application that allows users to pra
 - Kotlin
 - Firebase
 
-### API'S
-- CoinAPI
+### API
+- CoinAPI(https://www.coinapi.io/)
   ![image](https://github.com/user-attachments/assets/78788087-7ae7-43af-bb74-c54eec858b1b)
 
-- NewsAPI
+- NewsAPI(https://newsapi.ai/?gad_source=1&gclid=CjwKCAjw0t63BhAUEiwA5xP54eQbeZkLgkmLoTrY88AyC0TwNeLskyb9rHhw0HH9a11rGZr5peT1gBoClaoQAvD_BwE)
   ![image](https://github.com/user-attachments/assets/1631b446-ec67-4ece-9d04-11370e62d63e)
 
 ### Utilization of Github
@@ -179,6 +179,8 @@ By using github we were able to peform version control. This allowed us to be ab
   ![image](https://github.com/user-attachments/assets/255deada-d602-49e1-b5ee-308008088f1b)
   
   ---
+  [Back To The Top](#read-me-template)
+  
 ## License
 
 MIT License
