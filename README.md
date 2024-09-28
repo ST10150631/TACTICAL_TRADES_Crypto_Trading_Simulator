@@ -17,13 +17,15 @@ You're sections headers will be used to reference location of destination.
 ### Description
 Tactical Trades is a cryptocurrency trading application that allows users to practice trading some of the largest cryptocurrencies in the world without spending money. This app makes use of real-time trading data using the same APIs as many big trading platforms to provide users with a completely accurate trading simulation. Tactical trades have many features to improve user experience such as colourblind graph filters, user-friendly interfaces, news feeds and advanced analytical data to ensure that the user has access to all the data possible to make informed trades. The app will also have difficulty selections allowing users to select their starting amount and will have goals the user can achieve.
 
-#### Technologies
+### Technologies
 - Android Studio 
 - Kotlin
 - Firebase
 
 ### API'S
 - CoinAPI
+  ![image](https://github.com/user-attachments/assets/78788087-7ae7-43af-bb74-c54eec858b1b)
+
 - NewsAPI
 
 ### Utilization of Github
