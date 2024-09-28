@@ -27,7 +27,7 @@ Tactical Trades is a cryptocurrency trading application that allows users to pra
 - NewsAPI
 
 ### Utilization of Github
-By using github we were able to peform version control. This allowed us to be able to track changes that were made to the application as well as allowing for collaboration between group members. Github increased the speed of the developement process as each member were able to work on each of the features seperately and this prevented team members from working on the same feature as the project manager assigned each group member a feature that they must create.
+By using github we were able to peform version control. This allowed us to be able to track changes that were made to the application as well as allowing for collaboration between group members. Github increased the speed of the developement process as each member were able to work on each of the features seperately and this prevented team members from working on the same feature as the project manager assigned each group member a feature.
 
 ### Design Considerations
 
@@ -42,8 +42,9 @@ By using github we were able to peform version control. This allowed us to be ab
 - Requirements for the password is that it must have a capital letter, a number, and a special character.
 - Once the user has entered in all of the required data the user must click the register button and this will take the user to the Home screen.
 - If the user already has an account they are able to click the "Click here to login" button and this will take the user to the login screen.
-  
 ![image](https://github.com/user-attachments/assets/5148c9ba-287c-4f02-957c-be190d3fb41d)
+
+
 ![image](https://github.com/user-attachments/assets/d0b70253-d385-43e0-b6a2-57205a4f26f5)
 
 ### How to Login
