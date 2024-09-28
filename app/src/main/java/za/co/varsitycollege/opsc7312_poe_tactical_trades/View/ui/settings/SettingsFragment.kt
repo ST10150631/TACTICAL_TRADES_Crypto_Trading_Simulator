@@ -55,7 +55,7 @@ class SettingsFragment : Fragment() {
         setupSpinners()
         setupRadioGroup()
         setupButtons()
-       // setupBackButton(root)
+
         return root
     }
 
