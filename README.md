@@ -72,7 +72,72 @@ Tactical Trades is a cryptocurrency trading application that allows users to pra
   ![image](https://github.com/user-attachments/assets/48f27ba6-8b7b-4250-a5b2-0ec6725614ea)
 
 ### Trade Feature
-- 
+- When the user clicks the trade icon on the navigation bar they will be taken to the "Trade" screen
+  ![image](https://github.com/user-attachments/assets/a11e370f-1249-4038-8dab-d0d3b2e1fa63)
+- On this screen the user will be able to view all the crypto currencies they are able to trade.
+- ![image](https://github.com/user-attachments/assets/2a2512fd-9390-40c7-beda-2edf080488cf)
+- When the user clicks on a coin they will be taken to the screen of the crypto they clicked on
+  ![image](https://github.com/user-attachments/assets/7054be85-a15e-4d7e-85d8-6b564c3a2c90)
+- On this screen the user will be shown three buttons they are "Buy Coin", "Sell Coin", and "Add to Watch list ".
+- The user will be shown the value of the coin as well the amount they have of that specific crypto in their wallet.
+
+### Buy Crypto Feature
+- If the user clicks on the "Buy" button on the Crypto screen they will be taken to the "Buy Crypto" screen.
+  ![image](https://github.com/user-attachments/assets/adf17634-d1fe-4fb8-abe9-940da8d72156)
+- On this screen the user is able to enter how much they wish to spend on that specific crypto by clicking the green button that has two arrows one going downwards and the other one facing upwards.
+  ![image](https://github.com/user-attachments/assets/021448f1-684a-4ec1-8d16-c4f3477cc481)
+- Once clicked the user will be shown a screen that will ask them how much they wish to add.
+  ![image](https://github.com/user-attachments/assets/03b3cc14-c4e6-4150-8e33-50ec9485119c)
+- Once the user has entered how much they wish to add the amount they wish to add will be displayed under the green button and the amount of crypto they are able to purchase with the amount they entered will be shown to the user.
+  ![image](https://github.com/user-attachments/assets/4310783b-37fc-4e99-99f6-acafa77aa5fc)
+- When they have selected the amount they wish to purchase they must click the "Confirm" button
+- When the "Confirm" button has been clicked the wallet that is specific to that crypto currency will be updated.
+  ![image](https://github.com/user-attachments/assets/bfe335ed-25e5-4776-817e-468a10b46e3b)
+-The user is able to jump between the "Buy Crpyto" screen and the "Sell Crypto" screen by clickin the pink button in the middle of the two blocks.
+ ![image](https://github.com/user-attachments/assets/299771ec-5a7c-4bfc-b6ff-008fde44ee52)
+
+
+### Sell Crypto Feature
+- If the user clicks the "Sell" button on the crypto screen they will be taken to the "Sell Crypto" screen.
+  ![image](https://github.com/user-attachments/assets/f1714a23-3580-447c-95f8-424aa874f7e2)
+- The user is able to select the amount of crypto they wish to sell by clickin the green button with the two arrows
+- ![image](https://github.com/user-attachments/assets/885e0019-1374-4707-8bf3-813c5658d06c)
+- Once the user has clicked the green button with the arrows they will be shown a menu that will allow them to enter how much crpyto they wish to sell
+  ![image](https://github.com/user-attachments/assets/8868a966-5418-4461-912d-eaccdd15bf23)
+- Once they enter how much crypto they wish to sell the "Sell Crypto" screen will be updated with how much crypto they entered and also the amount of money they will make from selling that specific crypto.
+  ![image](https://github.com/user-attachments/assets/a70797f1-abe5-41d1-9a1b-b9fe028bee0f)
+- When the user has clicked the "Confirm" button their balance will be updated with the amount of money they made from selling the crypto and their wallet that stored the crypto they sold will be updated.
+  ![image](https://github.com/user-attachments/assets/788ec156-1505-49c5-bbde-2d52f17f789c)
+
+### Watch List Feature
+- If the user clicks the "Add To Watchlist" button the crypto will be added to the users "Watch List" screen.
+- Once the crypto has been added to the users watch list, they will be able to view that crypto on their Watch list.
+- The user will be able to see how much their crypto has decreased in value or increased in value.
+  ![image](https://github.com/user-attachments/assets/a69ad4e6-39ac-45e4-8a98-3ed3d2eaa77a)
+
+### News Feature
+- When the user clicks the News button in the navigation menu they will be taken to the "News" screen
+  ![image](https://github.com/user-attachments/assets/8cb5e2b4-5c63-455b-b7b4-a27895c91486)
+- Once on this menu the user will be able to view all the news that is related to crypto currency and stocks.
+  ![image](https://github.com/user-attachments/assets/2193f50d-4c1f-4ccd-bfca-e7a9b452fada)
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
 
 
   
