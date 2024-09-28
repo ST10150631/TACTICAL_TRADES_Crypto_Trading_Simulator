@@ -17,10 +17,14 @@ You're sections headers will be used to reference location of destination.
 ### Description
 Tactical Trades is a cryptocurrency trading application that allows users to practice trading some of the largest cryptocurrencies in the world without spending money. This app makes use of real-time trading data using the same APIs as many big trading platforms to provide users with a completely accurate trading simulation. Tactical trades have many features to improve user experience such as colourblind graph filters, user-friendly interfaces, news feeds and advanced analytical data to ensure that the user has access to all the data possible to make informed trades. The app will also have difficulty selections allowing users to select their starting amount and will have goals the user can achieve.
 
+---
+
 ### Technologies
 - Android Studio 
 - Kotlin
 - Firebase
+  
+---
 
 ### API
 - CoinAPI(https://www.coinapi.io/)
@@ -28,12 +32,17 @@ Tactical Trades is a cryptocurrency trading application that allows users to pra
 
 - NewsAPI(https://newsapi.ai/?gad_source=1&gclid=CjwKCAjw0t63BhAUEiwA5xP54eQbeZkLgkmLoTrY88AyC0TwNeLskyb9rHhw0HH9a11rGZr5peT1gBoClaoQAvD_BwE)
   ![image](https://github.com/user-attachments/assets/1631b446-ec67-4ece-9d04-11370e62d63e)
+  
+---
 
 ### Utilization of Github
 By using github we were able to peform version control. This allowed us to be able to track changes that were made to the application as well as allowing for collaboration between group members. Github increased the speed of the developement process as each member were able to work on each of the features seperately and this prevented team members from working on the same feature as the project manager assigned each group member a feature.
 
+---
+
 ### Utilization of Github Actions
 
+---
 
 ### Design Considerations
 #The Design considerations are as follows:
@@ -43,9 +52,7 @@ By using github we were able to peform version control. This allowed us to be ab
 - Ensured that the application had a navigation bar so that the user is able to navigate to each screen easily.
 - Ensured that a Firebase database was created and implemented into the application so that accounts and user data can be stored.
 - Ensured that the app displayed the user with responses when an action was performed.This allows the user to be informed when an action is either successful or failed.
-
-[Back To The Top](#read-me-template)
-
+  
 ---
 
 ## How To Use
