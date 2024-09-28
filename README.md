@@ -117,7 +117,9 @@ By using github we were able to peform version control. This allowed us to be ab
 - If the user clicks the "Sell" button on the crypto screen they will be taken to the "Sell Crypto" screen.
   ![image](https://github.com/user-attachments/assets/f1714a23-3580-447c-95f8-424aa874f7e2)
 - The user is able to select the amount of crypto they wish to sell by clickin the green button with the two arrows
+  
   ![image](https://github.com/user-attachments/assets/885e0019-1374-4707-8bf3-813c5658d06c)
+  
 - Once the user has clicked the green button with the arrows they will be shown a menu that will allow them to enter how much crpyto they wish to sell
 
   
