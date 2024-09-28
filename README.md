@@ -36,7 +36,7 @@ By using github we were able to peform version control. This allowed us to be ab
 ---
 
 ## How To Use
-
+---
 ### How to register
 - To register the user must enter in their Username,Name,Email,Password, and lastly to confirm their password
 - Requirements for the password is that it must have a capital letter, a number, and a special character.
@@ -53,7 +53,7 @@ By using github we were able to peform version control. This allowed us to be ab
 - If the user does not have an account then they must click the "CLICK HERE TO REGISTER" button.
   ![image](https://github.com/user-attachments/assets/b657074f-ab5a-4c6d-aeb6-5a42872c1faa)
 
-  ---
+---
 
 ### Home Page and Features
 - Once on the home page the user will be able to see their profile picture the current amount in their balance aswell as a graph that shows the user how much their investments have either gown down or increased.
@@ -66,8 +66,7 @@ By using github we were able to peform version control. This allowed us to be ab
  ![image](https://github.com/user-attachments/assets/ef2be3ae-5b7d-4611-9218-548c763332f3)
 - The user is also able to view what coins are on their watchlist by scrolling down on the home screen
   ![image](https://github.com/user-attachments/assets/495f91a7-0e7b-4968-9a58-cec70dc216de)
-
-
+---
 ### Wallet Feature
  - When the user clicks the wallet icon in the navigation bar at the bottom they will be taken to the wallet screen.
   ![image](https://github.com/user-attachments/assets/421287e8-2072-48f3-8e9a-e1ad5018fa3e)
@@ -78,6 +77,7 @@ By using github we were able to peform version control. This allowed us to be ab
   ![image](https://github.com/user-attachments/assets/9fc783af-e794-4945-9d03-387a51c168ef)
 - After the user has added a coin their newly added wallet will appear on "Wallets" screen
   ![image](https://github.com/user-attachments/assets/48f27ba6-8b7b-4250-a5b2-0ec6725614ea)
+---
 
 ### Trade Feature
 - When the user clicks the trade icon on the navigation bar they will be taken to the "Trade" screen
