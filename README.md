@@ -74,7 +74,7 @@ By using github we were able to peform version control. This allowed us to be ab
 - If the user wishes to add another wallet they are able to click the "+" button on the left side of the screen
   ![image](https://github.com/user-attachments/assets/4d003726-ac9c-456c-8788-30e6f25afdce)
 - Once the user clicks on the "+" button they are shown a menu that allows the user to select a crypto coin and also what colour they wish to make the coin.
-- 
+  
   ![image](https://github.com/user-attachments/assets/9fc783af-e794-4945-9d03-387a51c168ef)
 - After the user has added a coin their newly added wallet will appear on "Wallets" screen.
   ![image](https://github.com/user-attachments/assets/48f27ba6-8b7b-4250-a5b2-0ec6725614ea)
