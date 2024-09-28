@@ -10,8 +10,8 @@ import java.net.MalformedURLException
 import java.net.URL
 
 class NewsAPIHelper {
-
-    private val API_KEY = "98d693dc-f140-4265-ac44-1c7836966f4a"
+    private val API_KEY ="c51cb993-3810-4bdb-9188-55943c08be69"
+    //private val API_KEY = "98d693dc-f140-4265-ac44-1c7836966f4a"
     private val baseURL = "https://eventregistry.org/api/v1/article/getArticles"
     private val PARAM_API_KEY = "apiKey"
     private val LOGGING_TAG = "URLWECREATED"
