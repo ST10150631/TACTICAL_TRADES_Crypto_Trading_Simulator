@@ -45,7 +45,7 @@ By using github we were able to peform version control. This allowed us to be ab
 ![image](https://github.com/user-attachments/assets/5148c9ba-287c-4f02-957c-be190d3fb41d)
 
 
-![image](https://github.com/user-attachments/assets/d0b70253-d385-43e0-b6a2-57205a4f26f5)
+ ![image](https://github.com/user-attachments/assets/d0b70253-d385-43e0-b6a2-57205a4f26f5)
 
 ### How to Login
 - If the user already has a account they are able to enter in their email and password
