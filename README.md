@@ -124,7 +124,9 @@ By using github we were able to peform version control. This allowed us to be ab
   ![image](https://github.com/user-attachments/assets/8868a966-5418-4461-912d-eaccdd15bf23)
   
 - Once they enter how much crypto they wish to sell the "Sell Crypto" screen will be updated with how much crypto they entered and also the amount of money they will make from selling that specific crypto.
+- 
   ![image](https://github.com/user-attachments/assets/a70797f1-abe5-41d1-9a1b-b9fe028bee0f)
+  
 - When the user has clicked the "Confirm" button their balance will be updated with the amount of money they made from selling the crypto and their wallet that stored the crypto they sold will be updated.
   ![image](https://github.com/user-attachments/assets/788ec156-1505-49c5-bbde-2d52f17f789c)
   
