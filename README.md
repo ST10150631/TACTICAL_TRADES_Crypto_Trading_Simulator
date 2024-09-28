@@ -155,7 +155,9 @@ By using github we were able to peform version control. This allowed us to be ab
 - If the user clicks the cog wheel icon in the top right of every screen they will be taken to the settings screen.
   ![image](https://github.com/user-attachments/assets/9c1442c4-e230-4a25-98e1-eb8f4fe45bc9)
 - On this screen the user is able to change their profile picture, username, password.
+  
   ![image](https://github.com/user-attachments/assets/a6b3db9a-18a9-4daa-a2eb-8b5d8a053c6e)
+  
 - On this screen the user is also able to delete their account.
 - Once the "Delete Account" button is clicked the users account will be deleted.
 - On the "Settings" screen the user is also able to customize their application.
