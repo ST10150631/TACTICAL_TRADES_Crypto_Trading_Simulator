@@ -14,7 +14,7 @@ You're sections headers will be used to reference location of destination.
 
 ---
 
-## Description
+### Description
 Tactical Trades is a cryptocurrency trading application that allows users to practice trading some of the largest cryptocurrencies in the world without spending money. This app makes use of real-time trading data using the same APIs as many big trading platforms to provide users with a completely accurate trading simulation. Tactical trades have many features to improve user experience such as colourblind graph filters, user-friendly interfaces, news feeds and advanced analytical data to ensure that the user has access to all the data possible to make informed trades. The app will also have difficulty selections allowing users to select their starting amount and will have goals the user can achieve.
 
 #### Technologies
@@ -89,6 +89,8 @@ By using github we were able to peform version control. This allowed us to be ab
   ![image](https://github.com/user-attachments/assets/7054be85-a15e-4d7e-85d8-6b564c3a2c90)
 - On this screen the user will be shown three buttons they are "Buy Coin", "Sell Coin", and "Add to Watch list ".
 - The user will be shown the value of the coin as well the amount they have of that specific crypto in their wallet.
+  
+---
 
 ### Buy Crypto Feature
 - If the user clicks on the "Buy" button on the Crypto screen they will be taken to the "Buy Crypto" screen.
@@ -105,6 +107,7 @@ By using github we were able to peform version control. This allowed us to be ab
 -The user is able to jump between the "Buy Crpyto" screen and the "Sell Crypto" screen by clickin the pink button in the middle of the two blocks.
  ![image](https://github.com/user-attachments/assets/299771ec-5a7c-4bfc-b6ff-008fde44ee52)
 
+---
 
 ### Sell Crypto Feature
 - If the user clicks the "Sell" button on the crypto screen they will be taken to the "Sell Crypto" screen.
@@ -117,18 +120,24 @@ By using github we were able to peform version control. This allowed us to be ab
   ![image](https://github.com/user-attachments/assets/a70797f1-abe5-41d1-9a1b-b9fe028bee0f)
 - When the user has clicked the "Confirm" button their balance will be updated with the amount of money they made from selling the crypto and their wallet that stored the crypto they sold will be updated.
   ![image](https://github.com/user-attachments/assets/788ec156-1505-49c5-bbde-2d52f17f789c)
+  
+---
 
 ### Watch List Feature
 - If the user clicks the "Add To Watchlist" button the crypto will be added to the users "Watch List" screen.
 - Once the crypto has been added to the users watch list, they will be able to view that crypto on their Watch list.
 - The user will be able to see how much their crypto has decreased in value or increased in value.
   ![image](https://github.com/user-attachments/assets/a69ad4e6-39ac-45e4-8a98-3ed3d2eaa77a)
+  
+---
 
 ### News Feature
 - When the user clicks the News button in the navigation menu they will be taken to the "News" screen
   ![image](https://github.com/user-attachments/assets/8cb5e2b4-5c63-455b-b7b4-a27895c91486)
 - Once on this menu the user will be able to view all the news that is related to crypto currency and stocks.
   ![image](https://github.com/user-attachments/assets/2193f50d-4c1f-4ccd-bfca-e7a9b452fada)
+  
+---
 
 ### Settings Feature
 - If the user clicks the cog wheel icon in the top right of every screen they will be taken to the settings screen.
@@ -148,7 +157,7 @@ By using github we were able to peform version control. This allowed us to be ab
 - The last three features on the "Settings" screen are three buttons they are "Sign Out" , "Save Changes", and "Discard Changes".
   ![image](https://github.com/user-attachments/assets/255deada-d602-49e1-b5ee-308008088f1b)
   
-  - 
+  ---
 ## License
 
 MIT License
