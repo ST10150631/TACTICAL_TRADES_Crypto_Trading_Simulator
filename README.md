@@ -96,7 +96,9 @@ By using github we were able to peform version control. This allowed us to be ab
 - If the user clicks on the "Buy" button on the Crypto screen they will be taken to the "Buy Crypto" screen.
   ![image](https://github.com/user-attachments/assets/adf17634-d1fe-4fb8-abe9-940da8d72156)
 - On this screen the user is able to enter how much they wish to spend on that specific crypto by clicking the green button that has two arrows one going downwards and the other one facing upwards.
+  
   ![image](https://github.com/user-attachments/assets/021448f1-684a-4ec1-8d16-c4f3477cc481)
+  
 - Once clicked the user will be shown a screen that will ask them how much they wish to add.
   ![image](https://github.com/user-attachments/assets/03b3cc14-c4e6-4150-8e33-50ec9485119c)
 - Once the user has entered how much they wish to add the amount they wish to add will be displayed under the green button and the amount of crypto they are able to purchase with the amount they entered will be shown to the user.
