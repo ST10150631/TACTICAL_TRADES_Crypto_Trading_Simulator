@@ -165,9 +165,13 @@ By using github we were able to peform version control. This allowed us to be ab
 - The user is also able to change the language of the application from English to Afrikaans.
   ![image](https://github.com/user-attachments/assets/f7ab1ec2-06e6-4815-a22b-7921353a2759)
 - On this screen the user is also able to enable notifications.
+- 
   ![image](https://github.com/user-attachments/assets/dd5abe65-1b77-4629-b227-1cf65f90a4d6)
+  
 - In the settings screen the user is also able to edit the balance of their account.
+- 
   ![image](https://github.com/user-attachments/assets/6eeb865a-4c58-411d-8627-57225330a1fb)
+  
 - The last three features on the "Settings" screen are three buttons they are "Sign Out" , "Save Changes", and "Discard Changes".
   ![image](https://github.com/user-attachments/assets/255deada-d602-49e1-b5ee-308008088f1b)
   
