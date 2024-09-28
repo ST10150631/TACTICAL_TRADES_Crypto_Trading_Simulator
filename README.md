@@ -53,6 +53,8 @@ By using github we were able to peform version control. This allowed us to be ab
 - If the user does not have an account then they must click the "CLICK HERE TO REGISTER" button.
   ![image](https://github.com/user-attachments/assets/b657074f-ab5a-4c6d-aeb6-5a42872c1faa)
 
+  ---
+
 ### Home Page and Features
 - Once on the home page the user will be able to see their profile picture the current amount in their balance aswell as a graph that shows the user how much their investments have either gown down or increased.
 - If the user wishes to add a wallet they are able to click on the button bellow the "Wallets" Title
