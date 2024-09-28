@@ -32,7 +32,11 @@ Tactical Trades is a cryptocurrency trading application that allows users to pra
 ### Utilization of Github
 By using github we were able to peform version control. This allowed us to be able to track changes that were made to the application as well as allowing for collaboration between group members. Github increased the speed of the developement process as each member were able to work on each of the features seperately and this prevented team members from working on the same feature as the project manager assigned each group member a feature.
 
+### Utilization of Github Actions
+
+
 ### Design Considerations
+
 
 [Back To The Top](#read-me-template)
 
