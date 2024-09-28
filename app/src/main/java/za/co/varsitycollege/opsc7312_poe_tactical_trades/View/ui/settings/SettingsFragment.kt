@@ -290,15 +290,13 @@ class SettingsFragment : Fragment() {
 
     private fun deleteAccount() {
         val user = auth.currentUser
-        user?.delete()?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
+            if (user != null) {
                 FirebaseHelper.databaseReference.child(user.uid).removeValue()
                 Toast.makeText(requireContext(), "Account deleted", Toast.LENGTH_SHORT).show()
-                //add like navigation to go back to the login/register
+                FirebaseHelper.signOut()
             } else {
                 Toast.makeText(requireContext(), "Failed to delete account", Toast.LENGTH_SHORT).show()
             }
-        }
     }
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK)
