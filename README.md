@@ -39,26 +39,45 @@ Tactical Trades is a cryptocurrency trading application that allows users to pra
 - If the user already has an account they are able to click the "Click here to login" button and this will take the user to the login screen.
   
 ![image](https://github.com/user-attachments/assets/5148c9ba-287c-4f02-957c-be190d3fb41d)
-
+![image](https://github.com/user-attachments/assets/d0b70253-d385-43e0-b6a2-57205a4f26f5)
 
 ### How to Login
-- When the user has launched the program he will be met with the login page
-- if the user has an account already he must enter in his username and password
-- if the username and password do not match the user will be displayed with a message
-- that says the password does not exist
-- once the user has logged in they will be displayed with the home page.
+- If the user already has a account they are able to enter in their email and password
+- Once the user has entered in their details they must click the "Login" button and this will take the user to the Home screen
+- If the user does not have an account then they must click the "CLICK HERE TO REGISTER" button.
+  ![image](https://github.com/user-attachments/assets/b657074f-ab5a-4c6d-aeb6-5a42872c1faa)
 
-  ### Features on the home page
-  - Once the user has logged in the will be displayed with the home page.
-  - The user will be displayed with a calender that will show them the current date.
-  - The user will the be shown a graph that if the click the show all hours it will show the user all of the modules that are connected to the semesters and the hours completed for each
- 
+### Home Page and Features
+- Once on the home page the user will be able to see their profile picture the current amount in their balance aswell as a graph that shows the user how much their investments have either gown down or increased.
+- If the user wishes to add a wallet they are able to click on the button bellow the "Wallets" Title
+- They will then be able to select which wallet they wish to add aswell as the colour they want the wallet to be
+  ![image](https://github.com/user-attachments/assets/3b257ca1-c19f-41d1-8c2b-016f648798ec)
+- Once the wallet has been added it will be displayed under the wallets title in the Home screen
+ ![image](https://github.com/user-attachments/assets/aea1df39-45e1-44f2-9edc-a2ee669d16bb)
+- In the home screen the user is also able to view all the news that revolves around crypto currency and stocks.
+ ![image](https://github.com/user-attachments/assets/ef2be3ae-5b7d-4611-9218-548c763332f3)
+- The user is also able to view what coins are on their watchlist by scrolling down on the home screen
+  ![image](https://github.com/user-attachments/assets/495f91a7-0e7b-4968-9a58-cec70dc216de)
+
+
+### Wallet Feature
+ - When the user clicks the wallet icon in the navigation bar at the bottom they will be taken to the wallet screen.
+  ![image](https://github.com/user-attachments/assets/421287e8-2072-48f3-8e9a-e1ad5018fa3e)
+- On the wallet screen the user will be able to view all of their current wallets
+- If the user wishes to add another wallet they are able to click the "+" button on the left side of the screen
+  ![image](https://github.com/user-attachments/assets/4d003726-ac9c-456c-8788-30e6f25afdce)
+- Once the user clicks on the "+" button they are shown a menu that allows the user to select a crypto coin and also what colour they wish to make the coin.
+  ![image](https://github.com/user-attachments/assets/9fc783af-e794-4945-9d03-387a51c168ef)
+- After the user has added a coin their newly added wallet will appear on "Wallets" screen
+  ![image](https://github.com/user-attachments/assets/48f27ba6-8b7b-4250-a5b2-0ec6725614ea)
+
+### Trade Feature
+- 
+
+
   
-### How to add a semester
- - The user must click the button that says add semester on the left
- - Once the user has clicked the add semesters button they must enter the Semester number and the number of weeks and then select the date at which the semester starts
- - Once the user has selected all of the above requirements they must then select the add semester button
- - this will add the semester to the database
+
+
 
    ### How to add a Module
   -Once the user has added a semester and wish to add modules
