@@ -45,7 +45,7 @@ By using github we were able to peform version control. This allowed us to be ab
 ---
 
 ### Design Considerations
-##### The Design considerations are as follows:
+#### The Design considerations are as follows:
 - Ensured that the interface was user-friendly. This was achieved by making the user-interface as simple as possible and did not have to many events occuring at once that would overwhelm the users.
 - Ensured that the application displayed the user with a News Feed as well as advanced analytical data so that the users is able to make informed trades.
 - Used a Model-View-Control Design Architecture to ensure that the application is seperated into three interconnected components. By doing this it ensured that our code was organized, easy to manage and test. It also allowed us to be able to develop each independent component.
