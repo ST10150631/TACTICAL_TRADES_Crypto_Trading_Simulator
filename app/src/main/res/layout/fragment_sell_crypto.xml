@@ -29,7 +29,7 @@
         android:layout_marginVertical="15dp"
         android:layout_margin="10dp"
 
-        android:background="@drawable/rounded_corners_for_sell_btc"
+        style="@style/CustomImageButtonStyleBuyAndSell"
         android:orientation="vertical">
 
         <LinearLayout
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:text="Crypto"
-                android:textColor="#A19CB8"
+                android:textColor="@color/PrimaryTxtColor"
                 android:textSize="16dp" />
 
         </LinearLayout>
@@ -97,19 +97,21 @@
                 android:layout_marginEnd="10dp"
                 android:layout_height="30dp"
                 android:layout_gravity="end"
-                android:layout_weight="1"
-                >
-            <TextView
-                android:id="@+id/txtBitcoinAvailable"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="15dp"                android:background="@drawable/txtbxbgbuy"
-                android:hint="0.00"
-                android:padding="2dp"
-                android:textColorHint="@color/white"
-                android:textColor="@color/white"
-                android:textSize="18dp" />
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/txtBitcoinAvailable"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/rounded_filled_box"
+                    android:backgroundTint="@color/BackgroundTxtBx"
+                    android:hint="0.00"
+                    android:padding="3dp"
+                    android:textColor="@color/PrimaryTxtColor"
+                    android:textColorHint="@color/PrimaryTxtColor"
+                    android:textSize="18dp" />
             </FrameLayout>
         </LinearLayout>
 
@@ -125,8 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/switch_to_sell_or_buy"
-            android:background="@android:color/transparent"/>
+            style="@style/CustomSwitch"/>
     </LinearLayout>
 
 
@@ -135,7 +136,7 @@
         android:layout_height="166dp"
         android:layout_marginVertical="10dp"
         android:layout_margin="10dp"
-        android:background="@drawable/rounded_corners_for_sell_btc"
+        style="@style/CustomImageButtonStyleBuyAndSell"
         android:orientation="vertical">
 
         <LinearLayout
@@ -162,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:text="Money"
-                android:textColor="#A19CB8"
+                android:textColor="@color/PrimaryTxtColor"
                 android:textSize="16dp" />
 
         </LinearLayout>
@@ -199,11 +200,11 @@
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginEnd="15dp"                    android:background="@drawable/txtbxbgbuy"
+                    android:layout_marginEnd="15dp"
                     android:hint="0.00"
                     android:padding="2dp"
-                    android:textColorHint="@color/white"
-                    android:textColor="@color/white"
+                    android:textColorHint="@color/PrimaryTxtColor"
+                    android:textColor="@color/PrimaryTxtColor"
                     android:textSize="18dp" />
                 </FrameLayout>
             </LinearLayout>
@@ -213,16 +214,29 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="71dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/imgBtnConfirmSale"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/CustomConfirm"></ImageButton>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:src="@drawable/confirm_button_for_sale_and_purchase_of_crypto" />
+            android:layout_gravity="center"
+            android:fontFamily="@font/inter_medium"
+            android:text="Confirm"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </FrameLayout>
     </LinearLayout>
-
 </LinearLayout>

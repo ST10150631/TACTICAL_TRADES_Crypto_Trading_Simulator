@@ -61,6 +61,21 @@
     </style>
 
 
+    <style name="CustomImageButtonStyleBuyAndSell">
+        <item name="android:background">@drawable/buy_and_sell_light</item>
+    </style>
+
+    <style name="CustomSwitch">
+        <item name="android:src">@drawable/switch_to_sell_or_buy_light</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+    <style name="CustomConfirm">
+        <item name="android:src">@drawable/confirm_button_for_sale_and_purchase_of_crypto_light</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <style name="SettingsImageButtonStyle">
         <item name="android:layout_width">51dp</item>
         <item name="android:layout_height">51dp</item>
