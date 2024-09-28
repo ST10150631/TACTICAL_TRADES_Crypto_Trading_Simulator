@@ -9,6 +9,9 @@ You're sections headers will be used to reference location of destination.
 - [How To Use](#how-to-use)
 - [Technologies](#technologies)
 - [API'S](#API)
+- [Utilization of Github](#utilization-of-github)
+- [Utilization of Github Actions](#utilization-of-github-actions)
+  [Design Considerations](#design-considerations)
 - [License](#license)
 
 
