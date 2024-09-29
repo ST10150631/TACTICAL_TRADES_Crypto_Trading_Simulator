@@ -29,6 +29,7 @@ class RegisterActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
 
+
         val editTxtUsername : EditText = findViewById(R.id.editTxtUsername)
         val editTxtName : EditText = findViewById(R.id.editTxtName)
         val editTxtEmailAddress : EditText = findViewById(R.id.editTxtEmailAddress)
@@ -104,7 +105,7 @@ class RegisterActivity : AppCompatActivity() {
             }
     }
 
-    private fun storeUserData(userId: String, username: String, name: String, email: String) {
+    public fun storeUserData(userId: String, username: String, name: String, email: String) {
         // Create a User object with the provided details
         val user = User(username, name, email, 5000.00)
 

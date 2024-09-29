@@ -53,19 +53,52 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.database)
-    implementation("com.google.android.gms:play-services-auth:20.5.0")
+    implementation(libs.play.services.auth)
     implementation(libs.firebase.storage.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.junit.ktx)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    implementation ("com.google.code.gson:gson:2.10.1")
-    implementation("com.squareup.okhttp3:okhttp:4.10.0") // Check for the latest version
+
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // Mockito for instrumented tests
+    androidTestImplementation("org.mockito:mockito-android:5.2.0")
+    // JUnit for running unit tests
+    testImplementation("junit:junit:4.13.2")
+
+    // Mockito Core (for mocking in JVM unit tests)
+    testImplementation("org.mockito:mockito-core:5.2.0")
+
+    // Optional: Mockito Kotlin support
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0'")
+
+    // If you want to use mockito-inline for final classes or methods
+    testImplementation("org.mockito:mockito-inline:5.2.0")
+
+    // Optional: Add Hamcrest for more expressive assertions (Mockito uses this)
+    testImplementation("org.hamcrest:hamcrest-library:2.2")
+
+    // If using Coroutines, you might need a library to support testing coroutines with Mockito
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    // Mockito dependencies
+    testImplementation ("org.mockito:mockito-core:4.1.0")
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.1.0") // Add this for Kotlin support
+    testImplementation ("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+
+    // Espresso and other testing dependencies
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation ("androidx.test.ext:junit:1.1.3")
+
+    implementation(libs.gson)
+    implementation(libs.okhttp) // Check for the latest version
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.github.bumptech.glide:glide:4.15.0")
-    kapt("com.github.bumptech.glide:compiler:4.15.0")
+    implementation(libs.glide)
+    kapt(libs.compiler)
 
 }
 
