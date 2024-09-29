@@ -116,6 +116,7 @@ class RegisterActivity : AppCompatActivity() {
                 // Data saved successfully
                 Toast.makeText(
                     this,
+
                     "User data saved successfully.",
                     Toast.LENGTH_SHORT
                 ).show()
