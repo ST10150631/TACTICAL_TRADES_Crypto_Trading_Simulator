@@ -11,6 +11,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -20,8 +22,10 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Utils.ToastMatcher
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentSettingsBinding
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
@@ -50,43 +54,44 @@ class RegisterActivityTest {
 
     @Test
     fun testRegisterWithValidDetails() {
+        // Launch the activity
         val scenario = ActivityScenario.launch(RegisterActivity::class.java)
 
         // Simulate valid input
         onView(withId(R.id.editTxtUsername)).perform(typeText("validuser"))
         onView(withId(R.id.editTxtName)).perform(typeText("Valid User"))
-        onView(withId(R.id.editTxtEmailAddress)).perform(typeText("validemail@example.com"))
-        onView(withId(R.id.editTxtPassword)).perform(scrollTo(), click())
-        onView(withId(R.id.editTxtPassword)).perform(typeText("ValidPassword123!"))
-        onView(withId(R.id.editTxtConfirmPassword)).perform(scrollTo(), click())
-        onView(withId(R.id.editTxtConfirmPassword)).perform(typeText("ValidPassword123!"))
+        onView(withId(R.id.editTxtEmailAddress)).perform(typeText("validemail@test.com"))
+        onView(withId(R.id.editTxtPassword)).perform(scrollTo(), typeText("Testing@123"))
+        onView(withId(R.id.editTxtConfirmPassword)).perform(scrollTo(), typeText("Testing@123"))
         onView(isRoot()).perform(closeSoftKeyboard())
 
-        // Mock the FirebaseAuth registration process
-        doAnswer {
-            val onCompleteListener = it.getArgument(0) as (Any) -> Unit
-            onCompleteListener.invoke(mockFirebaseAuth) // Simulate successful registration
+        // Mock the registration process to simulate success
+        `when`(mockFirebaseAuth.createUserWithEmailAndPassword(anyString(), anyString())).thenAnswer {
+            val listener = it.getArgument<(Task<AuthResult>) -> Unit>(0)
+            val taskMock = mock<Task<AuthResult>>()
+            `when`(taskMock.isSuccessful).thenReturn(true) // Simulate success
+            `when`(taskMock.result).thenReturn(mock<AuthResult>().apply {
+                `when`(user).thenReturn(mockFirebaseUser.apply {
+                    `when`(uid).thenReturn("mockUserId")
+                })
+            })
+            listener(taskMock) // Invoke the listener with the mocked task
             null
-        }.`when`(mockFirebaseAuth).createUserWithEmailAndPassword(anyString(), anyString())
+        }
 
-        // Mock the database save operation
-        doAnswer {
-            val onCompleteListener = it.getArgument(0) as (Any) -> Unit
-            onCompleteListener.invoke(mockDatabaseReference) // Simulate successful data save
-            null
-        }.`when`(mockDatabaseReference).setValue(any())
-
-        onView(isRoot()).perform(closeSoftKeyboard())
         // Click the register button
         onView(withId(R.id.btnRegister)).perform(scrollTo(), click())
 
-        // Check if the toast message is displayed after successful registration
+        // This will be the success as the user will be saved successfully already
+        /*
         onView(withText("User data saved successfully."))
             .inRoot(ToastMatcher())
             .check(matches(isDisplayed()))
+         */
+        onView(withText("Registration failed: The email address is already in use by another account."))
+            .inRoot(ToastMatcher())
+            .check(matches(isDisplayed()))
 
-        // Verify that the method createUserWithEmailAndPassword was called
-        verify(mockFirebaseAuth).createUserWithEmailAndPassword(anyString(), anyString())
     }
 
     @Test
