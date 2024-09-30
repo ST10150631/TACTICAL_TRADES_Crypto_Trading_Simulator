@@ -30,6 +30,7 @@ Tactical Trades is a cryptocurrency trading application that allows users to pra
 
 ### Video Link
 - YouTube
+- https://youtu.be/glXLAJKVchM
   
 ---
 
