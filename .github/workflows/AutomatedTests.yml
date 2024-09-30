@@ -21,21 +21,21 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'temurin'  # Specify the distribution
+          distribution: 'Adoptium'  
 
       - name: Install Android SDK
         run: |
-          mkdir -p $HOME/Android/Sdk
-          cd $HOME/Android/Sdk
+          mkdir -p $HOME/Android/Sdk/cmdline-tools
+          cd $HOME/Android/Sdk/cmdline-tools
           wget https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip
           unzip commandlinetools-linux-7302050_latest.zip
-          yes | sdkmanager --sdk_root=$HOME/Android/Sdk --install "cmdline-tools;latest"
-          yes | sdkmanager --sdk_root=$HOME/Android/Sdk --install "platform-tools" "platforms;android-30" "system-images;android-30;google_apis;x86"
+          yes | $HOME/Android/Sdk/cmdline-tools/cmdline-tools/bin/sdkmanager --install "cmdline-tools;latest"
+          yes | $HOME/Android/Sdk/cmdline-tools/cmdline-tools/bin/sdkmanager --install "platform-tools" "platforms;android-34" "system-images;android-34;google_apis;x86"
 
       - name: Set up Android Emulator
         run: |
-          yes | $HOME/Android/Sdk/cmdline-tools/latest/bin/avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --device "pixel" --force
-          nohup $HOME/Android/Sdk/emulator/emulator -avd test -no-window &
+          yes | $HOME/Android/Sdk/cmdline-tools/cmdline-tools/bin/avdmanager create avd -n pixel8 -k "system-images;android-34;google_apis;x86" --device "pixel_8" --force
+          nohup $HOME/Android/Sdk/emulator/emulator -avd pixel8 -no-window &
 
       - name: Wait for Emulator
         run: |
