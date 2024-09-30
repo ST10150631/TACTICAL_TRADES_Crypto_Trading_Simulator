@@ -25,6 +25,10 @@ Tactical Trades is a cryptocurrency trading application that allows users to pra
 - Android Studio 
 - Kotlin
 - Firebase
+- JUnit
+- Mockito
+- Robolectric
+- GitHub worrkflows for automation
   
 ---
 
