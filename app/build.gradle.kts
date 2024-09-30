@@ -69,6 +69,7 @@ dependencies {
     androidTestImplementation("org.mockito:mockito-android:5.2.0")
     // JUnit for running unit tests
     testImplementation("junit:junit:4.13.2")
+    testImplementation ("org.robolectric:robolectric:4.9.1") // Check for the latest version
 
     // Mockito Core (for mocking in JVM unit tests)
     testImplementation("org.mockito:mockito-core:5.2.0")

@@ -8,13 +8,15 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import org.junit.runner.RunWith
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper.firebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 
+@RunWith(AndroidJUnit4::class)
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
@@ -55,6 +57,38 @@ class RegisterActivity : AppCompatActivity() {
             navigateToLoginActivity()
         }
     }
+    fun TestvalidateInput(
+        username: String,
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String
+    ): Boolean {
+        if (username.isEmpty() || name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (password != confirmPassword) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        val passwordPattern =
+            "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+\$).{8,}".toRegex()
+        if (!passwordPattern.matches(password)) {
+            Toast.makeText(this, "Password must meet complexity requirements", Toast.LENGTH_LONG)
+                .show()
+            return false
+        }
+
+        return true
+    }
 
     private fun validateInput(
         username: String,
@@ -79,7 +113,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         val passwordPattern =
-            "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+\$).{8,}".toRegex()
+            "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+\$).{8,}".toRegex()
         if (!passwordPattern.matches(password)) {
             Toast.makeText(this, "Password must meet complexity requirements", Toast.LENGTH_LONG)
                 .show()
