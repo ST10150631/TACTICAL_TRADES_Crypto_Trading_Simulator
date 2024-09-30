@@ -7,58 +7,70 @@ on:
   pull_request:
     branches:
       - master
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # Check out the repository code
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      # Set up JDK (adjust Java version if needed)
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: '17'
 
+      # Cache Gradle dependencies
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Grant execute permission for gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      # Set up Android SDK
       - name: Set up Android SDK
-        run: |
-          # Install Android SDK
-          mkdir -p $HOME/Android/Sdk
-          cd $HOME/Android/Sdk
-          wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
-          unzip commandlinetools-linux-7583922_latest.zip -d tools
-          rm commandlinetools-linux-7583922_latest.zip
-
-          # Set environment variables
-          echo "export ANDROID_HOME=$HOME/Android/Sdk" >> $GITHUB_ENV
-          echo "export PATH=$PATH:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools" >> $GITHUB_ENV
-
-          # Accept licenses and install platform-tools and emulator
-          yes | sdkmanager --sdk_root=$ANDROID_HOME --licenses
-          sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-30" "system-images;android-30;default;x86_64"
-
-      - name: Start Android Emulator
-        run: |
-          echo "Starting Android Emulator"
-          sdkmanager --install "system-images;android-30;default;x86_64"
-          echo "no" | $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
-
-          # Wait for the emulator to boot
-          for i in {1..30}; do
-            if adb shell getprop sys.boot_completed | grep -m 1 -q '1'; then
-              break
-            fi
-            echo "Waiting for emulator to boot..."
-            sleep 5
-          done
-
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 30   # Adjust the API level if needed
+          target: default
+          arch: x86_64
+          emulator: true
+          script: true  # Script option for instrumented tests
+          
+      # Build the project using Gradle
       - name: Build with Gradle
-        run: ./gradlew build --warning-mode all
+        run: ./gradlew build
 
+      # Start an Android Emulator (required for instrumented tests)
+      - name: Start Emulator
+        run: |
+          adb devices
+          adb wait-for-device
+          adb shell input keyevent 82 &
+        shell: bash
+
+      # Run Instrumentation Tests (UI tests)
       - name: Run Instrumentation Tests
         run: ./gradlew connectedAndroidTest
+        env:
+          ADB_INSTALL_TIMEOUT: 20 # Increase if emulator startup takes time
 
+      # Run Unit Tests
       - name: Run Unit Tests
         run: ./gradlew test
+
+      # Stop the Emulator
+      - name: Stop Emulator
+        run: adb -s emulator-5554 emu kill
