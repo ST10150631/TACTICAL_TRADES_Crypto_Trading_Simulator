@@ -48,15 +48,6 @@ jobs:
           yes | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --device "pixel"
           nohup emulator -avd test -no-window &
 
-      - name: Wait for Emulator
-        run: |
-          export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
-          
-          adb wait-for-device
-          adb shell input keyevent 82  # Unlock the emulator
-          adb shell "while [[ \$(getprop sys.boot_completed) -ne 1 ]]; do sleep 1; done"
-          sleep 10  # Additional wait time
 
       - name: Check ADB Connection
         run: |
