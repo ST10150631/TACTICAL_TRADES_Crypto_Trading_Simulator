@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - master
-  workflow_dispatch:  # Allows manual triggering of the workflow
+  workflow_dispatch:  # This allows manual triggering of the workflow
 
 jobs:
   build:
@@ -15,45 +15,28 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3  # Updated to the latest version
+        uses: actions/checkout@v2
 
       - name: Set up JDK
-        uses: actions/setup-java@v3  # Updated to the latest version
+        uses: actions/setup-java@v1
         with:
-          java-version: '17'
-          distribution: 'temurin'  # Correct input for the Java distribution
-
-      - name: Install Android SDK
-        run: |
-          mkdir -p $ANDROID_HOME
-          wget https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip
-          unzip commandlinetools-linux-7302050_latest.zip -d $ANDROID_HOME
-          rm commandlinetools-linux-7302050_latest.zip
-          yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "platforms;android-30" "system-images;android-30;google_apis;x86"
-
-      - name: Set up Android Emulator
-        run: |
-          yes | $ANDROID_HOME/cmdline-tools/bin/avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --device "pixel"
-          nohup $ANDROID_HOME/emulator/emulator -avd test -no-window &  # Run the emulator in the background
-
-      - name: Wait for Emulator
-        run: |
-          adb wait-for-device
-          adb shell input keyevent 82  # Unlock the emulator
+          java-version: '17'  # Change according to your project's Java version
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
       - name: Cache Gradle packages
-        uses: actions/cache@v3  # Updated to the latest version
+        uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Run Instrumented Tests
-        run: ./gradlew connectedAndroidTest  # Run your instrumented tests
+      - name: Run Instrumentation Tests
+        run: ./gradlew connectedAndroidTest
+
+      - name: Run Unit Tests
+        run: ./gradlew test
