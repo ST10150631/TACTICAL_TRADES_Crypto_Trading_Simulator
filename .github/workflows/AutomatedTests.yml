@@ -41,7 +41,7 @@ jobs:
           rm gradle-8.9-bin.zip
 
       - name: Build with Gradle
-        run: gradle build  # Use the installed Gradle
+        run: gradle build  --warning-mode all
 
       - name: Run Instrumentation Tests
         run: gradle connectedAndroidTest  # Use the installed Gradle
