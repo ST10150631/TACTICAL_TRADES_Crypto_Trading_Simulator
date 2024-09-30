@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - master
-  workflow_dispatch:  # This allows manual triggering of the workflow
+  workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
   build:
@@ -26,20 +26,38 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Cache Gradle packages
-        uses: actions/cache@v3  # Updated to the latest version
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
       - name: Install Gradle 8.9
         run: |
           wget https://services.gradle.org/distributions/gradle-8.9-bin.zip
           unzip gradle-8.9-bin.zip -d /opt/gradle
-          echo "/opt/gradle/gradle-8.9/bin" >> $GITHUB_PATH  # Add Gradle to the PATH
+          echo "/opt/gradle/gradle-8.9/bin" >> $GITHUB_PATH
           rm gradle-8.9-bin.zip
+
+      - name: Start Android Emulator
+        run: |
+          echo "Starting Android Emulator"
+          echo "no" | sdkmanager --licenses
+          sdkmanager "system-images;android-30;default;x86_64"
+          echo "no" | $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
+
+          # Wait for the emulator to boot
+          for i in {1..30}; do
+            if adb shell getprop sys.boot_completed | grep -m 1 -q '1'; then
+              break
+            fi
+            echo "Waiting for emulator to boot..."
+            sleep 5
+          done
+
       - name: Build with Gradle
-        run: gradle build  --warning-mode all
+        run: gradle build --warning-mode all
 
       - name: Run Instrumentation Tests
         run: gradle connectedAndroidTest  # Use the installed Gradle
