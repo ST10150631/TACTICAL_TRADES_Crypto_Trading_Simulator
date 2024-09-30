@@ -26,14 +26,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
       - name: Install Android SDK
         run: |
           echo "Installing Android SDK..."
@@ -56,13 +48,18 @@ jobs:
 
       - name: Wait for Emulator
         run: |
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
           adb wait-for-device
           adb shell input keyevent 82  # Unlock the emulator
           adb shell "while [[ \$(getprop sys.boot_completed) -ne 1 ]]; do sleep 1; done"
           sleep 10  # Additional wait time
 
       - name: Check ADB Connection
-        run: adb devices
+        run: |
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          adb devices
 
       - name: Run Instrumentation Tests
         run: ./gradlew connectedAndroidTest --warning-mode all
