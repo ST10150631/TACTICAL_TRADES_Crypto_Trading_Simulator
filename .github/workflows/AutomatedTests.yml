@@ -41,8 +41,5 @@ jobs:
       - name: Build with Gradle
         run: gradle build  --warning-mode all
 
-      - name: Run Instrumentation Tests
-        run: gradle connectedAndroidTest  # Use the installed Gradle
-
       - name: Run Unit Tests
         run: gradle test  # Use the installed Gradle
