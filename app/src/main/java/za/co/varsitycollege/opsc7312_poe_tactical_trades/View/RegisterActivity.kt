@@ -125,7 +125,7 @@ class RegisterActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "Failed to save user data :(: ${task.exception?.message}",
+                    "Failed to save user data : ${task.exception?.message}",
                     Toast.LENGTH_LONG
                 ).show()
             }
