@@ -3,10 +3,10 @@ on:
   
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
   workflow_dispatch:  # This allows manual triggering of the workflow
 jobs:
   build:
