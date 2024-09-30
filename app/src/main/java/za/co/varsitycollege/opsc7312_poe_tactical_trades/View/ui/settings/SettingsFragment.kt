@@ -1,5 +1,6 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.settings
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
@@ -287,6 +288,7 @@ class SettingsFragment : Fragment() {
         binding.DropDownLanguage.setSelection(0)
         binding.NotificationRadioGroup.clearCheck()
     }
+
 
     private fun deleteAccount() {
         val user = auth.currentUser
