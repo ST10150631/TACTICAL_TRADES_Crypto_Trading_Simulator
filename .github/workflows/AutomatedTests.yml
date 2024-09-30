@@ -26,17 +26,25 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3  # Updated to the latest version
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
+      - name: Install Gradle 8.9
+        run: |
+          wget https://services.gradle.org/distributions/gradle-8.9-bin.zip
+          unzip gradle-8.9-bin.zip -d /opt/gradle
+          echo "/opt/gradle/gradle-8.9/bin" >> $GITHUB_PATH  # Add Gradle to the PATH
+          rm gradle-8.9-bin.zip
+
       - name: Build with Gradle
-        run: ./gradlew build
+        run: gradle build  # Use the installed Gradle
 
       - name: Run Instrumentation Tests
-        run: ./gradlew connectedAndroidTest
+        run: gradle connectedAndroidTest  # Use the installed Gradle
 
       - name: Run Unit Tests
-        run: ./gradlew test
+        run: gradle test  # Use the installed Gradle
