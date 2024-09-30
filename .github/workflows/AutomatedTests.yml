@@ -44,7 +44,7 @@ jobs:
           mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
           export ANDROID_HOME=$HOME/android-sdk
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
-          yes | sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "platforms;android-30"
+          yes | sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "emulator" "platforms;android-30"
 
       - name: Set up Android Emulator
         run: |
