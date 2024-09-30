@@ -23,6 +23,24 @@ jobs:
           java-version: '17'
           distribution: 'temurin'  # Correct input for the Java distribution
 
+      - name: Install Android SDK
+        run: |
+          mkdir -p $ANDROID_HOME
+          wget https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip
+          unzip commandlinetools-linux-7302050_latest.zip -d $ANDROID_HOME
+          rm commandlinetools-linux-7302050_latest.zip
+          yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "platforms;android-30" "system-images;android-30;google_apis;x86"
+
+      - name: Set up Android Emulator
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/bin/avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --device "pixel"
+          nohup $ANDROID_HOME/emulator/emulator -avd test -no-window &  # Run the emulator in the background
+
+      - name: Wait for Emulator
+        run: |
+          adb wait-for-device
+          adb shell input keyevent 82  # Unlock the emulator
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
@@ -33,18 +51,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
-      - name: Set up Android Emulator
-        run: |
-          echo "y" | sdkmanager --install "system-images;android-30;google_apis;x86"  # Install a system image
-          sdkmanager --verbose --install "platform-tools" "platforms;android-30"  # Install platform tools
-          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --device "pixel"
-          nohup emulator -avd test -no-window &  # Run the emulator in the background
-
-      - name: Wait for Emulator
-        run: |
-          adb wait-for-device
-          adb shell input keyevent 82  # Unlock the emulator
 
       - name: Build with Gradle
         run: ./gradlew build
