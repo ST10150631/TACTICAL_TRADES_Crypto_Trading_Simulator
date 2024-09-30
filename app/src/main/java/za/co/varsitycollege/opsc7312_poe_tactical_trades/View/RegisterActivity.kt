@@ -8,13 +8,15 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import org.junit.runner.RunWith
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper.firebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 
+@RunWith(AndroidJUnit4::class)
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
