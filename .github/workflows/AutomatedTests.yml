@@ -36,17 +36,23 @@ jobs:
 
       - name: Install Android SDK
         run: |
-          mkdir -p $ANDROID_HOME
+          echo "Installing Android SDK..."
+          mkdir -p $HOME/android-sdk/cmdline-tools
           wget https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip
-          unzip commandlinetools-linux-7302050_latest.zip -d $ANDROID_HOME
+          unzip commandlinetools-linux-7302050_latest.zip -d $HOME/android-sdk/cmdline-tools
           rm commandlinetools-linux-7302050_latest.zip
-          yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "platforms;android-30"
+          mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          yes | sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "platforms;android-30"
 
       - name: Set up Android Emulator
         run: |
-          yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --install "system-images;android-30;google_apis;x86"
-          yes | $ANDROID_HOME/cmdline-tools/bin/avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --device "pixel"
-          nohup $ANDROID_HOME/emulator/emulator -avd test -no-window &
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          yes | sdkmanager --sdk_root=$ANDROID_HOME --install "system-images;android-30;google_apis;x86"
+          yes | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --device "pixel"
+          nohup emulator -avd test -no-window &
 
       - name: Wait for Emulator
         run: |
@@ -59,7 +65,7 @@ jobs:
         run: adb devices
 
       - name: Run Instrumentation Tests
-        run: gradle connectedAndroidTest --warning-mode all
+        run: ./gradlew connectedAndroidTest --warning-mode all
 
       - name: Run Unit Tests
-        run: gradle test --warning-mode all
+        run: ./gradlew test --warning-mode all
