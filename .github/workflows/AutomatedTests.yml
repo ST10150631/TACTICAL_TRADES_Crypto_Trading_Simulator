@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - master
-  workflow_dispatch:  # This allows manual triggering of the workflow
+  workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: '17'  
 
@@ -32,6 +32,18 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
+      - name: Set up Android Emulator
+        run: |
+          echo "y" | sdkmanager --install "system-images;android-30;google_apis;x86"  # Install a system image
+          sdkmanager --verbose --install "platform-tools" "platforms;android-30"  # Install platform tools
+          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --device "pixel"
+          nohup emulator -avd test -no-window &  # Run the emulator in the background
+
+      - name: Wait for Emulator
+        run: |
+          adb wait-for-device
+          adb shell input keyevent 82  # Unlock the emulator
 
       - name: Build with Gradle
         run: ./gradlew build
