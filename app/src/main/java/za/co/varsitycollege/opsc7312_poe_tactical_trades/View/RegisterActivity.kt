@@ -78,7 +78,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         val passwordPattern =
-            "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+\$).{8,}".toRegex()
+            "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+\$).{8,}".toRegex()
         if (!passwordPattern.matches(password)) {
             Toast.makeText(this, "Password must meet complexity requirements", Toast.LENGTH_LONG)
                 .show()
