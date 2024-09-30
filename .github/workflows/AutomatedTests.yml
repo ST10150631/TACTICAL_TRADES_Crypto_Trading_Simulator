@@ -26,30 +26,33 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Install Android SDK
+      - name: Install Android SDK and Emulator
         run: |
-          echo "Installing Android SDK..."
+          echo "Installing Android SDK and Emulator..."
           mkdir -p $HOME/android-sdk/cmdline-tools
           wget https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip
           unzip commandlinetools-linux-7302050_latest.zip -d $HOME/android-sdk/cmdline-tools
           rm commandlinetools-linux-7302050_latest.zip
           mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
-          export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
-          yes | sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "emulator" "platforms;android-30"
 
-      - name: Set up Android Emulator
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
+
+          yes | sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "emulator" "system-images;android-30;google_apis;x86"
+
+      - name: Create and Start Emulator
         run: |
           export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
-          yes | sdkmanager --sdk_root=$ANDROID_HOME --install "system-images;android-30;google_apis;x86"
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
+          
           yes | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --device "pixel"
           nohup emulator -avd test -no-window &
 
       - name: Wait for Emulator
         run: |
           export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
+          
           adb wait-for-device
           adb shell input keyevent 82  # Unlock the emulator
           adb shell "while [[ \$(getprop sys.boot_completed) -ne 1 ]]; do sleep 1; done"
@@ -58,7 +61,7 @@ jobs:
       - name: Check ADB Connection
         run: |
           export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
           adb devices
 
       - name: Run Instrumentation Tests
