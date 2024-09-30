@@ -46,8 +46,11 @@ jobs:
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
           
           yes | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --device "pixel"
-          nohup emulator -avd test -no-window &
-
+          nohup emulator -avd test -no-window -no-audio -no-boot-anim &
+          adb wait-for-device
+          adb shell settings put global window_animation_scale 0
+          adb shell settings put global transition_animation_scale 0
+          adb shell settings put global animator_duration_scale 0
 
       - name: Check ADB Connection
         run: |
