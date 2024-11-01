@@ -1,3 +1,5 @@
+import java.util.regex.Pattern.compile
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -11,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "za.co.varsitycollege.opsc7312_poe_tactical_trades"
-        minSdk = 27
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -40,6 +42,8 @@ android {
     }
 }
 
+
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -60,11 +64,12 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.runtime.android)
     testImplementation(libs.junit)
-
+    //charts
+    implementation("com.diogobernardino:williamchart:3.10.1")
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
     // Mockito for instrumented tests
     androidTestImplementation("org.mockito:mockito-android:5.2.0")
     // JUnit for running unit tests

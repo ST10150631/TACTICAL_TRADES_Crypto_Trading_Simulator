@@ -3,12 +3,14 @@ package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.coinview
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -16,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.CoinAPIHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
@@ -24,8 +27,12 @@ import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletRepository.wallets
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.MarketPlace.MyallcoinsRecyclerViewAdapter
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentCoinviewTestBinding
 import java.io.ByteArrayOutputStream
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.concurrent.thread
 
 class CoinViewTestFragment : Fragment() {
 
@@ -43,6 +50,28 @@ class CoinViewTestFragment : Fragment() {
         _binding = FragmentCoinviewTestBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+
+        val LineSet: List<Pair<String, Float>> = listOf(
+            "JAN" to 4.5F,
+            "FEB" to 5F,
+            "MAR" to 12F,
+            "APR" to 2F,
+            "MAY" to 6F,
+            "JUN" to 6F,
+            "JUL" to 3F,
+            "AUG" to 4F,
+            "SEPT" to 6F,
+            "OCT" to 9F,
+            "NOV" to 12F,
+            "DEC" to 15F
+        )
+        // chart
+        binding.LineGraph.gradientFillColors = intArrayOf(
+            Color.parseColor("#8551B2"),
+            Color.TRANSPARENT
+        )
+        binding.LineGraph.animation.duration = 1000L
+        binding.LineGraph.animate(LineSet)
         val coinData = arguments?.getString("coinData")
         if (coinData != null) {
             try {
@@ -92,6 +121,17 @@ class CoinViewTestFragment : Fragment() {
             }
 
         }
+
+       // val time = getSixMonthsAgo()
+        //thread {
+            //val data = coin.assetId?.let { CoinAPIHelper().getOHLCVData(it,time) }
+            //if (data != null) {
+                    //activity?.runOnUiThread {
+                //
+        //}
+
+
+
 
         return root
     }
@@ -254,6 +294,16 @@ class CoinViewTestFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+    fun getSixMonthsAgo(): String {
+        // Get the current date and time
+        val now = OffsetDateTime.now()
+
+        // Subtract six months
+        val sixMonthsAgo = now.minusMonths(6)
+
+        // Format the result to ISO 8601 string
+        return sixMonthsAgo.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
     }
 
     private fun getBitmapFromDrawable(drawableId: Int): Bitmap? {
