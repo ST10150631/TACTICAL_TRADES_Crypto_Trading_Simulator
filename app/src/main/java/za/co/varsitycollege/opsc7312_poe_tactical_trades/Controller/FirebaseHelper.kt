@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.User
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
 import java.util.UUID
@@ -56,8 +57,36 @@ object FirebaseHelper {
                     val graphTheme = userSnapshot.child("graphTheme").getValue(String::class.java) ?: ""
                     val language = userSnapshot.child("language").getValue(String::class.java) ?: ""
 
-                    // Add user data to SQLite database
                     sqliteHelper.addUser(userId, email, name, username, totalBalance, notificationsEnabled, profilePictureUrl, graphTheme, language)
+
+
+                    val walletsSnapshot = userSnapshot.child("wallets")
+                    for (walletSnapshot in walletsSnapshot.children) {
+                        val wallet = WalletModel(
+                            walletType = walletSnapshot.child("walletType").getValue(String::class.java),
+                            amountInCoin = walletSnapshot.child("amountInCoin").getValue(String::class.java),
+                            color = walletSnapshot.child("color").getValue(Int::class.java),
+                            percentage = walletSnapshot.child("percentage").getValue(String::class.java),
+                            walletGradient = walletSnapshot.child("walletGradient").getValue(Int::class.java),
+                            walletImage = walletSnapshot.child("walletImage").getValue(Int::class.java)
+                        )
+                        sqliteHelper.addWallet(wallet, userId)
+                    }
+
+                    val watchlistSnapshot = userSnapshot.child("watchlist")
+                    for (stockSnapshot in watchlistSnapshot.children) {
+                        val stockItem = StockItem(
+                            stockId = stockSnapshot.child("stockId").getValue(String::class.java) ?: "",
+                            name = stockSnapshot.child("name").getValue(String::class.java) ?: "",
+                            imageRes = stockSnapshot.child("imageRes").getValue(String::class.java) ?: "",
+                            currentPrice = stockSnapshot.child("currentPrice").getValue(String::class.java) ?: "",
+                            priceDifference = stockSnapshot.child("priceDifference").getValue(String::class.java) ?: "",
+                            upDown = stockSnapshot.child("upDown").getValue(Boolean::class.java) ?: false
+                        )
+                        sqliteHelper.addWatchlistItem(stockItem, userId)
+                    }
+
+
                 }
                 Log.d("FirebaseHelper", "Users successfully loaded from Firebase and stored in SQLite.")
             }
