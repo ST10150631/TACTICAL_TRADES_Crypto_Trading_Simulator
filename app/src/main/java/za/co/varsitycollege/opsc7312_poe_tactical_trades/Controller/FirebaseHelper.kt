@@ -2,10 +2,14 @@ package za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.User
@@ -29,6 +33,39 @@ object FirebaseHelper {
 
     fun signOut() {
         firebaseAuth.signOut()
+    }
+
+
+    fun initializeDatabaseFromFirebase(context: Context) {
+        val sqliteHelper = SQLiteHelper(context)
+
+        // Clear existing user data in SQLite
+        sqliteHelper.clearUsers()
+
+        // Fetch users from Firebase
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (userSnapshot in dataSnapshot.children) {
+                    val userId = userSnapshot.key ?: continue
+                    val email = userSnapshot.child("email").getValue(String::class.java) ?: ""
+                    val name = userSnapshot.child("name").getValue(String::class.java) ?: ""
+                    val username = userSnapshot.child("username").getValue(String::class.java) ?: ""
+                    val totalBalance = userSnapshot.child("totalBalance").getValue(Double::class.java) ?: 0.0
+                    val notificationsEnabled = userSnapshot.child("notificationsEnabled").getValue(Boolean::class.java) ?: false
+                    val profilePictureUrl = userSnapshot.child("profilePictureUrl").getValue(String::class.java) ?: ""
+                    val graphTheme = userSnapshot.child("graphTheme").getValue(String::class.java) ?: ""
+                    val language = userSnapshot.child("language").getValue(String::class.java) ?: ""
+
+                    // Add user data to SQLite database
+                    sqliteHelper.addUser(userId, email, name, username, totalBalance, notificationsEnabled, profilePictureUrl, graphTheme, language)
+                }
+                Log.d("FirebaseHelper", "Users successfully loaded from Firebase and stored in SQLite.")
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("FirebaseHelper", "Error loading users from Firebase: ${databaseError.message}")
+            }
+        })
     }
 
 

@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.auth.FirebaseAuth
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.SQLiteHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 
 class LoginActivity : AppCompatActivity() {
@@ -19,6 +21,10 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        val sqliteHelper = SQLiteHelper(this)
+        sqliteHelper.clearUsers()
+        FirebaseHelper.initializeDatabaseFromFirebase(this)
 
         firebaseAuth = FirebaseAuth.getInstance()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -73,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
+                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {
                     Toast.makeText(this, "Login failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
