@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Select Colour"
+        android:text="@string/select_colour"
         android:textColor="@color/PrimaryTxtColor"
         android:textSize="18sp" />
 

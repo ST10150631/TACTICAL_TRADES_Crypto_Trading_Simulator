@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
-            android:text="Login"
+            android:text="@string/login"
             android:textAlignment="center"
             android:textColor="@color/PrimaryTxtColor"
             android:textSize="40sp" />
@@ -67,7 +67,7 @@
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
                 android:inputType="textPassword"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:textColorHint="@color/purple_200"
                 />
 
@@ -99,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_medium"
-                android:text="Don't have an account?"
+                android:text="@string/don_t_have_an_account"
                 android:textAlignment="textStart"
                 android:textColor="@color/PrimaryTxtColor"
                 android:textSize="20sp" />
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:background="#00000000"
                 android:fontFamily="@font/inter_bold"
-                android:text="Click here to Register"
+                android:text="@string/click_here_to_register"
                 android:textColor="@color/LinkBlue" />
 
         </LinearLayout>

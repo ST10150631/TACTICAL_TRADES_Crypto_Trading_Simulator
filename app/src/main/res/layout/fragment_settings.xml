@@ -29,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Account"
+                    android:text="@string/account"
                     android:textAlignment="center"
                     android:textSize="20sp" />
 
@@ -87,7 +87,7 @@
                 style="@style/TxtSmallPrimaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit Username "/>
+                android:text="@string/edit_username"/>
 
             <Space
                 android:layout_width="0dp"
@@ -120,7 +120,7 @@
                 style="@style/TxtSmallPrimaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit Name "/>
+                android:text="@string/edit_name"/>
 
             <Space
                 android:layout_width="0dp"
@@ -153,7 +153,7 @@
                 style="@style/TxtSmallPrimaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit Password"/>
+                android:text="@string/edit_password"/>
 
             <Space
                 android:layout_width="0dp"
@@ -186,7 +186,7 @@
                 style="@style/TxtSmallPrimaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete Account"/>
+                android:text="@string/delete_account"/>
 
             <Space
                 android:layout_width="0dp"
@@ -211,7 +211,7 @@
                     android:layout_width="218dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Delete account"
+                    android:text="@string/delete_account_button"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
             </FrameLayout>
@@ -223,7 +223,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
-            android:text="Display"
+            android:text="@string/display"
             android:textAlignment="center"
             android:paddingTop="10dp"
             android:textSize="20sp" />
@@ -254,7 +254,7 @@
                 style="@style/CustomSpinner"
                 android:layout_width="241dp"
                 android:layout_height="wrap_content"
-                android:hint="Select Theme"
+                android:hint="@string/select_theme"
                 android:foregroundTint="@color/white"
                 android:popupTheme="@style/CustomSpinnerDropdown" />
 
@@ -276,7 +276,7 @@
                 style="@style/TxtSmallPrimaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Graph Theme"/>
+                android:text="@string/graph_theme"/>
 
             <Space
                 android:layout_width="0dp"
@@ -292,41 +292,42 @@
                 android:popupTheme="@style/CustomSpinnerDropdown" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_box"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_box"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-            <TextView
-                android:layout_marginLeft="15dp"
-                style="@style/TxtSmallPrimaryStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Language"/>
+                    <TextView
+                        style="@style/TxtSmallPrimaryStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/language" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" />
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5" />
 
-            <Spinner
-                android:id="@+id/DropDownLanguage"
-                style="@style/CustomSpinner"
-                android:layout_width="241dp"
-                android:layout_height="wrap_content"
-                android:hint="Select Theme"
-                android:popupTheme="@style/CustomSpinnerDropdown" />
-        </LinearLayout>
-        <TextView
+                    <Spinner
+                        android:id="@+id/DropDownLanguage"
+                        style="@style/CustomSpinner"
+                        android:layout_width="241dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Select Theme"
+                        android:popupTheme="@style/CustomSpinnerDropdown" />
+                </LinearLayout>
+
+                <TextView
             style="@style/TxtPrimaryStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
-            android:text="Notifications"
+            android:text="@string/notifications"
             android:textAlignment="center"
             android:paddingTop="10dp"
             android:textSize="20sp" />
@@ -402,7 +403,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Balance"
+                    android:text="@string/balance"
                     android:textAlignment="center"
                     android:paddingTop="10dp"
                     android:textSize="20sp" />
@@ -421,7 +422,7 @@
                         style="@style/TxtSmallPrimaryStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Starting Value"/>
+                        android:text="@string/starting_value"/>
 
                     <Space
                         android:layout_width="0dp"
@@ -461,7 +462,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/inter_bold"
-                android:text="Save Changes"
+                android:text="@string/save_changes"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </FrameLayout>
@@ -487,7 +488,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/inter_bold"
-                android:text="Discard Changes"
+                android:text="@string/discard_changes"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </FrameLayout>
@@ -513,7 +514,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/inter_bold"
-                android:text="Sign Out"
+                android:text="@string/sign_out"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </FrameLayout>
