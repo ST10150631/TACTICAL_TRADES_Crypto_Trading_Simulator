@@ -8,14 +8,25 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
+<<<<<<< Updated upstream
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.NetworkUtils
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.SQLiteHelper
+=======
+import kotlinx.coroutines.launch
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.BiometricPromptManager
+>>>>>>> Stashed changes
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 
 class LoginActivity : AppCompatActivity() {
 
+    private val promptManager by lazy {
+        BiometricPromptManager(this)
+    }
     private lateinit var firebaseAuth: FirebaseAuth
     lateinit var TestfirebaseAuth: FirebaseAuth
     lateinit var Email: String
@@ -36,14 +47,46 @@ class LoginActivity : AppCompatActivity() {
         val passwordEditText: EditText = findViewById(R.id.EditTxtPassword)
         val loginButton: ImageButton = findViewById(R.id.BtnLogin)
         val registerButton: Button = findViewById(R.id.BtnRegister)
+
         Password = passwordEditText.text.toString().trim()
         Email = emailEditText.text.toString().trim()
+
+
+        lifecycleScope.launch {
+            promptManager.promptResults.collect { result ->
+                when (result) {
+                    is BiometricPromptManager.BiometricResult.AuthenticationSuccess -> {
+                        val email = emailEditText.text.toString().trim()
+                        val password = passwordEditText.text.toString().trim()
+                        if (email.isNotEmpty() && password.isNotEmpty()) {
+                            loginUser(email, password)
+                        } else {
+                            Toast.makeText(this@LoginActivity, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    is BiometricPromptManager.BiometricResult.AuthenticationFailed -> {
+                        Toast.makeText(this@LoginActivity, "Biometric authentication failed", Toast.LENGTH_SHORT).show()
+                    }
+                    is BiometricPromptManager.BiometricResult.AuthenticationError -> {
+                        Toast.makeText(this@LoginActivity, "Error: ${result.error}", Toast.LENGTH_SHORT).show()
+                    }
+                    // Handle other cases if necessary
+                    BiometricPromptManager.BiometricResult.AuthenticationNotSet -> TODO()
+                    BiometricPromptManager.BiometricResult.FeatureUnavailable -> TODO()
+                    BiometricPromptManager.BiometricResult.HardwareUnavailable -> TODO()
+                }
+            }
+        }
 
         loginButton.setOnClickListener {
             val loginDetail = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            if (android.util.Patterns.EMAIL_ADDRESS.matcher(loginDetail).matches())
+            promptManager.showBiometricPrompt(
+                title ="Use finger print to login",
+                description = "Sample prompt description"
+            )
+           /* if (android.util.Patterns.EMAIL_ADDRESS.matcher(loginDetail).matches())
             {
                 val email = loginDetail
                 if (email.isNotEmpty() && password.isNotEmpty()) {
@@ -60,7 +103,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }else {
                 Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
-            }
+           */ //}
 
         }
 
