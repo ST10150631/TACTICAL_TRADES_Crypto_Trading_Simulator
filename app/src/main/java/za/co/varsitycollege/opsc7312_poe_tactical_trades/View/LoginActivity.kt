@@ -12,9 +12,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.NetworkUtils
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.SQLiteHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.BiometricPromptManager
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.LoggedInUser
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 
 class LoginActivity : AppCompatActivity() {
