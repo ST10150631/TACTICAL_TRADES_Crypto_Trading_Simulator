@@ -5,6 +5,7 @@ data class User(
     var name: String? = null,
     var email: String? = null,
     var totalBalance: Double? = null,
+    var startValue: Double? = null,
     val theme: String? = null,
     val graphTheme: String? = null,
     val language: String? = null,

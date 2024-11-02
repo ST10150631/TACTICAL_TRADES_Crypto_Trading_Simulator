@@ -299,7 +299,7 @@ class SettingsFragment : Fragment() {
             startValue =  startValue,
             theme = theme,
             graphTheme = graphTheme,
-            language = language
+            language = language,
         )
     }
 

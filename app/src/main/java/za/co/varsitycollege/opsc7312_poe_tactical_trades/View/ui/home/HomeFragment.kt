@@ -46,8 +46,16 @@ class HomeFragment : Fragment() {
         // Get current user's ID
         val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
 
-        // Initial balance set to $500,000
-        val initialBalance = 500_000.0
+        // Initial balance
+        var initialBalance = 0.00
+
+        FirebaseHelper.getStartValue(userId) { startValue, error ->
+            if (error != null) {
+                Toast.makeText(context, "Error fetching initial balance: $error", Toast.LENGTH_LONG).show()
+            } else {
+                initialBalance = startValue ?: 0.0
+            }
+        }
 
         // Fetch total balance
         FirebaseHelper.getTotalBalance(userId) { balance, error ->
