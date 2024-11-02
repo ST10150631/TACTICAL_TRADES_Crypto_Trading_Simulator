@@ -2,6 +2,7 @@ package za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller
 
 import android.net.Uri
 import android.util.Log
+import android.view.Choreographer.FrameTimeline
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -12,10 +13,13 @@ import okhttp3.RequestBody
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinsAssets
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.OHLCV
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 var API_KEY3 = "52470BBE-DFDE-453F-BE9A-E93B6B82D77F"//"fd0612a2-3ef6-48aa-824a-1c025b0e12e9"
 const val API_KEY2 ="389E6140-D2F4-4539-BCA2-396577CC3821"
@@ -233,6 +237,53 @@ class CoinAPIHelper {
 
     }
 
+    fun getOHLCVData(assetId: String, timeStart: String): List<OHLCV> {
+        val ohclvs = mutableListOf<OHLCV>()
+        val symbol = "BITSTAMP_SPOT_${assetId}_USD"
+        // Get the current time for timeEnd
+        val timeEnd = OffsetDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+
+        // Construct the URL correctly using the asset ID
+        val coinUrl = "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_BTC_USD/history"
+
+        // Build the URI with the required parameters
+        val buildUri: Uri = Uri.parse(coinUrl).buildUpon()
+            .appendQueryParameter("symbol_id", symbol)
+            .appendQueryParameter("period_id", "1DAY") // Example period
+            .appendQueryParameter("time_start", timeStart)
+            .appendQueryParameter("time_end", timeEnd)
+            .build()
+
+        Log.i(LOGGING_TAG, "Building URL for OHLCV: ${buildUri.toString()}")
+
+        var connection: HttpURLConnection? = null
+        try {
+            val url = URL(buildUri.toString())
+            connection = url.openConnection() as HttpURLConnection
+            connection.requestMethod = "GET"
+            connection.setRequestProperty("X-CoinAPI-Key", API_KEY3)
+
+            val responseCode = connection.responseCode
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                val ohlcvJSON = connection.inputStream.bufferedReader().use { it.readText()}
+                val gson = Gson()
+                // Since the response is an array, we parse it as a list
+                val ohclvData: List<OHLCV> = gson.fromJson(ohlcvJSON, object : TypeToken<List<OHLCV>>() {}.type)
+                ohclvs.addAll(ohclvData.sortedByDescending { it.timeOpen }) // Add all OHLCV data to the list
+                return ohclvData
+            } else {
+                Log.e(LOGGING_TAG, "Error: Response Code $responseCode")
+            }
+        } catch (e: Exception) {
+            Log.e(LOGGING_TAG, "Exception occurred: ${e.message}")
+        } finally {
+            connection?.disconnect() // Ensure the connection is closed
+        }
+
+        return ohclvs // Return the collected data
+    }
+
+
 
     val LOGGING_TAG = "URLWECREATED"
 
@@ -256,7 +307,6 @@ class CoinAPIHelper {
     private fun assignLogo(assetId: String?): Int {
         return assetLogoMap[assetId] ?: 0 // Return a default icon if not found
     }
-
 
 }
 
