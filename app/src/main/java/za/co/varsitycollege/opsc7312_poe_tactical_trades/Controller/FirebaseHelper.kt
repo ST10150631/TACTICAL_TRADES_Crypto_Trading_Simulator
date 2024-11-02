@@ -40,10 +40,10 @@ object FirebaseHelper {
     fun initializeDatabaseFromFirebase(context: Context) {
         val sqliteHelper = SQLiteHelper(context)
 
-        // Clear existing user data in SQLite
         sqliteHelper.clearUsers()
+        sqliteHelper.clearWatchlist()
+        sqliteHelper.clearWallets()
 
-        // Fetch users from Firebase
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (userSnapshot in dataSnapshot.children) {
@@ -57,11 +57,16 @@ object FirebaseHelper {
                     val graphTheme = userSnapshot.child("graphTheme").getValue(String::class.java) ?: ""
                     val language = userSnapshot.child("language").getValue(String::class.java) ?: ""
 
-                    sqliteHelper.addUser(userId, email, name, username, totalBalance, notificationsEnabled, profilePictureUrl, graphTheme, language)
-
+                    // Add or update user in SQLite
+                    if (sqliteHelper.isUserExists(userId)) {
+                        sqliteHelper.updateUser(userId, email, name, username, totalBalance, notificationsEnabled, profilePictureUrl, graphTheme, language)
+                    } else {
+                        sqliteHelper.addUser(userId, email, name, username, totalBalance, notificationsEnabled, profilePictureUrl, graphTheme, language)
+                    }
 
                     val walletsSnapshot = userSnapshot.child("wallets")
                     for (walletSnapshot in walletsSnapshot.children) {
+                        val walletId = walletSnapshot.key ?: continue
                         val wallet = WalletModel(
                             walletType = walletSnapshot.child("walletType").getValue(String::class.java),
                             amountInCoin = walletSnapshot.child("amountInCoin").getValue(String::class.java),
@@ -70,11 +75,17 @@ object FirebaseHelper {
                             walletGradient = walletSnapshot.child("walletGradient").getValue(Int::class.java),
                             walletImage = walletSnapshot.child("walletImage").getValue(Int::class.java)
                         )
-                        sqliteHelper.addWallet(wallet, userId)
+
+                        if (sqliteHelper.isWalletExists(walletId, userId)) {
+                            sqliteHelper.updateWallet(walletId, wallet, userId) // Create a method to update wallets
+                        } else {
+                            sqliteHelper.addWallet(wallet, userId)
+                        }
                     }
 
                     val watchlistSnapshot = userSnapshot.child("watchlist")
                     for (stockSnapshot in watchlistSnapshot.children) {
+                        val stockId = stockSnapshot.key ?: continue
                         val stockItem = StockItem(
                             stockId = stockSnapshot.child("stockId").getValue(String::class.java) ?: "",
                             name = stockSnapshot.child("name").getValue(String::class.java) ?: "",
@@ -83,10 +94,13 @@ object FirebaseHelper {
                             priceDifference = stockSnapshot.child("priceDifference").getValue(String::class.java) ?: "",
                             upDown = stockSnapshot.child("upDown").getValue(Boolean::class.java) ?: false
                         )
-                        sqliteHelper.addWatchlistItem(stockItem, userId)
+
+                        if (sqliteHelper.isStockInWatchlist(stockId, userId)) {
+                            sqliteHelper.updateWatchlistItem(stockId, stockItem, userId) // Create a method to update watchlist items
+                        } else {
+                            sqliteHelper.addWatchlistItem(stockItem, userId)
+                        }
                     }
-
-
                 }
                 Log.d("FirebaseHelper", "Users successfully loaded from Firebase and stored in SQLite.")
             }

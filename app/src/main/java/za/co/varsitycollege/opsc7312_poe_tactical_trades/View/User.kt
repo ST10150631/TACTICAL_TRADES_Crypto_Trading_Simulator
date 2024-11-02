@@ -8,6 +8,8 @@ data class User(
     val theme: String? = null,
     val graphTheme: String? = null,
     val language: String? = null,
-    val profilePictureUrl: String? = null
-
+    val profilePictureUrl: String? = null,
+    val userId: String? = null,
+    val wallets: MutableList<WalletModel>? = null,
+    val watchlistItems: MutableList<StockItem>? = null
 )
