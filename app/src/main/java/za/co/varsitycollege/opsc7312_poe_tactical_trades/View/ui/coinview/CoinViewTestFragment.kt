@@ -32,6 +32,7 @@ import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.MarketPlace.Mya
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentCoinviewTestBinding
 import java.io.ByteArrayOutputStream
 import java.time.OffsetDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import kotlin.concurrent.thread
 
@@ -335,14 +336,14 @@ class CoinViewTestFragment : Fragment() {
         }
     }
     fun getDateAYearAgo(): String {
-        // Get the current date and time
-        val now = OffsetDateTime.now()
+        // Get the current date and time in UTC
+        val now = OffsetDateTime.now(ZoneOffset.UTC)
 
-        // Subtract six months
-        val sixMonthsAgo = now.minusMonths(12)
+        // Subtract a year
+        val aYearAgo = now.minusYears(1)
 
-        // Format the result to ISO 8601 string
-        return sixMonthsAgo.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+        // Format the result to ISO 8601 string in UTC
+        return aYearAgo.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
     }
 
     private fun getBitmapFromDrawable(drawableId: Int): Bitmap? {

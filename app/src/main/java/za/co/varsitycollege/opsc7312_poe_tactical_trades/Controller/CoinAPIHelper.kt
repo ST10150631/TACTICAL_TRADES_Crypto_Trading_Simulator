@@ -13,6 +13,7 @@ import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 import java.time.OffsetDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 var API_KEY3 = "52470BBE-DFDE-453F-BE9A-E93B6B82D77F"//"fd0612a2-3ef6-48aa-824a-1c025b0e12e9"
@@ -258,9 +259,10 @@ class CoinAPIHelper {
 
     fun getOHLCVData(assetId: String, timeStart: String): List<OHLCV> {
         val ohclvs = mutableListOf<OHLCV>()
-        val symbol = "BITSTAMP_SPOT_${assetId}_USD"
         // Get the current time for timeEnd
-        val timeEnd = OffsetDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+        val timeEnd = OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
+
+
 
         // Construct the URL correctly using the asset ID
         val coinUrl = assetURLMap[assetId].toString() // Return an empty list if the asset ID is not found
