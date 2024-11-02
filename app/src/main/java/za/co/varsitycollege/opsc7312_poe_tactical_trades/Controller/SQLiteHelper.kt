@@ -72,8 +72,6 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         """.trimIndent()
         db.execSQL(createUsersTable)
 
-        // Create Wallets Table
-
         val createWalletsTable = """
         CREATE TABLE $TABLE_WALLETS (
             $COLUMN_WALLET_ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -89,7 +87,6 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     """.trimIndent()
         db.execSQL(createWalletsTable)
 
-        // Create Watchlist Table
         val createWatchlistTable = """
         CREATE TABLE $TABLE_WATCHLIST (
             $COLUMN_WATCHLIST_ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -317,58 +314,6 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         )
         db.close()
     }
-
-    fun getAllUsersWithRelatedData(): List<UserWithRelatedData> {
-        val userList = mutableListOf<UserWithRelatedData>()
-        val db = this.readableDatabase
-        val query = """
-        SELECT u.*, w.*, wl.*
-        FROM $TABLE_USERS u
-        LEFT JOIN $TABLE_WALLETS w ON u.$COLUMN_USER_ID = w.$COLUMN_WALLET_USER_ID
-        LEFT JOIN $TABLE_WATCHLIST wl ON u.$COLUMN_USER_ID = wl.$COLUMN_WATCHLIST_USER_ID
-    """.trimIndent()
-
-        val cursor = db.rawQuery(query, null)
-        if (cursor.moveToFirst()) {
-            do {
-                val userId = cursor.getString(cursor.getColumnIndex(COLUMN_USER_ID))
-                val email = cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL))
-                val name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
-                val username = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME))
-                val totalBalance = cursor.getDouble(cursor.getColumnIndex(COLUMN_TOTAL_BALANCE))
-                val notificationsEnabled = cursor.getInt(cursor.getColumnIndex(COLUMN_NOTIFICATIONS_ENABLED))
-                val profilePictureUrl = cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_PICTURE_URL))
-                val graphTheme = cursor.getString(cursor.getColumnIndex(COLUMN_GRAPH_THEME))
-                val language = cursor.getString(cursor.getColumnIndex(COLUMN_LANGUAGE))
-
-                val walletId = cursor.getInt(cursor.getColumnIndex(COLUMN_WALLET_ID))
-                val walletType = cursor.getString(cursor.getColumnIndex(COLUMN_WALLET_TYPE))
-                val walletAmount = cursor.getString(cursor.getColumnIndex(COLUMN_WALLET_AMOUNT))
-                val walletColor = cursor.getInt(cursor.getColumnIndex(COLUMN_WALLET_COLOR))
-                val walletPercentage = cursor.getString(cursor.getColumnIndex(COLUMN_WALLET_PERCENTAGE))
-                val walletGradient = cursor.getInt(cursor.getColumnIndex(COLUMN_WALLET_GRADIENT))
-                val walletImage = cursor.getInt(cursor.getColumnIndex(COLUMN_WALLET_IMAGE))
-
-                val watchlistId = cursor.getInt(cursor.getColumnIndex(COLUMN_WATCHLIST_ID))
-                val stockId = cursor.getString(cursor.getColumnIndex(COLUMN_STOCK_ID))
-                val stockName = cursor.getString(cursor.getColumnIndex(COLUMN_STOCK_NAME))
-                val stockImage = cursor.getString(cursor.getColumnIndex(COLUMN_STOCK_IMAGE))
-                val currentPrice = cursor.getString(cursor.getColumnIndex(COLUMN_CURRENT_PRICE))
-                val priceDifference = cursor.getString(cursor.getColumnIndex(COLUMN_PRICE_DIFFERENCE))
-                val upDown = cursor.getInt(cursor.getColumnIndex(COLUMN_UP_DOWN))
-
-                userList.add(UserWithRelatedData(
-                    userId, email, name, username, totalBalance, notificationsEnabled, profilePictureUrl,
-                    graphTheme, language, Wallet(walletId, walletType, walletAmount, walletColor, walletPercentage, walletGradient, walletImage),
-                    WatchlistItem(watchlistId, stockId, stockName, stockImage, currentPrice, priceDifference, upDown)
-                ))
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        db.close()
-        return userList
-    }
-
 
     fun getUserDataByEmail(email: String): User? {
         val db = this.readableDatabase

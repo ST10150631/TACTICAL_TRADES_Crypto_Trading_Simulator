@@ -89,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-
+    //old method
     private fun loginUser(email: String, password: String) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
