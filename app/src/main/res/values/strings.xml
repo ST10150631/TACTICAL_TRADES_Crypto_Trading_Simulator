@@ -82,4 +82,5 @@
     <string name="save">Save</string>
     <string name="my_wallets">My Wallets</string>
     <string name="my_watchlist">My watchlist</string>
+    <string name="coin">Coin</string>
 </resources>
