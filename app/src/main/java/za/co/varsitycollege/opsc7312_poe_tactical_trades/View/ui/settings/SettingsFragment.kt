@@ -1,9 +1,7 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.settings
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -16,14 +14,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper.firebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
@@ -43,53 +39,104 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        if (activity is MainActivity) {
-            (activity as MainActivity).setHeaderTitle("Settings")
-        }
-        return binding.root
-    }
+        val root: View = binding.root
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val navController = findNavController()
+
+        if (navController.currentDestination?.id != R.id.navigation_home) {
+            if (activity is MainActivity) {
+                (activity as MainActivity).setHeaderTitle("Settings")
+            }
+        }
+
         loadProfilePicture()
         loadNotificationSettings()
         setupSpinners()
         setupRadioGroup()
         setupButtons()
+
+        return root
     }
 
     private fun setupSpinners() {
-        setupSpinner(binding.DropDownTheme, R.array.theme_options)
-        setupSpinner(binding.DropDownGraphTheme, R.array.graph_theme_options)
-        setupSpinner(binding.DropDownLanguage, R.array.language_options)
-        setupSpinner(binding.DropDownStartValue, R.array.starting_value_options)
-    }
-
-    private fun setupSpinner(spinner: Spinner, arrayResourceId: Int) {
+        // Theme Spinner
+        val themeSpinner: Spinner = binding.DropDownTheme
         ArrayAdapter.createFromResource(
             requireContext(),
-            arrayResourceId,
+            R.array.theme_options,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
+            themeSpinner.adapter = adapter
+        }
+
+
+        // Graph Theme Spinner
+        val graphThemeSpinner: Spinner = binding.DropDownGraphTheme
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.graph_theme_options,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            graphThemeSpinner.adapter = adapter
+        }
+
+        // Language Spinner
+        val languageSpinner: Spinner = binding.DropDownLanguage
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.language_options,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            languageSpinner.adapter = adapter
+        }
+
+        // Start Value Spinner
+        val startValueSpinner: Spinner = binding.DropDownStartValue
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.starting_value_options,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            startValueSpinner.adapter = adapter
+        }
+
+
+    }
+
+
+    private fun setupRadioGroup() {
+        val notificationGroup: RadioGroup = binding.NotificationRadioGroup
+        notificationGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.radioButton2 -> {
+                    updateNotificationSettings(true)
+                    setRadioButtonTint(binding.radioButton2, true)
+                    setRadioButtonTint(binding.radioButton3, false)
+                }
+                R.id.radioButton3 -> {
+                    updateNotificationSettings(false)
+                    setRadioButtonTint(binding.radioButton2, false)
+                    setRadioButtonTint(binding.radioButton3, true)
+                }
+            }
         }
     }
 
-    private fun setupRadioGroup() {
-        binding.NotificationRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            val isEnabled = checkedId == R.id.radioButton2
-            updateNotificationSettings(isEnabled)
-            setRadioButtonTint(binding.radioButton2, isEnabled)
-            setRadioButtonTint(binding.radioButton3, !isEnabled)
-        }
-    }
 
     private fun setRadioButtonTint(radioButton: RadioButton, isSelected: Boolean) {
         val drawable = radioButton.background?.mutate()
+
         if (drawable != null) {
             DrawableCompat.wrap(drawable).apply {
-                DrawableCompat.setTint(this, if (isSelected) Color.TRANSPARENT else ContextCompat.getColor(requireContext(), R.color.gray))
+                if (isSelected) {
+                    DrawableCompat.setTintList(this, null)
+                } else {
+                    DrawableCompat.setTint(this, ContextCompat.getColor(requireContext(), R.color.gray))
+                }
             }
             radioButton.background = drawable
         }
@@ -105,16 +152,34 @@ class SettingsFragment : Fragment() {
         recreateActivity()
     }
 
-    private fun updateNotificationSettings(isEnabled: Boolean) {
-        auth.currentUser?.let { user ->
-            FirebaseHelper.databaseReference.child(user.uid).child("notificationsEnabled").setValue(isEnabled)
-                .addOnSuccessListener {
-                    showToast("Notification settings updated successfully.")
+    private fun updateNotificationSettings(isOn: Boolean) {
+        val user = auth.currentUser
+        user?.let {
+            FirebaseHelper.databaseReference.child(user.uid).child("notificationsEnabled").setValue(isOn)
+        }
+    }
+
+    private fun loadNotificationSettings() {
+        val user = auth.currentUser
+        user?.let {
+            FirebaseHelper.databaseReference.child(user.uid).child("notificationsEnabled").get()
+                .addOnSuccessListener { snapshot ->
+                    val notificationsEnabled = snapshot.getValue(Boolean::class.java) ?: false
+                    if (notificationsEnabled) {
+                        binding.radioButton2.isChecked = true
+                        setRadioButtonTint(binding.radioButton2, true)
+                        setRadioButtonTint(binding.radioButton3, false)
+                    } else {
+                        binding.radioButton3.isChecked = true
+                        setRadioButtonTint(binding.radioButton2, false)
+                        setRadioButtonTint(binding.radioButton3, true)
+                    }
                 }.addOnFailureListener {
-                    showToast("Failed to update notification settings: ${it.message}")
+                    Toast.makeText(requireContext(), "Failed to load notification settings: ${it.message}", Toast.LENGTH_LONG).show()
                 }
         }
     }
+
 
     private fun saveLanguagePreference(language: String) {
         requireContext().getSharedPreferences("app_preferences", AppCompatActivity.MODE_PRIVATE).edit()
@@ -122,49 +187,44 @@ class SettingsFragment : Fragment() {
             .apply()
     }
 
-    private fun loadNotificationSettings() {
-        auth.currentUser?.let { user ->
-            FirebaseHelper.databaseReference.child(user.uid).child("notificationsEnabled").get()
-                .addOnSuccessListener { snapshot ->
-                    if (isAdded) { // Check if the fragment is still added
-                        val notificationsEnabled = snapshot.getValue(Boolean::class.java) ?: false
-                        binding.radioButton2.isChecked = notificationsEnabled
-                        setRadioButtonTint(binding.radioButton2, notificationsEnabled)
-                        setRadioButtonTint(binding.radioButton3, !notificationsEnabled)
-                    }
-                }.addOnFailureListener {
-                    if (isAdded) { // Check if the fragment is still added
-                        showToast("Failed to load notification settings: ${it.message}")
-                    }
-                }
-        }
-    }
-
 
     private fun setupButtons() {
-        binding.btnSaveAndExit.setOnClickListener { saveUserData() }
-        binding.BtnDiscardChanges.setOnClickListener { discardChanges() }
-        binding.BtnDeleteAccount.setOnClickListener { deleteAccount() }
-        binding.BtnSignOut.setOnClickListener { signOut() }
-        binding.updateProfile.setOnClickListener { openImagePicker() }
-    }
+        binding.btnSaveAndExit.setOnClickListener {
+            val username = binding.editTxtUsername.text.toString()
+            val name = binding.editTxtName.text.toString()
+            val password = binding.editTxtPassword.text.toString()
+            val selectedTheme = binding.DropDownTheme.selectedItem.toString()
+            val selectedGraphTheme = binding.DropDownGraphTheme.selectedItem.toString()
+            val selectedLanguage = binding.DropDownLanguage.selectedItem.toString()
+            val startValue = binding.DropDownStartValue.selectedItem.toString()
 
-    private fun saveUserData() {
-        val username = binding.editTxtUsername.text.toString()
-        val name = binding.editTxtName.text.toString()
-        val password = binding.editTxtPassword.text.toString()
-        val selectedTheme = binding.DropDownTheme.selectedItem.toString()
-        val selectedGraphTheme = binding.DropDownGraphTheme.selectedItem.toString()
-        val selectedLanguage = binding.DropDownLanguage.selectedItem.toString()
-        val startValue = binding.DropDownStartValue.selectedItem.toString()
-
-        // Update the user language preference first
-        if (selectedLanguage != getCurrentLanguage()) {
-            changeLanguage(selectedLanguage)
+            updateUserData(username, name, password, startValue, selectedTheme, selectedGraphTheme, selectedLanguage)
+            applyTheme()
+            if (selectedLanguage != getCurrentLanguage()) {
+                changeLanguage(selectedLanguage)
+            }
         }
 
-        updateUserData(username, name, password, startValue, selectedTheme, selectedGraphTheme, selectedLanguage)
+        binding.BtnDiscardChanges.setOnClickListener {
+            discardChanges()
+            Toast.makeText(requireContext(), "Changes Discarded", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.BtnDeleteAccount.setOnClickListener {
+            deleteAccount()
+        }
+
+        binding.BtnSignOut.setOnClickListener {
+            FirebaseHelper.signOut()
+            Toast.makeText(requireContext(), "Signed out", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.updateProfile.setOnClickListener {
+            openImagePicker()
+            loadProfilePicture()
+        }
     }
+
     private fun getCurrentLanguage(): String {
         return requireContext().getSharedPreferences("app_preferences", AppCompatActivity.MODE_PRIVATE)
             .getString("selected_language", Locale.getDefault().language) ?: Locale.getDefault().language
@@ -175,25 +235,57 @@ class SettingsFragment : Fragment() {
         loadProfilePicture()
         loadNotificationSettings()
         clearInputs()
-        showToast("Changes Discarded")
     }
 
-    private fun updateUserData(username: String, name: String, password: String, startValue: String, theme: String, graphTheme: String, language: String) {
-        auth.currentUser?.let { user ->
-            val userId = user.uid
-            if (password.isNotEmpty() && password.matches(Regex("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+\$).{8,}"))) {
-                user.updatePassword(password).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        storeUserData(userId, username, name, user.email ?: "", startValue, theme, graphTheme, language)
-                        discardChanges()
-                    } else {
-                        showToast("Failed to update password: ${it.exception?.message}")
-                    }
-                }
-            } else {
-                storeUserData(userId, username, name, user.email ?: "", startValue, theme, graphTheme, language)
+
+    private fun updateUserData(username: String, name: String, password: String, startValue:String, theme: String, graphTheme: String, language: String) {
+        val user = auth.currentUser
+        user?.let {
+            val userId = it.uid
+
+            val passwordPattern =
+                "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+\$).{8,}".toRegex()
+
+
+            if ((password.isNotEmpty()) && (passwordPattern.matches(password))) {
+                user.updatePassword(password)
+                storeUserData(userId, username, name, it.email ?: "", startValue, theme, graphTheme, language)
+
                 discardChanges()
             }
+            else if ((password.isNotEmpty()) && (!passwordPattern.matches(password)))
+            {
+                Toast.makeText(requireContext(), "Password must meet complexity requirements, Password will not be updated.", Toast.LENGTH_LONG)
+                    .show()
+            }
+            else if (password.isEmpty())
+            {
+                storeUserData(userId, username, name, it.email ?: "",startValue, theme, graphTheme, language)
+                discardChanges()
+            }
+        }
+    }
+
+
+    private fun applyTheme() {
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            FirebaseHelper.getTheme(currentUser.uid) { theme, error ->
+                if (error != null) {
+                    Log.e("AuthStateListener", "Error retrieving theme: $error")
+                } else if (theme != null) {
+                    when (theme) {
+                        "Dark Theme" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        "Light Theme" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    }
+                    recreateActivity()
+                }
+
+            }
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            recreateActivity()
         }
     }
 
@@ -204,7 +296,7 @@ class SettingsFragment : Fragment() {
             username = username,
             name = name,
             email = email,
-            startValue = startValue,
+            startValue =  startValue,
             theme = theme,
             graphTheme = graphTheme,
             language = language
@@ -212,75 +304,72 @@ class SettingsFragment : Fragment() {
     }
 
     private fun deleteAccount() {
-        auth.currentUser?.let { user ->
+        val user = auth.currentUser
+        if (user != null) {
             FirebaseHelper.databaseReference.child(user.uid).removeValue()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        showToast("Account deleted")
-                        FirebaseHelper.signOut()
-                    } else {
-                        showToast("Failed to delete account: ${task.exception?.message}")
-                    }
-                }
+            Toast.makeText(requireContext(), "Account deleted", Toast.LENGTH_SHORT).show()
+            FirebaseHelper.signOut()
+        } else {
+            Toast.makeText(requireContext(), "Failed to delete account", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun signOut() {
-        FirebaseHelper.signOut()
-        showToast("Signed out")
-    }
 
     private fun openImagePicker() {
-        val intent = Intent(Intent.ACTION_PICK).apply {
-            type = "image/*"
-        }
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data?.data != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             profileImageUri = data.data
             uploadProfilePicture()
         }
     }
 
+
     private fun uploadProfilePicture() {
-        auth.currentUser?.let { user ->
+        val user = auth.currentUser
+        user?.let {
             profileImageUri?.let { uri ->
-                FirebaseHelper.uploadProfilePicture(user.uid, uri) { url, message ->
+                FirebaseHelper.uploadProfilePicture(it.uid, uri) { url, message ->
                     if (url != null) {
-                        storeUserProfilePicture(user.uid, url)
+                        storeUserProfilePicture(it.uid, url)
                     } else {
-                        showToast("Failed to upload profile picture: $message")
+                        Toast.makeText(requireContext(), "Failed to upload profile picture.", Toast.LENGTH_LONG).show()
                     }
                 }
             }
         }
     }
 
+
     private fun storeUserProfilePicture(userId: String, profilePictureUrl: String) {
         FirebaseHelper.databaseReference.child(userId).child("profilePictureUrl").setValue(profilePictureUrl)
             .addOnSuccessListener {
-                showToast("Profile picture updated")
+                Toast.makeText(requireContext(), "Profile picture updated", Toast.LENGTH_SHORT).show()
                 loadProfilePicture()
             }.addOnFailureListener {
-                showToast("Failed to update profile picture: ${it.message}")
+                Toast.makeText(requireContext(), "Failed to update profile picture: ${it.message}", Toast.LENGTH_LONG).show()
             }
     }
+
 
     private fun loadProfilePicture() {
         auth.currentUser?.let { user ->
             FirebaseHelper.getProfilePictureUrl(user.uid) { url, message ->
-                if (isAdded) {
-                    if (url != null) {
-                        Glide.with(this)
-                            .load(url)
-                            .apply(RequestOptions().transform(RoundedCorners(16)))
-                            .into(binding.myImageView)
-                    } else {
-                        showToast("Failed to load profile picture: $message")
-                    }
+                if (url != null) {
+                    Glide.with(binding.ivProfile.context).load(url).apply(
+                        RequestOptions()
+                            .placeholder(R.drawable.profile_image)
+                            .error(R.drawable.profile_image)
+                    ).into(binding.ivProfile)
+                } else {
+                    Toast.makeText(requireContext(), "Failed to load profile picture: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -293,12 +382,10 @@ class SettingsFragment : Fragment() {
         binding.DropDownTheme.setSelection(0)
         binding.DropDownGraphTheme.setSelection(0)
         binding.DropDownLanguage.setSelection(0)
-        binding.DropDownStartValue.setSelection(0)
+        binding.NotificationRadioGroup.clearCheck()
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
+
 
     private fun recreateActivity() {
         activity?.recreate()

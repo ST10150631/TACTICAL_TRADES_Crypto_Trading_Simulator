@@ -228,7 +228,7 @@ object FirebaseHelper {
         val userReference = databaseReference.child(userId)
 
         userReference.get().addOnSuccessListener { snapshot ->
-            val currentUser = snapshot.getValue(User::class.java)
+            val currentUser = firebaseAuth.currentUser
             val totalBalance = startValue?.toDoubleOrNull()
 
             if (currentUser != null) {
@@ -241,7 +241,7 @@ object FirebaseHelper {
                 if (!theme.isNullOrEmpty()) updatedData["theme"] = theme
                 if (!graphTheme.isNullOrEmpty()) updatedData["graphTheme"] = graphTheme
                 if (!language.isNullOrEmpty()) updatedData["language"] = language
-                updatedData["profilePictureUrl"] = currentUser.profilePictureUrl
+              //  updatedData["profilePictureUrl"] = currentUser.profilePictureUrl
 
                 userReference.updateChildren(updatedData).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
