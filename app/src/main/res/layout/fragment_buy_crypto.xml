@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:text="Money"
+                android:text="@string/money"
                 android:textColor="@color/PrimaryTxtColor"
                 android:textSize="16dp" />
 
@@ -223,7 +223,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/inter_medium"
-                android:text="Confirm"
+                android:text="@string/confirm"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </FrameLayout>

@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/navigation_wallets"
         android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets.WalletsFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/"
         tools:layout="@layout/fragment_wallets" />
     <fragment
         android:id="@+id/navigation_coinViewFragment"

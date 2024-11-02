@@ -67,7 +67,7 @@
         android:layout_gravity="end|top"
         style="@style/TxtPrimaryStyle"
         android:textColor="@color/PrimaryTxtColor"
-        android:text="$ Price"
+        android:text="@string/price"
         android:layout_marginEnd="10dp"
         android:textAppearance="?attr/textAppearanceListItem" />
 </FrameLayout>
