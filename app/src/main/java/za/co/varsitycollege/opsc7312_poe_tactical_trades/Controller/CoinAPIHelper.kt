@@ -69,6 +69,31 @@ class CoinAPIHelper {
         "SHIB" to R.drawable.shib_logo,
         "TON" to R.drawable.ton_logo
     )
+    val assetURLMap = mapOf(
+        "BTC" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_BTC_USD/history",
+        "ETH" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_ETH_USD/history",
+        "USDT" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_USDT_USD/history",
+        "BNB" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_BNB_USD/history",
+        "SOL" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_SOL_USD/history",
+        "USDC" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_USDC_USD/history",
+        "XRP" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_XRP_USD/history",
+        "DOGE" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_DOGE_USD/history",
+        "TRX" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_TRX_USD/history",
+        "ADA" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_ADA_USD/history",
+        "AVAX" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_AVAX_USD/history",
+        "LTC" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_LTC_USD/history",
+        "LINK" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_LINK_USD/history",
+        "BCH" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_BCH_USD/history",
+        "DOT" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_DOT_USD/history",
+        "LEO" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_LEO_USD/history",
+        "DAI" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_DAI_USD/history",
+        "UNI" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_UNI_USD/history",
+        "WBTC" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_WBTC_USD/history",
+        "STETH" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_STETH_USD/history",
+        "NEAR" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_NEAR_USD/history",
+        "SHIB" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_SHIB_USD/history",
+        "TON" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_TON_USD/history"
+    )
     // Array of the top 25 cryptocurrency IDs
     val top25CryptoIds ="BTC;ETH;USDT;BNB;SOL;USDC;XRP;DOGE;STETH;TON;TRX;ADA;AVAX;WSTETH;WBTC;SHIB;LINK;BCH;DOT;LEO;0DAI;UNI;LTC;NEAR"
 
@@ -244,14 +269,14 @@ class CoinAPIHelper {
         val timeEnd = OffsetDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
 
         // Construct the URL correctly using the asset ID
-        val coinUrl = "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_BTC_USD/history"
+        val coinUrl = assetURLMap[assetId].toString() // Return an empty list if the asset ID is not found
 
         // Build the URI with the required parameters
         val buildUri: Uri = Uri.parse(coinUrl).buildUpon()
-            .appendQueryParameter("symbol_id", symbol)
             .appendQueryParameter("period_id", "1DAY") // Example period
             .appendQueryParameter("time_start", timeStart)
             .appendQueryParameter("time_end", timeEnd)
+            .appendQueryParameter("limit","365")
             .build()
 
         Log.i(LOGGING_TAG, "Building URL for OHLCV: ${buildUri.toString()}")

@@ -22,6 +22,7 @@ import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.CoinAPIHelpe
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.OHLCV
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
@@ -39,6 +40,8 @@ class CoinViewTestFragment : Fragment() {
     private var _binding: FragmentCoinviewTestBinding? = null
     private val binding get() = _binding!!
     private lateinit var coin: CoinAsset
+    private lateinit var OHLCVData: List<OHLCV>
+    private lateinit var graph :com.db.williamchart.view.LineChartView
     private val storageRef = FirebaseStorage.getInstance().reference
     var hasWallet = false
 
@@ -50,28 +53,6 @@ class CoinViewTestFragment : Fragment() {
         _binding = FragmentCoinviewTestBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-
-        val LineSet: List<Pair<String, Float>> = listOf(
-            "JAN" to 4.5F,
-            "FEB" to 5F,
-            "MAR" to 12F,
-            "APR" to 2F,
-            "MAY" to 6F,
-            "JUN" to 6F,
-            "JUL" to 3F,
-            "AUG" to 4F,
-            "SEPT" to 6F,
-            "OCT" to 9F,
-            "NOV" to 12F,
-            "DEC" to 15F
-        )
-        // chart
-        binding.LineGraph.gradientFillColors = intArrayOf(
-            Color.parseColor("#8551B2"),
-            Color.TRANSPARENT
-        )
-        binding.LineGraph.animation.duration = 1000L
-        binding.LineGraph.animate(LineSet)
         val coinData = arguments?.getString("coinData")
         if (coinData != null) {
             try {
@@ -82,7 +63,14 @@ class CoinViewTestFragment : Fragment() {
             }
 
         }
+       setUpGraph(coinData.toString())
 
+        binding.LineGraph.animation.duration = 1000L
+        // chart
+        binding.LineGraph.gradientFillColors = intArrayOf(
+            Color.parseColor("#8551B2"),
+            Color.TRANSPARENT
+        )
         val userId = FirebaseHelper.firebaseAuth.currentUser?.uid
         if (userId != null) {
             getWallet(userId)
@@ -136,6 +124,57 @@ class CoinViewTestFragment : Fragment() {
         return root
     }
 
+    private fun setUpGraph(ID: String) {
+        var data = mutableListOf<Pair<String, Float>>()
+        thread {
+            OHLCVData = try {
+                CoinAPIHelper().getOHLCVData(ID, getDateAYearAgo())
+            } catch (e: Exception) {
+                return@thread
+            }
+            if (OHLCVData.isNotEmpty()) {
+                activity?.runOnUiThread {
+                    for (i in 0 until OHLCVData.size) {
+                        data.add(Pair(OHLCVData[i].timeClose, OHLCVData[i].priceClose.toFloat()))
+
+                    }
+                    binding.LineGraph.animate(data)
+                    if (OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose < 0) {
+                        binding.TxtViewDifference.text = " ${OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose}"
+                        binding.TxtViewDifference.setTextColor(Color.parseColor("#D90429"))
+                    } else {
+                        binding.TxtViewDifference.text = "+ ${OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose}"
+                        binding.TxtViewDifference.setTextColor(Color.parseColor("#21BF73"))
+
+                    }
+
+                }
+            }
+            else {
+                data = mutableListOf<Pair<String, Float>>()
+                data.add(Pair("JAN", 4.5F))
+                data.add(Pair("FEB", 5F))
+                data.add(Pair("MAR", 12F))
+                data.add(Pair("APR", 2F))
+                data.add(Pair("MAY", 6F))
+                data.add(Pair("JUN", 6F))
+                data.add(Pair("JUL", 3F))
+                data.add(Pair("AUG", 4F))
+                data.add(Pair("SEPT", 6F))
+                data.add(Pair("OCT", 9F))
+                data.add(Pair("NOV", 12F))
+                data.add(Pair("DEC", 15F))
+                binding.LineGraph.animate(data)
+                binding.LineGraph.animation.duration = 1000L
+                // chart
+                binding.LineGraph.gradientFillColors = intArrayOf(
+                    Color.parseColor("#8551B2"),
+                    Color.TRANSPARENT
+                )
+            }
+        }
+
+    }
 
     private fun getWallet(userId: String) {
         FirebaseHelper.getWalletsFromFirebase(userId) { wallets, error ->
@@ -295,12 +334,12 @@ class CoinViewTestFragment : Fragment() {
             ).show()
         }
     }
-    fun getSixMonthsAgo(): String {
+    fun getDateAYearAgo(): String {
         // Get the current date and time
         val now = OffsetDateTime.now()
 
         // Subtract six months
-        val sixMonthsAgo = now.minusMonths(6)
+        val sixMonthsAgo = now.minusMonths(12)
 
         // Format the result to ISO 8601 string
         return sixMonthsAgo.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
