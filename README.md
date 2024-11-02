@@ -5,6 +5,7 @@
 
 ### Table of Contents
 
+- [Link To Github](#https://github.com/VCCT-OPSC7311-G1-2024/OPSC7312_POE_TACTICAL_TRADES_Organization)
 - [Description](#description)
 - [How To Use](#how-to-use)
 - [Technologies](#technologies)
@@ -13,6 +14,11 @@
 - [Utilization of Github Actions](#utilization-of-github-actions)
 - [Design Considerations](#design-considerations)
 - [License](#license)
+
+---
+
+[Link To Github](https://github.com/VCCT-OPSC7311-G1-2024/OPSC7312_POE_TACTICAL_TRADES_Organization)
+
 
 ---
 
@@ -25,6 +31,10 @@ Tactical Trades is a cryptocurrency trading application that allows users to pra
 - Android Studio 
 - Kotlin
 - Firebase
+- JUnit
+- Mockito
+- Robolectric
+- GitHub worrkflows for automation
   
 ---
 

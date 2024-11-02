@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/BackGround"
     android:orientation="vertical">
 
@@ -14,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -22,7 +23,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -89,7 +89,12 @@
 
                     </FrameLayout>
 
+
                 </LinearLayout>
+
+
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,7 +151,7 @@
                             android:layout_gravity="end|center_vertical"
                             android:layout_marginEnd="10dp"
                             android:fontFamily="@font/inter_medium"
-                            android:text="Add to Watch List"
+                            android:text="@string/add_to_watch_list"
                             android:textColor="@color/white"
                             android:textSize="7pt" />
                     </FrameLayout>
@@ -156,6 +161,21 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.db.williamchart.view.LineChartView
+                android:id="@+id/LineGraph"
+                android:layout_width="match_parent"
+                app:chart_gridEffect="dotted"
+                app:chart_axis="none"
+                app:chart_lineThickness="2dp"
+                app:chart_lineColor="#C800FF"
+                app:chart_smoothLine="true"
+                android:layout_height="300dp"/>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -165,8 +185,7 @@
 
             <Space
                 android:layout_width="30dp"
-                android:layout_height="wrap_content">
-            </Space>
+                android:layout_height="wrap_content"></Space>
 
             <FrameLayout
                 android:layout_width="150dp"
@@ -188,15 +207,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Buy Coin"
+                    android:text="@string/buy_coin"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
             </FrameLayout>
 
             <Space
                 android:layout_width="30dp"
-                android:layout_height="wrap_content">
-            </Space>
+                android:layout_height="wrap_content"></Space>
 
             <FrameLayout
                 android:layout_width="150dp"
@@ -218,17 +236,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Sell Coin"
+                    android:text="@string/sell_coin"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
             </FrameLayout>
 
             <Space
                 android:layout_width="30dp"
-                android:layout_height="wrap_content">
-            </Space>
+                android:layout_height="wrap_content"></Space>
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -241,7 +257,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
-                android:text="My Wallet Value"
+                android:text="@string/my_wallet_value"
                 android:textColor="@color/PrimaryTxtColor"
                 android:textSize="20sp" />
 

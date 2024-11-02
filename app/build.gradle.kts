@@ -1,3 +1,5 @@
+import java.util.regex.Pattern.compile
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -40,6 +42,8 @@ android {
     }
 }
 
+
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -60,11 +64,17 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.runtime.android)
     testImplementation(libs.junit)
-
+    implementation(libs.gson)
+    implementation(libs.okhttp)
+    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.glide)
+    kapt(libs.compiler)
+    //charts
+    implementation("com.diogobernardino:williamchart:3.10.1")
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
     // Mockito for instrumented tests
     androidTestImplementation("org.mockito:mockito-android:5.2.0")
     // JUnit for running unit tests
@@ -95,11 +105,6 @@ dependencies {
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
 
-    implementation(libs.gson)
-    implementation(libs.okhttp) // Check for the latest version
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.glide)
-    kapt(libs.compiler)
 
 }
 

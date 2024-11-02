@@ -5,17 +5,16 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinsAssets
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.OHLCV
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 var API_KEY3 = "52470BBE-DFDE-453F-BE9A-E93B6B82D77F"//"fd0612a2-3ef6-48aa-824a-1c025b0e12e9"
 const val API_KEY2 ="389E6140-D2F4-4539-BCA2-396577CC3821"
@@ -64,6 +63,31 @@ class CoinAPIHelper {
         "NEAR" to R.drawable.near_logo,
         "SHIB" to R.drawable.shib_logo,
         "TON" to R.drawable.ton_logo
+    )
+    val assetURLMap = mapOf(
+        "BTC" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_BTC_USD/history",
+        "ETH" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_ETH_USD/history",
+        "USDT" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_USDT_USD/history",
+        "BNB" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_BNB_USD/history",
+        "SOL" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_SOL_USD/history",
+        "USDC" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_USDC_USD/history",
+        "XRP" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_XRP_USD/history",
+        "DOGE" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_DOGE_USD/history",
+        "TRX" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_TRX_USD/history",
+        "ADA" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_ADA_USD/history",
+        "AVAX" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_AVAX_USD/history",
+        "LTC" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_LTC_USD/history",
+        "LINK" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_LINK_USD/history",
+        "BCH" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_BCH_USD/history",
+        "DOT" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_DOT_USD/history",
+        "LEO" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_LEO_USD/history",
+        "DAI" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_DAI_USD/history",
+        "UNI" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_UNI_USD/history",
+        "WBTC" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_WBTC_USD/history",
+        "STETH" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_STETH_USD/history",
+        "NEAR" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_NEAR_USD/history",
+        "SHIB" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_SHIB_USD/history",
+        "TON" to "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_TON_USD/history"
     )
     // Array of the top 25 cryptocurrency IDs
     val top25CryptoIds ="BTC;ETH;USDT;BNB;SOL;USDC;XRP;DOGE;STETH;TON;TRX;ADA;AVAX;WSTETH;WBTC;SHIB;LINK;BCH;DOT;LEO;0DAI;UNI;LTC;NEAR"
@@ -233,6 +257,54 @@ class CoinAPIHelper {
 
     }
 
+    fun getOHLCVData(assetId: String, timeStart: String): List<OHLCV> {
+        val ohclvs = mutableListOf<OHLCV>()
+        // Get the current time for timeEnd
+        val timeEnd = OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
+
+
+
+        // Construct the URL correctly using the asset ID
+        val coinUrl = assetURLMap[assetId].toString() // Return an empty list if the asset ID is not found
+
+        // Build the URI with the required parameters
+        val buildUri: Uri = Uri.parse(coinUrl).buildUpon()
+            .appendQueryParameter("period_id", "1DAY") // Example period
+            .appendQueryParameter("time_start", timeStart)
+            .appendQueryParameter("time_end", timeEnd)
+            .appendQueryParameter("limit","365")
+            .build()
+
+        Log.i(LOGGING_TAG, "Building URL for OHLCV: ${buildUri.toString()}")
+
+        var connection: HttpURLConnection? = null
+        try {
+            val url = URL(buildUri.toString())
+            connection = url.openConnection() as HttpURLConnection
+            connection.requestMethod = "GET"
+            connection.setRequestProperty("X-CoinAPI-Key", API_KEY3)
+
+            val responseCode = connection.responseCode
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                val ohlcvJSON = connection.inputStream.bufferedReader().use { it.readText()}
+                val gson = Gson()
+                // Since the response is an array, we parse it as a list
+                val ohclvData: List<OHLCV> = gson.fromJson(ohlcvJSON, object : TypeToken<List<OHLCV>>() {}.type)
+                ohclvs.addAll(ohclvData.sortedByDescending { it.timeOpen }) // Add all OHLCV data to the list
+                return ohclvData
+            } else {
+                Log.e(LOGGING_TAG, "Error: Response Code $responseCode")
+            }
+        } catch (e: Exception) {
+            Log.e(LOGGING_TAG, "Exception occurred: ${e.message}")
+        } finally {
+            connection?.disconnect() // Ensure the connection is closed
+        }
+
+        return ohclvs // Return the collected data
+    }
+
+
 
     val LOGGING_TAG = "URLWECREATED"
 
@@ -256,7 +328,6 @@ class CoinAPIHelper {
     private fun assignLogo(assetId: String?): Int {
         return assetLogoMap[assetId] ?: 0 // Return a default icon if not found
     }
-
 
 }
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_notifications">Kennisgewings</string>
+    <string name="amazon_icon" translatable="false">amazon_icon</string>
+    <string name="account">"Rekening "</string>
+    <string name="edit_username" translatable="false">Wysig gebruikersnaam</string>
+    <string name="app_name">OPSC7312_POE_TACTICAL_TRADES</string>
+    <string name="title_home">Hoof Blad</string>
+    <string name="edit_name">Wysig Naam</string>
+    <string name="edit_password">" Wysig wagwoord"</string>
+    <string name="delete_account">" Vee rekening uit"</string>
+    <string name="display">Vertoon</string>
+    <string name="delete_account_button">" Vee rekening uit"</string>
+    <string name="select_theme">Kies Tema</string>
+    <string name="graph_theme">Grafiek Tema</string>
+    <string name="language">Taal</string>
+    <string name="notifications">" Kennisgewings"</string>
+    <string name="balance">Balaans</string>
+    <string name="starting_value">"Begin Waarde "</string>
+    <string name="save_changes">Stoor Veranderinge</string>
+    <string name="discard_changes">Gooi veranderinge weg</string>
+    <string name="sign_out">Meld af</string>
+    <string name="login">Teken in</string>
+    <string name="password">Wagwoord</string>
+    <string name="don_t_have_an_account">Het nie \'n rekening nie?</string>
+    <string name="click_here_to_register">Klik hier om te registreer</string>
+    <string name="register">REGISTREER</string>
+    <string name="username">" Gebruikersnaam:"</string>
+    <string name="name">Naam:</string>
+    <string name="email">Epos:</string>
+    <string name="confirm_password">Bevestig wagwoord</string>
+    <string name="click_here_to_login">Klik hier om aan te meld</string>
+    <string name="home">Hoof Blad</string>
+    <string name="trade">Handel</string>
+    <string name="watchlist">Kyklys</string>
+    <string name="wallets">"Beursies "</string>
+    <string name="news">Nuus</string>
+    <string name="money">Geld</string>
+    <string name="confirm">Bevestig</string>
+    <string name="price">$ Prys</string>
+    <string name="total_balance">Totale balans</string>
+    <string name="news_articles">" Nuus Artikels"</string>
+    <string name="select_colour">Kies Kleur</string>
+    <string name="add_to_watch_list">Voeg by kyklys</string>
+    <string name="buy_coin">"Koop munt "</string>
+    <string name="sell_coin">Verkoop munt</string>
+    <string name="my_wallet_value">"My Beursie Waarde "</string>
+    <string name="theme">Tema</string>
+    <string name="select_coin">"Kies Munt "</string>
+    <string name="save">Stoor</string>
+    <string name="my_wallets">"My Beursies "</string>
+    <string name="my_watchlist">"My Kyklys "</string>
+</resources>

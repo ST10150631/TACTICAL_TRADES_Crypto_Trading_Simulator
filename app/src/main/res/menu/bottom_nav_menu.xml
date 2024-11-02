@@ -3,10 +3,10 @@
 
     <item android:id="@id/navigation_news"
         android:icon="@drawable/newspaper_solid"
-        android:title="News" />
+        android:title="@string/news" />
     <item android:id="@id/navigation_wallets"
         android:icon="@drawable/wallet"
-        android:title="Wallets" />
+        android:title="@string/wallets" />
 
     <item
         android:id="@+id/navigation_home"
@@ -16,9 +16,9 @@
     <item
         android:id="@+id/navigation_watchlist"
         android:icon="@drawable/eye_solid"
-        android:title="WatchList" />
+        android:title="@string/watchlist" />
 
     <item android:id="@id/navigation_marketplace"
         android:icon="@drawable/trade_solid"
-        android:title="Trade" />
+        android:title="@string/trade" />
 </menu>

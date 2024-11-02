@@ -3,12 +3,14 @@ package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.coinview
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -16,22 +18,31 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.CoinAPIHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.OHLCV
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletRepository.wallets
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.MarketPlace.MyallcoinsRecyclerViewAdapter
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentCoinviewTestBinding
 import java.io.ByteArrayOutputStream
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import kotlin.concurrent.thread
 
 class CoinViewTestFragment : Fragment() {
 
     private var _binding: FragmentCoinviewTestBinding? = null
     private val binding get() = _binding!!
     private lateinit var coin: CoinAsset
+    private lateinit var OHLCVData: List<OHLCV>
+    private lateinit var graph :com.db.williamchart.view.LineChartView
     private val storageRef = FirebaseStorage.getInstance().reference
     var hasWallet = false
 
@@ -53,7 +64,14 @@ class CoinViewTestFragment : Fragment() {
             }
 
         }
+       setUpGraph(coinData.toString())
 
+        binding.LineGraph.animation.duration = 1000L
+        // chart
+        binding.LineGraph.gradientFillColors = intArrayOf(
+            Color.parseColor("#8551B2"),
+            Color.TRANSPARENT
+        )
         val userId = FirebaseHelper.firebaseAuth.currentUser?.uid
         if (userId != null) {
             getWallet(userId)
@@ -93,9 +111,71 @@ class CoinViewTestFragment : Fragment() {
 
         }
 
+       // val time = getSixMonthsAgo()
+        //thread {
+            //val data = coin.assetId?.let { CoinAPIHelper().getOHLCVData(it,time) }
+            //if (data != null) {
+                    //activity?.runOnUiThread {
+                //
+        //}
+
+
+
+
         return root
     }
 
+    private fun setUpGraph(ID: String) {
+        var data = mutableListOf<Pair<String, Float>>()
+        thread {
+            OHLCVData = try {
+                CoinAPIHelper().getOHLCVData(ID, getDateAYearAgo())
+            } catch (e: Exception) {
+                return@thread
+            }
+            if (OHLCVData.isNotEmpty()) {
+                activity?.runOnUiThread {
+                    for (i in 0 until OHLCVData.size) {
+                        data.add(Pair(OHLCVData[i].timeClose, OHLCVData[i].priceClose.toFloat()))
+
+                    }
+                    binding.LineGraph.animate(data)
+                    if (OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose < 0) {
+                        binding.TxtViewDifference.text = " ${OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose}"
+                        binding.TxtViewDifference.setTextColor(Color.parseColor("#D90429"))
+                    } else {
+                        binding.TxtViewDifference.text = "+ ${OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose}"
+                        binding.TxtViewDifference.setTextColor(Color.parseColor("#21BF73"))
+
+                    }
+
+                }
+            }
+            else {
+                data = mutableListOf<Pair<String, Float>>()
+                data.add(Pair("JAN", 4.5F))
+                data.add(Pair("FEB", 5F))
+                data.add(Pair("MAR", 12F))
+                data.add(Pair("APR", 2F))
+                data.add(Pair("MAY", 6F))
+                data.add(Pair("JUN", 6F))
+                data.add(Pair("JUL", 3F))
+                data.add(Pair("AUG", 4F))
+                data.add(Pair("SEPT", 6F))
+                data.add(Pair("OCT", 9F))
+                data.add(Pair("NOV", 12F))
+                data.add(Pair("DEC", 15F))
+                binding.LineGraph.animate(data)
+                binding.LineGraph.animation.duration = 1000L
+                // chart
+                binding.LineGraph.gradientFillColors = intArrayOf(
+                    Color.parseColor("#8551B2"),
+                    Color.TRANSPARENT
+                )
+            }
+        }
+
+    }
 
     private fun getWallet(userId: String) {
         FirebaseHelper.getWalletsFromFirebase(userId) { wallets, error ->
@@ -254,6 +334,16 @@ class CoinViewTestFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+    fun getDateAYearAgo(): String {
+        // Get the current date and time in UTC
+        val now = OffsetDateTime.now(ZoneOffset.UTC)
+
+        // Subtract a year
+        val aYearAgo = now.minusYears(1)
+
+        // Format the result to ISO 8601 string in UTC
+        return aYearAgo.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
     }
 
     private fun getBitmapFromDrawable(drawableId: Int): Bitmap? {
