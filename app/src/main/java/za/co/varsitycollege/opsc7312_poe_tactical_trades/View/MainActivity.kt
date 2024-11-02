@@ -1,5 +1,6 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.ActivityMainBinding
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +30,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var settingsButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Load language preference
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        val selectedLanguage = sharedPreferences.getString("selected_language", "English") // Default to English
+        changeLanguage(selectedLanguage!!)
         super.onCreate(savedInstanceState)
 
 
@@ -55,7 +61,36 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun setAppLocale(language: String) {
+        val locale = when (language) {
+            "Afrikaans" -> Locale("af")
+            "English" -> Locale("en")
+            else -> Locale.getDefault()
+        }
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
 
+    private fun changeLanguage(language: String) {
+        val locale = when (language) {
+            "Afrikaans" -> Locale("af")
+            "English" -> Locale("en")
+            else -> Locale.getDefault()
+        }
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        // Save the language preference
+        val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putString("language", language)
+            apply()
+        }
+    }
     override fun onStart() {
         super.onStart()
         firebaseAuth.addAuthStateListener(authStateListener)

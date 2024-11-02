@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -27,8 +26,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -41,31 +39,27 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-            (activity as MainActivity).setHeaderTitle("Home")
-
-    }
-
     private fun loadTotalBalance() {
-        FirebaseHelper.getTotalBalance(FirebaseHelper.firebaseAuth.currentUser?.uid ?: "") { balance, error ->
+        // Get current user's ID
+        val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
+
+        // Fetch total balance
+        FirebaseHelper.getTotalBalance(userId) { balance, error ->
             if (error != null) {
                 Toast.makeText(context, "Error fetching balance: $error", Toast.LENGTH_LONG).show()
-                val formattedBalance = "$0.00"
-                binding.TxtBalance.text = formattedBalance
+                // Use safe call for binding
+                binding?.TxtBalance?.text = "$0.00"
             } else {
                 balance?.let {
                     val formattedBalance = String.format("$%,.2f", it)
-                    binding.TxtBalance.text = formattedBalance
+                    binding?.TxtBalance?.text = formattedBalance
                 } ?: run {
                     Toast.makeText(context, "Balance is null", Toast.LENGTH_SHORT).show()
-                    val formattedBalance = "$0.00"
-                    binding.TxtBalance.text = formattedBalance
+                    binding?.TxtBalance?.text = "$0.00"
                 }
             }
         }
     }
-
 
     private fun loadProfilePicture() {
         val user = auth.currentUser
@@ -77,14 +71,14 @@ class HomeFragment : Fragment() {
                         .apply(RequestOptions().transform(RoundedCorners(16)))
                         .into(binding.myImageView)
                 } else {
-
                     Toast.makeText(requireContext(), "Failed to load profile picture: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _binding = null // Clear binding reference to avoid memory leaks
     }
 }
