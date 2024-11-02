@@ -14,7 +14,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import org.junit.runner.RunWith
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.SQLiteHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.LoggedInUser
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.User
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
+import java.util.UUID
 
 @RunWith(AndroidJUnit4::class)
 class RegisterActivity : AppCompatActivity() {
@@ -141,8 +145,10 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun storeUserData(userId: String, username: String, name: String, email: String) {
         // Create a User object with the provided details
-        val user = User(username, name, email, 5000.00)
-
+        val user = User(userId, username,name, email, 5000.00)
+        val dbHelper = SQLiteHelper(this)
+        dbHelper.addUser(user)
+        LoggedInUser.LoggedInUser = user
         val userReference = FirebaseHelper.databaseReference.child(userId)
 
         userReference.setValue(user).addOnCompleteListener { task ->

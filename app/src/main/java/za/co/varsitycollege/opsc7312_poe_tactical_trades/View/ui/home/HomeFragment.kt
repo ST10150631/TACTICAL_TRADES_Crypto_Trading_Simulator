@@ -1,5 +1,7 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.home
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.LoggedInUser
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentHomeBinding
 
@@ -38,10 +41,22 @@ class HomeFragment : Fragment() {
 
         return root
     }
+    fun isConnected(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
+    }
 
     private fun loadTotalBalance() {
+        if (!isConnected(requireContext())) {
+            binding.TxtBalance.text = LoggedInUser.LoggedInUser.totalBalance.toString()
+            return
+        }
         // Get current user's ID
-        val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
+        var userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
+        if (userId.isEmpty()) {
+            userId = LoggedInUser.LoggedInUser?.userId ?: ""
+        }
 
         // Fetch total balance
         FirebaseHelper.getTotalBalance(userId) { balance, error ->

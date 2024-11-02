@@ -1,5 +1,7 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.watchlist
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.CoinAPIHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.SQLiteHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.LoggedInUser
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.MarketPlace.MyallcoinsRecyclerViewAdapter
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.settings.SettingsFragment
 import kotlin.concurrent.thread
@@ -50,6 +55,22 @@ class WatchListFragment : Fragment() {
         return view
     }
 
+    private fun isConnected(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
+    }
+
+    private fun getOfflineWatchList(): List<StockItem> {
+       val dbHelper = SQLiteHelper(requireContext())
+         val watchList = LoggedInUser.LoggedInUser.userId?.let {
+             dbHelper.getWatchlistItemsByUserId(
+                 it
+             )
+         }
+        return watchList?: emptyList()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -60,9 +81,15 @@ class WatchListFragment : Fragment() {
 
         val viewModel = ViewModelProvider(this).get(WatchListViewModel::class.java)
 
-        viewModel.watchList.observe(viewLifecycleOwner, { items ->
+        if (isConnected(requireContext())) {
+            viewModel.watchList.observe(viewLifecycleOwner) { items ->
+                adapter.submitList(items)
+            }
+        } else {
+            val items = getOfflineWatchList()
             adapter.submitList(items)
-        })
+        }
+
     }
 
     //---------------------------------------------------//

@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.NetworkUtils
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.SQLiteHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.LoggedInUser
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.User
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 
 class LoginActivity : AppCompatActivity() {
@@ -26,8 +28,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         val sqliteHelper = SQLiteHelper(this)
-        sqliteHelper.clearUsers()
-        FirebaseHelper.initializeDatabaseFromFirebase(this)
 
         firebaseAuth = FirebaseAuth.getInstance()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -106,7 +106,6 @@ class LoginActivity : AppCompatActivity() {
     private fun firebaseLogin(email: String, password: String) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                FirebaseHelper.initializeDatabaseFromFirebase(this) // Sync data with SQLite
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
                 Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
@@ -115,8 +114,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun sqliteLogin(email: String, password: String) {
-        val user = SQLiteHelper(this).getUserDataByEmail(email)
+        val user = SQLiteHelper(this).getUserByEmail(email)
         if (user != null) {
+            LoggedInUser.LoggedInUser = user
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         } else {
