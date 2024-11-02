@@ -80,6 +80,7 @@ class SellCryptoFragment : Fragment() {
 
                     val dollars = dollarAmount.toDouble()
                     val coins = coinAmount.toDouble()
+                    val priceDifference = arguments?.getDouble("priceChange")
 
                     if (coins == null || coins <= 0 || amountInCoin == null || coins > amountInCoin) {
                         Toast.makeText(
@@ -90,7 +91,7 @@ class SellCryptoFragment : Fragment() {
                         return@getaWalletFromFirebase
                     }
 
-                    performPurchase(dollars!!, coins!!) { success, errorMessage ->
+                    performPurchase(dollars!!, coins!!, priceDifference!!) { success, errorMessage ->
                         if (success) {
                             Toast.makeText(context, "Crypto Sold", Toast.LENGTH_SHORT).show()
                         } else {
@@ -121,10 +122,10 @@ class SellCryptoFragment : Fragment() {
         }
     }
 
-    private fun performPurchase(dollars: Double, coins: Double, callback: (Boolean, String?) -> Unit) {
+    private fun performPurchase(dollars: Double, coins: Double, priceDifference: Double, callback: (Boolean, String?) -> Unit) {
         val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
 
-        FirebaseHelper.updateTotalBalance(userId, dollars, true) { success, error ->
+        FirebaseHelper.updateTotalBalance(userId, dollars, priceDifference,true ) { success, error ->
             if (!success) {
                 callback(false, error ?: "Error updating balance.")
                 return@updateTotalBalance

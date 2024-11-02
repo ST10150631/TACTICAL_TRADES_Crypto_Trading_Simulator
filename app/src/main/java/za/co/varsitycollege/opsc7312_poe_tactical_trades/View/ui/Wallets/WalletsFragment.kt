@@ -134,7 +134,6 @@ class WalletsFragment : Fragment() {
             val coinName = spinner.selectedItem.toString()
             val gradientId = RbtnGroup.checkedRadioButtonId
             val selectedRadioButton = view.findViewById<RadioButton>(gradientId)
-
             saveWalletToFirebase(coinName, selectedRadioButton.text.toString(), userId)
             fetchAndDisplayWallets(view, userId)
             addWalletSection.visibility = View.GONE

@@ -83,25 +83,30 @@ class CoinViewTestFragment : Fragment() {
                 addToWatchList(coin)
             }
         }
-        binding.btnGoToBuyCoin.setOnClickListener{
-            if (hasWallet)
-            {
-                val bundle = Bundle()
-                bundle.putString("coinData",coin.assetId)
-                val navController = findNavController()
-                navController.navigate(R.id.navigation_buyCrypto,bundle)
-            }
-            else{
-                Toast.makeText(this.context, "No wallet found for this coin.",  Toast.LENGTH_SHORT).show()
-            }
+        binding.btnGoToBuyCoin.setOnClickListener {
+            if (hasWallet) {
+                val priceChange = binding.TxtViewDifference.text.toString()
 
+                val bundle = Bundle()
+                bundle.putString("coinData", coin.assetId)
+                bundle.putString("priceChange", priceChange)
+
+                val navController = findNavController()
+                navController.navigate(R.id.navigation_buyCrypto, bundle)
+            } else {
+                Toast.makeText(this.context, "No wallet found for this coin.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnGoToSellCoin.setOnClickListener {
             if (hasWallet)
             {
+                val priceChange = binding.TxtViewDifference.text.toString()
+                val priceChangeDouble = priceChange.replace("+", "").toDouble()
+
                 val bundle = Bundle()
-                bundle.putString("coinData",coin.assetId)
+                bundle.putString("coinData", coin.assetId)
+                bundle.putDouble("priceChange", priceChangeDouble)
                 val navController = findNavController()
                 navController.navigate(R.id.navigation_SellCrypto, bundle)
             }
@@ -146,7 +151,6 @@ class CoinViewTestFragment : Fragment() {
                     } else {
                         binding.TxtViewDifference.text = "+ ${OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose}"
                         binding.TxtViewDifference.setTextColor(Color.parseColor("#21BF73"))
-
                     }
 
                 }

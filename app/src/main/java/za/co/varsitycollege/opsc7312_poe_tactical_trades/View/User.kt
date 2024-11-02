@@ -11,5 +11,6 @@ data class User(
     val profilePictureUrl: String? = null,
     val userId: String? = null,
     val wallets: MutableList<WalletModel>? = null,
-    val watchlistItems: MutableList<StockItem>? = null
+    val watchlistItems: MutableList<StockItem>? = null,
+    val difference: Double? = null
 )

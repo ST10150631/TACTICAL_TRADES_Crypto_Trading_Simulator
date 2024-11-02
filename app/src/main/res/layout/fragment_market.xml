@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_market"
     android:orientation="vertical"
     android:background="@color/BackGround"
@@ -27,15 +28,22 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <ImageView
-                    android:id="@+id/myImageView"
+                <FrameLayout
                     android:layout_width="90dp"
                     android:layout_height="90dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/profile_image"
-                    android:background="@drawable/rounded_corners"
-                    android:clipToOutline="true"
-                    android:scaleType="centerCrop"/>
+                    android:layout_margin="10dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/profile_image"
+                        app:shapeAppearanceOverlay="@style/RoundedImage" />
+
+
+                </FrameLayout>
 
                 <Space
                     android:layout_width="1dp"

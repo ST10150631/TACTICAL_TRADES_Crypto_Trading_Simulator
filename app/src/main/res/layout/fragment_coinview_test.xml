@@ -122,7 +122,7 @@
                         android:layout_marginTop="1dp"
                         android:layout_marginStart="2dp"
                         android:layout_marginBottom="1dp"
-                        android:text="+9.77%"
+                        android:text="+9.77"
                         android:textAlignment="textEnd"
                         android:textColor="@color/green"
                         android:textSize="14dp" />

@@ -112,7 +112,7 @@ object FirebaseHelper {
     }
 
 
-    fun updateTotalBalance(userId: String, amount: Double, isBuying: Boolean, onComplete: (Boolean, String?) -> Unit) {
+    fun updateTotalBalance(userId: String, amount: Double,priceDifference:Double, isBuying: Boolean, onComplete: (Boolean, String?) -> Unit) {
         val userRef = databaseReference.child(userId).child("totalBalance")
 
         userRef.get().addOnCompleteListener { task ->
@@ -120,7 +120,7 @@ object FirebaseHelper {
                 val currentBalance = task.result?.getValue(Double::class.java) ?: 0.0
 
                 val newBalance = if (isBuying) {
-                    currentBalance + amount
+                    currentBalance + amount + priceDifference
                 } else {
                     currentBalance - amount
                 }
@@ -134,6 +134,29 @@ object FirebaseHelper {
                 }
             } else {
                 onComplete(false, task.exception?.message)
+            }
+        }
+    }
+
+    fun updateDifference(userId: String, difference: Double) {
+        val userRef = databaseReference.child(userId).child("difference")
+        userRef.setValue(difference).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("FirebaseHelper", "Difference updated successfully.")
+            } else {
+                Log.e("FirebaseHelper", "Failed to update difference: ${task.exception?.message}")
+            }
+        }
+    }
+
+    fun getDifference(userId: String, onComplete: (Double?, String?) -> Unit) {
+        val userRef = databaseReference.child(userId).child("difference")
+        userRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val difference = task.result?.getValue(Double::class.java)
+                onComplete(difference, null)
+            } else {
+                onComplete(null, task.exception?.message)
             }
         }
     }

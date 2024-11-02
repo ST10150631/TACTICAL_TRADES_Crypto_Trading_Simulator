@@ -36,14 +36,13 @@ class WatchListViewModel : ViewModel() {
                     for (stockSnapshot in snapshot.children) {
                         val stockId = stockSnapshot.child("stockId").getValue(String::class.java)
                         val name = stockSnapshot.child("name").getValue(String::class.java)
-                        val imageRes = stockSnapshot.child("imageRes").getValue(String::class.java) // Now handled as String (URL)
+                        val imageRes = stockSnapshot.child("imageRes").getValue(String::class.java)
                         val upDown = stockSnapshot.child("upDown").getValue(Boolean::class.java)
                         val currentPrice = stockSnapshot.child("currentPrice").getValue(String::class.java)
                         val priceDifference = stockSnapshot.child("priceDifference").getValue(String::class.java)
 
-                        // Handling potential Long-to-String conversion for price fields
                         if (stockId != null && name != null && imageRes != null && upDown != null) {
-                            val currentPriceValue = currentPrice?.toString() ?: "0" // Ensure it's a String
+                            val currentPriceValue = currentPrice?.toString() ?: "0"
                             val priceDiffValue = priceDifference?.toString() ?: "0"
 
                             stockItems.add(

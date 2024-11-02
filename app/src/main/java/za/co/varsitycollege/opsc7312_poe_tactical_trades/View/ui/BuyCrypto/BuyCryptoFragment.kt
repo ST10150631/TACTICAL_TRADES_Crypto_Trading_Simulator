@@ -47,6 +47,7 @@ class BuyCryptoFragment : Fragment() {
         val coinData = arguments?.getString("coinData")
         if (coinData != null) {
             coin = coins.find { it.assetId == coinData } ?: coins[0]
+
             updateUI(coin)
         }
         val navController = findNavController()
@@ -123,7 +124,7 @@ class BuyCryptoFragment : Fragment() {
     private fun performPurchase(dollars: Double, coins: Double, callback: (Boolean, String?) -> Unit) {
         val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
 
-        FirebaseHelper.updateTotalBalance(userId, dollars, false) { success, error ->
+        FirebaseHelper.updateTotalBalance(userId, dollars, 0.00,false) { success, error ->
             if (!success) {
                 callback(false, error ?: "Error updating balance.")
                 return@updateTotalBalance
