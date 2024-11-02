@@ -67,7 +67,7 @@ dependencies {
     implementation(libs.androidx.runtime.android)
     testImplementation(libs.junit)
     implementation(libs.gson)
-    implementation(libs.okhttp) // Check for the latest version
+    implementation(libs.okhttp)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.glide)
     kapt(libs.compiler)
