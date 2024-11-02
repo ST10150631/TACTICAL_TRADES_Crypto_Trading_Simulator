@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "za.co.varsitycollege.opsc7312_poe_tactical_trades"
-        minSdk = 26
+        minSdk = 27
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -66,6 +66,11 @@ dependencies {
     implementation(libs.androidx.junit.ktx)
     implementation(libs.androidx.runtime.android)
     testImplementation(libs.junit)
+    implementation(libs.gson)
+    implementation(libs.okhttp) // Check for the latest version
+    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.glide)
+    kapt(libs.compiler)
     //charts
     implementation("com.diogobernardino:williamchart:3.10.1")
     androidTestImplementation("androidx.test:runner:1.5.2")
@@ -100,11 +105,6 @@ dependencies {
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
 
-    implementation(libs.gson)
-    implementation(libs.okhttp) // Check for the latest version
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.glide)
-    kapt(libs.compiler)
 
 }
 

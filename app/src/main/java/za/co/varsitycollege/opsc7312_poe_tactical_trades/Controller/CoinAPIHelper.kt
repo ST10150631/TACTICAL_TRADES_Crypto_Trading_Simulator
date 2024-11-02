@@ -2,17 +2,11 @@ package za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller
 
 import android.net.Uri
 import android.util.Log
-import android.view.Choreographer.FrameTimeline
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinsAssets
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.OHLCV
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import java.net.HttpURLConnection
