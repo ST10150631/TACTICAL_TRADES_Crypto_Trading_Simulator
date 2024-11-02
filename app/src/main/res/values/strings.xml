@@ -73,4 +73,13 @@
     <string name="total_balance">Total balance</string>
     <string name="news_articles">News Articles</string>
     <string name="select_colour">Select Colour</string>
+    <string name="add_to_watch_list">Add to Watch List</string>
+    <string name="buy_coin">Buy Coin</string>
+    <string name="sell_coin">Sell Coin</string>
+    <string name="my_wallet_value">My Wallet Value</string>
+    <string name="theme">Theme</string>
+    <string name="select_coin">Select Coin</string>
+    <string name="save">Save</string>
+    <string name="my_wallets">My Wallets</string>
+    <string name="my_watchlist">My watchlist</string>
 </resources>

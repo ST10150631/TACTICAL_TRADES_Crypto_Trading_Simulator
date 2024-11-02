@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/inter_bold"
-            android:text="My Wallets"
+            android:text="@string/my_wallets"
             android:textColor="@color/PrimaryTxtColor"
             android:textSize="20sp" />
 

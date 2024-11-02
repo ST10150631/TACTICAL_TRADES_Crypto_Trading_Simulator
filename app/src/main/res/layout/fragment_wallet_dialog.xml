@@ -10,7 +10,7 @@
         android:id="@+id/txtSelectCoin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Coin"
+        android:text="@string/select_coin"
         android:textColor="@color/PrimaryTxtColor"
         android:textSize="18sp" />
 
@@ -112,6 +112,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
-        android:text="Save" />
+        android:text="@string/save" />
 
 </LinearLayout>
