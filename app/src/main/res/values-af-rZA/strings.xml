@@ -53,4 +53,9 @@
     <string name="coin">Munt</string>
     <string name="settings_header">Instellings</string>
     <string name="leaderboard">Ranglys</string>
+    <string name="displayReportSetting"> Vertoon verslag</string>
+    <string name="displayReportTitle">Rapporteer</string>
+    <string name="displayWalletsReport">Wallet Oorsig</string>
+    <string name="title_display_report_btn">Vertoon verslag</string>
+
 </resources>

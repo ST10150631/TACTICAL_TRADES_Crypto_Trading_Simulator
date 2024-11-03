@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper.firebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Report.ReportFragment
 import java.util.Locale
 
 class SettingsFragment : Fragment() {
@@ -223,6 +224,21 @@ class SettingsFragment : Fragment() {
             openImagePicker()
             loadProfilePicture()
         }
+
+        //binding.btnDisplayReport.setOnClickListener()
+       // {
+         //   findNavController().navigate(R.id.navigateToReportFrament)
+        //}
+
+        binding.imgBtnDisplayReport.setOnClickListener()
+        {
+            findNavController().navigate(R.id.navigateToReportFrament)
+        }
+
+    }
+
+    private fun openReportFragment() {
+
     }
 
     private fun getCurrentLanguage(): String {
