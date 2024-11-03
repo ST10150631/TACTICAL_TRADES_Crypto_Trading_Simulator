@@ -9,20 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/ImgBtnStock"
-            android:layout_width="match_parent"
-            android:background="@drawable/rounded_filled_box"
-            android:gravity="center_vertical"
-            android:layout_margin="10dp"
-            android:layout_height="match_parent"
-            android:padding="10dp" />
-
-        <LinearLayout
+       <LinearLayout
+            android:id="@+id/Background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:gravity="center_vertical"
+            android:background="@drawable/rounded_filled_box"
             android:orientation="horizontal"
             android:padding="10dp">
 
