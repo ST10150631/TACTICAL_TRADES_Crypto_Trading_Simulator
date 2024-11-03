@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
                     }
 
                     val stockGraph = view?.findViewById<ImageView>(R.id.stockGraph)
-                    stockGraph?.setImageResource(if (difference > 0) R.drawable.stock_up_vector else R.drawable.stock_down_vector)
+                    stockGraph?.setImageResource(if (difference >= 0) R.drawable.stock_up_vector else R.drawable.stock_down_vector)
 
                 } ?: run {
                     Toast.makeText(requireContext(), "Balance is null", Toast.LENGTH_SHORT).show()
