@@ -1,4 +1,4 @@
-import java.util.regex.Pattern.compile
+
 
 plugins {
     alias(libs.plugins.android.application)
@@ -64,7 +64,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.junit.ktx)
-    implementation(libs.androidx.runtime.android)
+    implementation(libs.play.services.fido)
     //implementation(libs.androidx.biometric.ktx)
     testImplementation(libs.junit)
     implementation(libs.gson)
