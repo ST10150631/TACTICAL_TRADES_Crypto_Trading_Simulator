@@ -44,36 +44,49 @@ class LoginActivity : AppCompatActivity() {
         Password = passwordEditText.text.toString().trim()
         Email = emailEditText.text.toString().trim()
 
-
-        lifecycleScope.launch {
-            promptManager.promptResults.collect { result ->
-                when (result) {
-                    is BiometricPromptManager.BiometricResult.AuthenticationSuccess -> {
-                        val email = emailEditText.text.toString().trim()
-                        val password = passwordEditText.text.toString().trim()
-                        if (email.isNotEmpty() && password.isNotEmpty()) {
-                            if (NetworkUtils.isNetworkAvailable(this@LoginActivity)) {
-                                firebaseLogin(email, password)
+        try{
+            lifecycleScope.launch {
+                promptManager.promptResults.collect { result ->
+                    when (result) {
+                        is BiometricPromptManager.BiometricResult.AuthenticationSuccess -> {
+                            val email = emailEditText.text.toString().trim()
+                            val password = passwordEditText.text.toString().trim()
+                            if (email.isNotEmpty() && password.isNotEmpty()) {
+                                if (NetworkUtils.isNetworkAvailable(this@LoginActivity)) {
+                                    firebaseLogin(email, password)
+                                } else {
+                                    sqliteLogin(email, password)
+                                }
                             } else {
-                                sqliteLogin(email, password)
+                                Toast.makeText(this@LoginActivity, "Please enter email and password", Toast.LENGTH_SHORT).show()
                             }
-                        } else {
-                            Toast.makeText(this@LoginActivity, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                        }
+                        is BiometricPromptManager.BiometricResult.AuthenticationFailed -> {
+                            Toast.makeText(this@LoginActivity, "Biometric authentication failed", Toast.LENGTH_SHORT).show()
+                        }
+                        is BiometricPromptManager.BiometricResult.AuthenticationError -> {
+                            Toast.makeText(this@LoginActivity, "Error: ${result.error}", Toast.LENGTH_SHORT).show()
+                        }
+                        // Handle other biometric results...
+                        is BiometricPromptManager.BiometricResult.AuthenticationFailed,
+                        is BiometricPromptManager.BiometricResult.AuthenticationError,
+                        BiometricPromptManager.BiometricResult.AuthenticationNotSet,
+                        BiometricPromptManager.BiometricResult.FeatureUnavailable,
+                        BiometricPromptManager.BiometricResult.HardwareUnavailable -> {
+                            // For any biometric failure or unavailability, attempt email/password login
+                            performEmailPasswordLogin(emailEditText, passwordEditText)
                         }
                     }
-                    is BiometricPromptManager.BiometricResult.AuthenticationFailed -> {
-                        Toast.makeText(this@LoginActivity, "Biometric authentication failed", Toast.LENGTH_SHORT).show()
-                    }
-                    is BiometricPromptManager.BiometricResult.AuthenticationError -> {
-                        Toast.makeText(this@LoginActivity, "Error: ${result.error}", Toast.LENGTH_SHORT).show()
-                    }
-                    // Handle other cases if necessary
-                    BiometricPromptManager.BiometricResult.AuthenticationNotSet -> TODO()
-                    BiometricPromptManager.BiometricResult.FeatureUnavailable -> TODO()
-                    BiometricPromptManager.BiometricResult.HardwareUnavailable -> TODO()
                 }
             }
+        }catch( e: Exception){
+            if (NetworkUtils.isNetworkAvailable(this@LoginActivity)) {
+                firebaseLogin(Email, Password)
+            } else {
+                sqliteLogin(Email, Password)
+            }
         }
+
 
         loginButton.setOnClickListener {
             val loginDetail = emailEditText.text.toString().trim()
@@ -127,6 +140,21 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Login failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
             }
+    }
+    private fun performEmailPasswordLogin(emailEditText: EditText, passwordEditText: EditText) {
+        val email = emailEditText.text.toString().trim()
+        val password = passwordEditText.text.toString().trim()
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            firebaseLogin(email, password)
+        } else {
+            sqliteLogin(email, password)
+        }
     }
 
     //old method
