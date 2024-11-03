@@ -76,7 +76,6 @@ dependencies {
     kapt(libs.compiler)
     //charts
     implementation("com.diogobernardino:williamchart:3.10.1")
-    androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     // Mockito for instrumented tests
     androidTestImplementation("org.mockito:mockito-android:5.2.0")

@@ -1,7 +1,6 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.coinview
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -9,12 +8,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
@@ -29,13 +25,13 @@ import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletRepository.wallets
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.MarketPlace.MyallcoinsRecyclerViewAdapter
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.FragmentCoinviewTestBinding
 import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import kotlin.concurrent.thread
 
 class CoinViewTestFragment : Fragment() {
@@ -142,9 +138,17 @@ class CoinViewTestFragment : Fragment() {
 
                     }
                     binding.LineGraph.animate(data)
+                    binding.LineGraph.onDataPointTouchListener = {index, _, _ ->
+                        val isoDateString = data.toList()[index].first
+                        val formattedDate = formatDate(isoDateString)
+                        binding.dateText.text = formattedDate
+                        binding.priceText.text ="$"+data.toList()[index].second.toString()
+                    }
                     if (OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose < 0) {
                         binding.TxtViewDifference.text = " ${OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose}"
                         binding.TxtViewDifference.setTextColor(Color.parseColor("#D90429"))
+                        binding.LineGraph.animation.duration = 1000L
+
                     } else {
                         binding.TxtViewDifference.text = "+ ${OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose}"
                         binding.TxtViewDifference.setTextColor(Color.parseColor("#21BF73"))
@@ -188,6 +192,25 @@ class CoinViewTestFragment : Fragment() {
             }
         }
     }
+
+    private fun formatDate(data: String): String {
+        return try {
+            // Updated input format to handle sub-second precision
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'", Locale.getDefault())
+            inputFormat.timeZone = java.util.TimeZone.getTimeZone("UTC") // Ensure UTC is set
+
+            val outputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+
+            // Parse the date string and format it
+            val date = inputFormat.parse(data)
+            outputFormat.format(date)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Return a default value or an error indicator if parsing fails
+            "Invalid date"
+        }
+    }
+
 
     private fun displaySpecificWallet(wallets: List<WalletModel>) {
         val specificWallet =
