@@ -223,15 +223,15 @@
 
         </LinearLayout>
 
-        <TextView
-            style="@style/TxtPrimaryStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_bold"
-            android:text="@string/display"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:textSize="20sp" />
+                <TextView
+                    style="@style/TxtPrimaryStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:paddingTop="10dp"
+                    android:text="@string/display"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -408,9 +408,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_bold"
+                    android:paddingTop="10dp"
                     android:text="@string/balance"
                     android:textAlignment="center"
-                    android:paddingTop="10dp"
                     android:textSize="20sp" />
 
                 <LinearLayout
@@ -423,11 +423,11 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:layout_marginLeft="15dp"
                         style="@style/TxtSmallPrimaryStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/starting_value"/>
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/starting_value" />
 
                     <Space
                         android:layout_width="0dp"
@@ -439,14 +439,65 @@
                         style="@style/CustomSpinner"
                         android:layout_width="241dp"
                         android:layout_height="wrap_content"
-                        android:hint="Select Starting Value"
                         android:foregroundTint="@color/white"
+                        android:hint="Select Starting Value"
                         android:popupTheme="@style/CustomSpinnerDropdown" />
 
 
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/TxtPrimaryStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter_bold"
+                    android:paddingTop="10dp"
+                    android:text="Report" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_box"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_displayReportBox"
+                        style="@style/TxtSmallPrimaryStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/displayReportSetting" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageButton
+                            android:id="@+id/imgBtnDisplayReport"
+                            android:layout_width="210dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:src="@drawable/btnregisterbg" />
+
+                        <TextView
+                            android:id="@+id/tv_displayReportLabelButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/inter_bold"
+                            android:text="Display Report"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+                    </FrameLayout>
 
                 </LinearLayout>
-        <FrameLayout
+
+                <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"

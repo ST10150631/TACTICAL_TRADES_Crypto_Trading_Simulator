@@ -50,4 +50,9 @@
     <string name="save">Stoor</string>
     <string name="my_wallets">"My Beursies "</string>
     <string name="my_watchlist">"My Kyklys "</string>
+    <string name="displayReportSetting"> Vertoon verslag</string>
+    <string name="displayReportTitle">Rapporteer</string>
+    <string name="displayWalletsReport">Wallet Oorsig</string>
+    <string name="title_display_report_btn">Vertoon verslag</string>
+
 </resources>

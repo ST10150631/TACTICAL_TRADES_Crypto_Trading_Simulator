@@ -12,6 +12,17 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_report"
+        android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Report.ReportFragment"
+        android:label="Report"
+        tools:layout="@layout/fragment_report" />
+
+    <action
+        android:id="@+id/navigateToReportFrament"
+        app:destination="@id/navigation_report"
+        />
+
+    <fragment
         android:id="@+id/navigation_wallets"
         android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets.WalletsFragment"
         android:label="wallets"

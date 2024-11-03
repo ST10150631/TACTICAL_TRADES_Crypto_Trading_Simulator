@@ -46,6 +46,9 @@
     <string name="select_theme">Select Theme</string>
     <string name="graph_theme">Graph Theme</string>
     <string name="language">Language</string>
+    <string name="displayReportSetting">Display Report</string>
+    <string name="displayReportTitle">Report</string>
+    <string name="displayWalletsReport">Wallet Overview</string>
     <string name="notifications">Notifications</string>
     <string name="balance">Balance</string>
     <string name="starting_value">Starting Value</string>
@@ -82,5 +85,8 @@
     <string name="save">Save</string>
     <string name="my_wallets">My Wallets</string>
     <string name="my_watchlist">My watchlist</string>
+    <string name="title_display_report_btn">Display Report</string>
     <string name="coin">Coin</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
