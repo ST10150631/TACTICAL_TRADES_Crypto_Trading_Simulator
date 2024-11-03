@@ -97,8 +97,10 @@
     </string-array>
 
     <string-array name="graph_theme_options">
-        <item>Cyber Space</item>
-        <item>Colour Blind</item>
+        <item>CyberSpace</item>
+        <item>Unicorn</item>
+        <item>Deep Ocean(colorblind red/green)</item>
+        <item>Pandora Green(colorblind blue/yellow)</item>
     </string-array>
 
     <string-array name="language_options">

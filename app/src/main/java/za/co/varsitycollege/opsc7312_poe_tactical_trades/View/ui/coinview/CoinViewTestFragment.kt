@@ -64,12 +64,7 @@ class CoinViewTestFragment : Fragment() {
         }
        setUpGraph(coinData.toString())
 
-        binding.LineGraph.animation.duration = 1000L
-        // chart
-        binding.LineGraph.gradientFillColors = intArrayOf(
-            Color.parseColor("#8551B2"),
-            Color.TRANSPARENT
-        )
+
         val userId = FirebaseHelper.firebaseAuth.currentUser?.uid
         if (userId != null) {
             getWallet(userId)
@@ -122,9 +117,51 @@ class CoinViewTestFragment : Fragment() {
 
         return root
     }
+    private fun setGraphTheme(theme:String) {
+
+        if (theme == "CyberSpace") {
+            // chart
+            binding.LineGraph.lineColor = Color.parseColor("#C800FF")
+            binding.LineGraph.gradientFillColors = intArrayOf(
+                Color.parseColor("#8551B2"),
+                Color.TRANSPARENT
+            )
+        } else if (theme =="Unicorn") {
+            binding.LineGraph.lineColor = Color.parseColor("#FF1E00")
+            binding.LineGraph.gradientFillColors = intArrayOf(
+                Color.parseColor("#FF7700"),
+                Color.parseColor("#FF0066")
+            )
+        }
+        else if (theme =="Deep Ocean(colorblind red/green)") {
+            binding.LineGraph.lineColor = Color.parseColor("#00FFFB")
+            binding.LineGraph.gradientFillColors = intArrayOf(
+                Color.parseColor("#168DF6"),
+                Color.parseColor("#00264C")
+            )
+        }
+        else if (theme =="Pandora Green(colorblind blue/yellow)") {
+            binding.LineGraph.lineColor = Color.parseColor("#00FF2F")
+            binding.LineGraph.gradientFillColors = intArrayOf(
+                Color.parseColor("#16F659"),
+                Color.parseColor("#152E0F")
+            )
+        }
+    }
 
     private fun setUpGraph(ID: String) {
         var data = mutableListOf<Pair<String, Float>>()
+        binding.LineGraph.animation.duration = 1000L
+        val userId = FirebaseHelper.firebaseAuth.currentUser?.uid
+        var theme = "CyberSpace"
+        if (userId != null) {
+             FirebaseHelper.getGraphTheme(userId) { graphTheme, error ->
+                if (graphTheme != null) {
+                    theme=graphTheme
+                }
+             }
+        }
+        setGraphTheme(theme)
         thread {
             OHLCVData = try {
                 CoinAPIHelper().getOHLCVData(ID, getDateAYearAgo())
@@ -172,14 +209,9 @@ class CoinViewTestFragment : Fragment() {
                 data.add(Pair("NOV", 12F))
                 data.add(Pair("DEC", 15F))
                 binding.LineGraph.animate(data)
-                binding.LineGraph.animation.duration = 1000L
-                // chart
-                binding.LineGraph.gradientFillColors = intArrayOf(
-                    Color.parseColor("#8551B2"),
-                    Color.TRANSPARENT
-                )
             }
         }
+
 
     }
 
