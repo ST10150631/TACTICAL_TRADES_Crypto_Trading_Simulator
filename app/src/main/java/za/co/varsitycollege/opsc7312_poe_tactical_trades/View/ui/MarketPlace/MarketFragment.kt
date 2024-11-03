@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -77,7 +78,33 @@ class MarketFragment : Fragment() {
                 }
             }
         }
+
+        FirebaseHelper.getDifference(FirebaseAuth.getInstance().currentUser?.uid.toString()) { difference, error ->
+            if (error != null) {
+                Toast.makeText(requireContext(), "Error fetching difference: $error", Toast.LENGTH_LONG).show()
+            } else {
+                difference?.let {
+                    val formattedDifference = String.format("$%,.2f", it)
+                    val txtDifference = view?.findViewById<TextView>(R.id.TxtDifference)
+                    txtDifference?.text = formattedDifference
+
+                    txtDifference?.setTextColor(
+                        ContextCompat.getColor(requireContext(), if (it >= 0) R.color.green else R.color.red)
+                    )
+
+                    val stockGraph = view?.findViewById<ImageView>(R.id.stockGraph)
+                    stockGraph?.setImageResource(if (it > 0) R.drawable.stock_up_vector else R.drawable.stock_down_vector)
+
+                } ?: run {
+                    Toast.makeText(requireContext(), "Difference is null", Toast.LENGTH_SHORT).show()
+                    val txtDifference = view?.findViewById<TextView>(R.id.TxtDifference)
+                    txtDifference?.text = "$0.00"
+                }
+            }
+        }
+
     }
+
 
 
     private fun loadProfilePicture() {
@@ -85,14 +112,15 @@ class MarketFragment : Fragment() {
         user?.let {
             FirebaseHelper.getProfilePictureUrl(it.uid) { url, message ->
 
-                val imageView = view?.findViewById<ImageView>(R.id.myImageView)
+                val imageView = view?.findViewById<ImageView>(R.id.ivProfile)
 
                 if (imageView != null) {
                     if (url != null) {
-                        Glide.with(this)
-                            .load(url)
-                            .apply(RequestOptions().transform(RoundedCorners(16)))
-                            .into(imageView)
+                        Glide.with(imageView.context).load(url).apply(
+                            RequestOptions()
+                                .placeholder(R.drawable.profile_image)
+                                .error(R.drawable.profile_image)
+                        ).into(imageView)
                     } else {
                         Toast.makeText(requireContext(), "Failed to load profile picture: $message", Toast.LENGTH_LONG).show()
                     }
