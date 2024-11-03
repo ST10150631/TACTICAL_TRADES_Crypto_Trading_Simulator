@@ -54,7 +54,11 @@ class LoginActivity : AppCompatActivity() {
                         val email = emailEditText.text.toString().trim()
                         val password = passwordEditText.text.toString().trim()
                         if (email.isNotEmpty() && password.isNotEmpty()) {
-                            loginUser(email, password)
+                            if (NetworkUtils.isNetworkAvailable(this@LoginActivity)) {
+                                firebaseLogin(email, password)
+                            } else {
+                                sqliteLogin(email, password)
+                            }
                         } else {
                             Toast.makeText(this@LoginActivity, "Please enter email and password", Toast.LENGTH_SHORT).show()
                         }
