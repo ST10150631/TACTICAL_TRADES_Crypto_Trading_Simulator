@@ -166,7 +166,6 @@ class CoinViewTestFragment : Fragment() {
                 }
              }
         }
-        setGraphTheme(theme)
         thread {
             OHLCVData = try {
                 CoinAPIHelper().getOHLCVData(ID, getDateAYearAgo())
@@ -188,12 +187,13 @@ class CoinViewTestFragment : Fragment() {
                     }
                     if (OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose < 0) {
                         binding.TxtViewDifference.text = " ${OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose}"
-                        binding.TxtViewDifference.setTextColor(Color.parseColor("#D90429"))
-                        binding.LineGraph.animation.duration = 1000L
+
+                        setGraphTheme(theme)
 
                     } else {
                         binding.TxtViewDifference.text = "+ ${OHLCVData[OHLCVData.size - 1].priceOpen - OHLCVData[OHLCVData.size - 1].priceClose}"
-                        binding.TxtViewDifference.setTextColor(Color.parseColor("#21BF73"))
+
+                        setGraphTheme(theme)
                     }
 
                 }
