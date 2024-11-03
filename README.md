@@ -70,8 +70,33 @@ By using github we were able to peform version control. This allowed us to be ab
 - Ensured that the application had a navigation bar so that the user is able to navigate to each screen easily.
 - Ensured that a Firebase database was created and implemented into the application so that accounts and user data can be stored.
 - Ensured that the app displayed the user with responses when an action was performed.This allows the user to be informed when an action is either successful or failed.
-  
+- Made sure that the application had a finger print scanner to ensure that the correct user was accessing the account and not a threat agent.
+- Allowed for the user to be able to change their profile picture.
+- The user is able to view their balance on every screen.
+- The application allows for the user to change the language from english to afrikaans.
+- The user is able to change their username and password.
+- The user is able to change the theme of their application.
+- Application has a leaderboard function that ranks each user by how much money they have made through trading.
 ---
+
+## Release Notes
+- Added Fingerprint scanning for when the user logs in to increase security of the application
+- Added the ability for users to change the language of the application from english to afrikaans
+- ![image](https://github.com/user-attachments/assets/12db608b-daa0-4efc-abf9-7886d97e060d)
+- Added graph to each of the crypto coins that show the history of the coin
+- added a report feature that allows for the user to be able to see how much they have gained or lost during the month.
+- ![image](https://github.com/user-attachments/assets/819887f8-0a40-4dd9-8ba0-4c3fb6b1227e)
+- added how much a user has made or lost in the balance box
+- ![image](https://github.com/user-attachments/assets/390872a9-cb87-4945-b264-7bf91385ee71
+- Added Leaderboard feature that displays users in order from the most money made to the least money made.
+- ![image](https://github.com/user-attachments/assets/b9ce55fa-ac75-4754-8e07-8d5cfa9cc29b)
+- Added the ability for a user to change their settings.
+- Added offline mode that allows the user to perform actions when not connected to the internet using SQLLite
+- Implemented real time notifications 
+
+
+
+  
 
 ## How To Use
 ---
