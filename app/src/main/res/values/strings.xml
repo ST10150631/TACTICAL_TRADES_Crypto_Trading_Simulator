@@ -98,4 +98,9 @@
     <string name="theme_1">Light Theme</string>
     <string name="theme_2">Dark Theme</string>
     <string name="default_selection">Select an option</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+    <string name="display_report">Display Report</string>
+    <string name="gained_lost">Gained/Lost</string>
+    <string name="wallet_overview">Wallet Overview</string>
 </resources>

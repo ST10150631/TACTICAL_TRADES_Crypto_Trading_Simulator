@@ -53,7 +53,7 @@
     <string name="coin">Munt</string>
     <string name="settings_header">Instellings</string>
     <string name="leaderboard">Ranglys</string>
-    <string name="displayReportSetting"> Vertoon verslag</string>
+    <string name="displayReportSetting">Verslag</string>
     <string name="displayReportTitle">Rapporteer</string>
     <string name="displayWalletsReport">Wallet Oorsig</string>
     <string name="title_display_report_btn">Vertoon verslag</string>
@@ -66,5 +66,9 @@
     <string name="theme_1">Ligte Tema</string>
     <string name="theme_2">Donker Tema</string>
     <string name="default_selection">Kies n opsie</string>
-
+    <string name="on">AAN</string>
+    <string name="off">AF</string>
+    <string name="display_report">Vertoon verslag</string>
+    <string name="gained_lost">Verwerf/verloor</string>
+    <string name="wallet_overview">Beursie Oorsig</string>
 </resources>

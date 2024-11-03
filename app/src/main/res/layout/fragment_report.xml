@@ -17,7 +17,7 @@
             style="@style/TxtPrimaryStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gained/Lost"
+            android:text="@string/gained_lost"
             android:textSize="25sp" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:text="Wallet Overview"
+            android:text="@string/wallet_overview"
             android:textSize="25sp" />
 
         <HorizontalScrollView
