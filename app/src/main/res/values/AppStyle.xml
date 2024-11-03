@@ -88,25 +88,29 @@
     </style>
 
     <string-array name="theme_options">
-        <item>Light Theme</item>
-        <item>Dark Theme</item>
+        <item>@string/default_selection</item>
+        <item>@string/theme_2</item>
+        <item>@string/theme_1</item>
     </string-array>
 
     <string-array name="starting_value_options">
+        <item>@string/default_selection</item>
         <item>5000</item>
         <item>50000</item>
         <item>500000</item>
     </string-array>
 
     <string-array name="graph_theme_options">
-        <item>CyberSpace</item>
-        <item>Unicorn</item>
-        <item>Deep Ocean(colorblind red/green)</item>
-        <item>Pandora Green(colorblind blue/yellow)</item>
+        <item>@string/default_selection</item>
+        <item>@string/graph_theme_1</item>
+        <item>@string/graph_theme_2</item>
+        <item>@string/graph_theme_3</item>
+        <item>@string/graph_theme_4</item>
     </string-array>
 
     <string-array name="language_options">
-        <item>English</item>
-        <item>Afrikaans</item>
+        <item>@string/default_selection</item>
+        <item>@string/language_1</item>
+        <item>@string/language_2</item>
     </string-array>
 </resources>

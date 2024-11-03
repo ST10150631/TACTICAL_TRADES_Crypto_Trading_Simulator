@@ -3,18 +3,18 @@
     <string name="title_notifications">Kennisgewings</string>
     <string name="amazon_icon" translatable="false">amazon_icon</string>
     <string name="account">"Profiel "</string>
-    <string name="edit_username" translatable="false">Wysig gebruikersnaam</string>
+    <string name="edit_username" translatable="false">Bynaam</string>
     <string name="app_name">OPSC7312_POE_TACTICAL_TRADES</string>
     <string name="title_home">Tuis Blad</string>
-    <string name="edit_name">Verander Naam</string>
-    <string name="edit_password">" Verander wagwoord"</string>
-    <string name="delete_account">"Verwyder profiel"</string>
+    <string name="edit_name">Naam</string>
+    <string name="edit_password">"Wagwoord"</string>
+    <string name="delete_account">"Profiel"</string>
     <string name="display">Vertoon</string>
     <string name="delete_account_button">"Verwyder profiel"</string>
     <string name="select_theme">Kies Tema</string>
     <string name="graph_theme">Grafiek Tema</string>
     <string name="language">Taal</string>
-    <string name="notifications">" Kennisgewings"</string>
+    <string name="notifications">" Meldings"</string>
     <string name="balance">Balaans</string>
     <string name="starting_value">"Begin Waarde "</string>
     <string name="save_changes">Stoor Veranderinge</string>
@@ -57,5 +57,14 @@
     <string name="displayReportTitle">Rapporteer</string>
     <string name="displayWalletsReport">Wallet Oorsig</string>
     <string name="title_display_report_btn">Vertoon verslag</string>
+    <string name="graph_theme_1">Kuberruimte</string>
+    <string name="graph_theme_2">Jaas Perd</string>
+    <string name="graph_theme_3">Diep Oseaan (kleurblind rooi/groen)</string>
+    <string name="graph_theme_4">Pandora Groen (kleurblind blou/geel)</string>
+    <string name="language_1">Engels</string>
+    <string name="language_2">Afrikaans</string>
+    <string name="theme_1">Ligte Tema</string>
+    <string name="theme_2">Donker Tema</string>
+    <string name="default_selection">Kies n opsie</string>
 
 </resources>

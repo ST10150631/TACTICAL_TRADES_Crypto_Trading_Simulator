@@ -89,6 +89,13 @@
     <string name="coin">Coin</string>
     <string name="settings_header">Settings</string>
     <string name="leaderboard">Leaderboard</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="graph_theme_1">CyberSpace</string>
+    <string name="graph_theme_2">Unicorn</string>
+    <string name="graph_theme_3">Deep Ocean(colorblind red/green)</string>
+    <string name="graph_theme_4">Pandora Green(colorblind blue/yellow)</string>
+    <string name="language_1">English</string>
+    <string name="language_2">Afrikaans</string>
+    <string name="theme_1">Light Theme</string>
+    <string name="theme_2">Dark Theme</string>
+    <string name="default_selection">Select an option</string>
 </resources>

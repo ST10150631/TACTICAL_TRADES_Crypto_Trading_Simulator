@@ -32,10 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var settingsButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Load language preference
-        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
-        val selectedLanguage = sharedPreferences.getString("selected_language", "English") // Default to English
-        changeLanguage(selectedLanguage!!)
+
         super.onCreate(savedInstanceState)
 
 
@@ -51,6 +48,26 @@ class MainActivity : AppCompatActivity() {
 
         setupAuthStateListener()
         setupNavigation()
+
+        val userId = firebaseAuth.currentUser?.uid
+        if (userId != null) {
+            FirebaseHelper.getLanguage(userId) { language, error ->
+                if (error != null) {
+                    Log.e("MainActivity", "Error fetching language preference: $error")
+                    Toast.makeText(this, "Failed to load language preference", Toast.LENGTH_SHORT).show()
+                } else {
+                    language?.let {
+                        changeLanguage(it)
+                    } ?: run {
+                        changeLanguage("English")
+                    }
+                }
+            }
+        } else {
+            changeLanguage("English")
+        }
+
+
         applyTheme()
 
         settingsButton.setOnClickListener {
@@ -75,24 +92,15 @@ class MainActivity : AppCompatActivity() {
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
-    private fun changeLanguage(language: String) {
-        val locale = when (language) {
-            "Afrikaans" -> Locale("af")
-            "English" -> Locale("en")
-            else -> Locale.getDefault()
-        }
-        Locale.setDefault(locale)
-        val config = resources.configuration
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
-
-        // Save the language preference
+    public fun changeLanguage(language: String) {
+        setAppLocale(language)
         val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
-            putString("language", language)
+            putString("selected_language", language)
             apply()
         }
     }
+
     override fun onStart() {
         super.onStart()
         if (isConnected(this)) {

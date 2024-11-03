@@ -1,6 +1,7 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.settings
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -150,7 +151,6 @@ class SettingsFragment : Fragment() {
         config.setLocale(locale)
         requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
         saveLanguagePreference(language)
-        recreateActivity()
     }
 
     private fun updateNotificationSettings(isOn: Boolean) {
@@ -162,23 +162,29 @@ class SettingsFragment : Fragment() {
 
     private fun loadNotificationSettings() {
         val user = auth.currentUser
-        user?.let {
-            FirebaseHelper.databaseReference.child(user.uid).child("notificationsEnabled").get()
-                .addOnSuccessListener { snapshot ->
-                    val notificationsEnabled = snapshot.getValue(Boolean::class.java) ?: false
-                    if (notificationsEnabled) {
-                        binding.radioButton2.isChecked = true
-                        setRadioButtonTint(binding.radioButton2, true)
-                        setRadioButtonTint(binding.radioButton3, false)
-                    } else {
-                        binding.radioButton3.isChecked = true
-                        setRadioButtonTint(binding.radioButton2, false)
-                        setRadioButtonTint(binding.radioButton3, true)
+        try{
+            user?.let {
+                FirebaseHelper.databaseReference.child(user.uid).child("notificationsEnabled").get()
+                    .addOnSuccessListener { snapshot ->
+                        val notificationsEnabled = snapshot.getValue(Boolean::class.java) ?: false
+                        if (notificationsEnabled) {
+                            binding.radioButton2.isChecked = true
+                            setRadioButtonTint(binding.radioButton2, true)
+                            setRadioButtonTint(binding.radioButton3, false)
+                        } else {
+                            binding.radioButton3.isChecked = true
+                            setRadioButtonTint(binding.radioButton2, false)
+                            setRadioButtonTint(binding.radioButton3, true)
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(requireContext(), "Failed to load notification settings: ${it.message}", Toast.LENGTH_LONG).show()
                     }
-                }.addOnFailureListener {
-                    Toast.makeText(requireContext(), "Failed to load notification settings: ${it.message}", Toast.LENGTH_LONG).show()
-                }
+            }
+        } catch (e: Exception)
+            {
+
         }
+
     }
 
 
@@ -194,17 +200,83 @@ class SettingsFragment : Fragment() {
             val username = binding.editTxtUsername.text.toString()
             val name = binding.editTxtName.text.toString()
             val password = binding.editTxtPassword.text.toString()
+
             val selectedTheme = binding.DropDownTheme.selectedItem.toString()
             val selectedGraphTheme = binding.DropDownGraphTheme.selectedItem.toString()
             val selectedLanguage = binding.DropDownLanguage.selectedItem.toString()
             val startValue = binding.DropDownStartValue.selectedItem.toString()
 
-            updateUserData(username, name, password, startValue, selectedTheme, selectedGraphTheme, selectedLanguage)
-            applyTheme()
-            if (selectedLanguage != getCurrentLanguage()) {
-                changeLanguage(selectedLanguage)
+            val defaultSelection = getString(R.string.default_selection)
+
+            //already database stuff
+
+            var validTheme: String?  = if (selectedTheme != defaultSelection) selectedTheme else ""
+            var validGraphTheme: String? = if (selectedGraphTheme != defaultSelection) selectedGraphTheme else ""
+            var validLanguage: String?  = if (selectedLanguage != defaultSelection) selectedLanguage else ""
+            val validStartValue: String?  = if (startValue != defaultSelection) startValue else ""
+
+            if (validTheme != null || validGraphTheme != null || validLanguage != null || validStartValue != null) {
+
+                if (validTheme != null)
+                {
+                    if (validTheme == getString(R.string.theme_2))
+                    {
+                        validTheme = "Dark Theme"
+                    }else if (validTheme == getString(R.string.theme_1))
+                    {
+                        validTheme = "Light Theme"
+                    }
+                }
+
+                if (validGraphTheme != null)
+                {
+
+                    if (validGraphTheme == getString(R.string.graph_theme_1))
+                    {
+                        validGraphTheme = "CyberSpace"
+                    }else if (validGraphTheme == getString(R.string.graph_theme_2))
+                    {
+                        validGraphTheme = "Unicorn"
+                    }else if (validGraphTheme == getString(R.string.graph_theme_3))
+                    {
+                        validGraphTheme = "Deep Ocean(colorblind red/green)"
+                    }else if (validGraphTheme == getString(R.string.graph_theme_4))
+                    {
+                        validGraphTheme = "Pandora Green(colorblind blue/yellow)"
+                    }
+                }
+
+                if (validLanguage != null)
+                {
+                    if (validLanguage == getString(R.string.language_1))
+                    {
+                        validLanguage = "English"
+                    }else
+                    {
+                        validLanguage = "Afrikaans"
+                    }
+                    if (validLanguage != getCurrentLanguage()) {
+                       changeLanguage(validLanguage)
+                    }
+                }
+
+                updateUserData(username, name, password, validStartValue.toString(), validTheme.toString(),
+                    validGraphTheme.toString(), validLanguage.toString())
+
+                applyTheme()
+
+            } else {
+                Toast.makeText(context, "Please select valid options.", Toast.LENGTH_SHORT).show()
             }
+
+
+            //updateUserData(username, name, password, startValue, selectedTheme, selectedGraphTheme, selectedLanguage)
+            //applyTheme()
+            //if (selectedLanguage != getCurrentLanguage()) {
+            //    changeLanguage(selectedLanguage)
+            //}
         }
+
 
         binding.BtnDiscardChanges.setOnClickListener {
             discardChanges()
@@ -384,8 +456,6 @@ class SettingsFragment : Fragment() {
                             .placeholder(R.drawable.profile_image)
                             .error(R.drawable.profile_image)
                     ).into(binding.ivProfile)
-                } else {
-                    Toast.makeText(requireContext(), "Failed to load profile picture: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
