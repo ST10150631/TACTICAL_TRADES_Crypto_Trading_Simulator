@@ -1,7 +1,8 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +17,13 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.SQLiteHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.LoggedInUser
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletRepository
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.AddWallet.AddWalletFragment
 
 class WalletsFragment : Fragment() {
 
@@ -113,10 +113,25 @@ class WalletsFragment : Fragment() {
                 (activity as MainActivity).setHeaderTitle("Wallets")
             }
         }
+        val userId: String = if(isConnected(requireContext())){
+            FirebaseHelper.firebaseAuth.currentUser?.uid ?: return
+        }else {
+            LoggedInUser.LoggedInUser?.userId!!
+        }
 
-        val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: return
 
-        fetchAndDisplayWallets(view, userId)
+        if (arguments != null) {
+            val walletName = requireArguments().getString(ARG_WALLET_NAME)
+            val walletImage = requireArguments().getInt(ARG_WALLET_IMAGE)
+            Toast.makeText(context, "Wallet Name: $walletName", Toast.LENGTH_SHORT).show()
+        }
+
+
+        if (isConnected(requireContext())) {
+            fetchAndDisplayWallets(view, userId)
+        } else {
+            fetchAndDisplayWalletsOffline(view, userId)
+        }
 
         btnAddWallet = view.findViewById(R.id.imgBtnAddWallet)
         addWalletSection = view.findViewById(R.id.AddWalletSection)
@@ -134,8 +149,14 @@ class WalletsFragment : Fragment() {
             val coinName = spinner.selectedItem.toString()
             val gradientId = RbtnGroup.checkedRadioButtonId
             val selectedRadioButton = view.findViewById<RadioButton>(gradientId)
-            saveWalletToFirebase(coinName, selectedRadioButton.text.toString(), userId)
-            fetchAndDisplayWallets(view, userId)
+
+
+            if (isConnected(requireContext())) {
+                saveWalletToFirebase(coinName, selectedRadioButton.text.toString(), userId)
+                fetchAndDisplayWallets(view, userId)
+            } else {
+                fetchAndDisplayWalletsOffline(view, userId)
+            }
             addWalletSection.visibility = View.GONE
             btnAddWallet.visibility = View.VISIBLE
         }
@@ -144,10 +165,26 @@ class WalletsFragment : Fragment() {
         FirebaseHelper.getWalletsFromFirebase(userId) { wallets, error ->
             if (wallets != null) {
                 displayWallets(view, wallets)
+
             } else {
-                Toast.makeText(context, "Failed to load wallets: $error", Toast.LENGTH_SHORT).show()
+                val dbHelper = SQLiteHelper(requireContext())
+                val wallet = dbHelper.getWalletsByUserId(userId)
+                displayWallets(view, wallet)
+                Toast.makeText(context, "Loading Offline Wallets: ", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun fetchAndDisplayWalletsOffline(view: View, userId: String) {
+        val dbHelper = SQLiteHelper(requireContext())
+        val wallet = dbHelper.getWalletsByUserId(userId)
+        displayWallets(view, wallet)
+        Toast.makeText(context, "Loading Offline Wallets: ", Toast.LENGTH_SHORT).show()
+    }
+    private fun isConnected(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
     }
 
     private fun displayWallets(view: View, wallets: List<WalletModel>) {
@@ -187,7 +224,11 @@ class WalletsFragment : Fragment() {
         layout.requestLayout()
     }
 
-    private fun saveWalletToFirebase(selectedCoin: String, selectedGradient: String, userId: String) {
+    private fun saveWalletToFirebase(
+        selectedCoin: String,
+        selectedGradient: String,
+        userId: String
+    ) {
         val walletImage: Int = assetLogoIdMap[selectedCoin]!!
         val selectedCoinCode = assetIdMap[selectedCoin]
 
@@ -201,8 +242,9 @@ class WalletsFragment : Fragment() {
             else -> R.drawable.default_gradient_for_wallet // Fallback drawable
         }
 
-        val newWallet = WalletModel(selectedCoinCode, "0%", "0", walletImage, gradientResId, gradientResId)
-
+        val newWallet =
+            WalletModel(selectedCoinCode, "0%", "0", walletImage, gradientResId, gradientResId)
+        context?.let { SQLiteHelper(it) }?.addWallet(newWallet, userId)
         FirebaseHelper.saveWalletToFirebase(userId, newWallet) { success, error ->
             if (success) {
                 Toast.makeText(context, "Wallet saved successfully!", Toast.LENGTH_SHORT).show()

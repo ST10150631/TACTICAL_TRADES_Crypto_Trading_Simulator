@@ -2,21 +2,16 @@ package za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.UserWithRelatedData
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.Wallet
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.WatchlistItem
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.User
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.User
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
 
 class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         private const val DATABASE_NAME = "TacticalTrades.db"
-        private const val DATABASE_VERSION = 5
+        private const val DATABASE_VERSION = 9
 
 
         const val TABLE_USERS = "users"
@@ -57,6 +52,8 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     }
 
     fun Create(db: SQLiteDatabase) {
+        db.execSQL("PRAGMA foreign_keys = ON;")
+
         val createUsersTable = """
             CREATE TABLE $TABLE_USERS (
                 $COLUMN_USER_ID TEXT PRIMARY KEY,
@@ -73,34 +70,35 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         db.execSQL(createUsersTable)
 
         val createWalletsTable = """
-        CREATE TABLE $TABLE_WALLETS (
-            $COLUMN_WALLET_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            $COLUMN_WALLET_USER_ID TEXT,
-            $COLUMN_WALLET_TYPE TEXT,
-            $COLUMN_WALLET_AMOUNT TEXT,
-            $COLUMN_WALLET_COLOR INTEGER,
-            $COLUMN_WALLET_PERCENTAGE TEXT,
-            $COLUMN_WALLET_GRADIENT INTEGER,
-            $COLUMN_WALLET_IMAGE INTEGER,
-            FOREIGN KEY($COLUMN_WALLET_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID)
-        )
-    """.trimIndent()
+    CREATE TABLE $TABLE_WALLETS (
+        $COLUMN_WALLET_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        $COLUMN_WALLET_USER_ID TEXT NOT NULL,
+        $COLUMN_WALLET_TYPE TEXT NOT NULL,
+        $COLUMN_WALLET_AMOUNT TEXT NOT NULL,  -- Keeping it as TEXT based on your model
+        $COLUMN_WALLET_COLOR INTEGER,
+        $COLUMN_WALLET_PERCENTAGE TEXT,       -- Keeping it as TEXT since percentage in the model is String?
+        $COLUMN_WALLET_GRADIENT INTEGER,
+        $COLUMN_WALLET_IMAGE INTEGER,
+        FOREIGN KEY($COLUMN_WALLET_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID)
+    )
+""".trimIndent()
         db.execSQL(createWalletsTable)
 
         val createWatchlistTable = """
-        CREATE TABLE $TABLE_WATCHLIST (
-            $COLUMN_WATCHLIST_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            $COLUMN_WATCHLIST_USER_ID TEXT,
-            $COLUMN_STOCK_ID TEXT,
-            $COLUMN_STOCK_NAME TEXT,
-            $COLUMN_STOCK_IMAGE TEXT,
-            $COLUMN_CURRENT_PRICE TEXT,
-            $COLUMN_PRICE_DIFFERENCE TEXT,
-            $COLUMN_UP_DOWN INTEGER,
-            FOREIGN KEY($COLUMN_WATCHLIST_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID)
-        )
-    """.trimIndent()
+    CREATE TABLE $TABLE_WATCHLIST (
+        $COLUMN_WATCHLIST_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        $COLUMN_WATCHLIST_USER_ID TEXT,
+        $COLUMN_STOCK_ID TEXT,
+        $COLUMN_STOCK_NAME TEXT,
+        $COLUMN_STOCK_IMAGE TEXT,
+        $COLUMN_CURRENT_PRICE TEXT,
+        $COLUMN_PRICE_DIFFERENCE TEXT,
+        $COLUMN_UP_DOWN INTEGER, -- This will be changed to INTEGER to represent a Boolean value
+        FOREIGN KEY($COLUMN_WATCHLIST_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID)
+    )
+""".trimIndent()
         db.execSQL(createWatchlistTable)
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -110,49 +108,115 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         onCreate(db)
     }
 
-    fun addUser(
-        userId: String,
-        email: String,
-        name: String,
-        username: String,
-        totalBalance: Double,
-        notificationsEnabled: Boolean,
-        profilePictureUrl: String,
-        graphTheme: String,
-        language: String
-    ) {
-        val db = writableDatabase
+    // CRUD operations for Users
+    fun addUser(user: User) {
+        val db = this.writableDatabase
         val values = ContentValues().apply {
-            put(COLUMN_USER_ID, userId)
-            put(COLUMN_EMAIL, email)
-            put(COLUMN_NAME, name)
-            put(COLUMN_USERNAME, username)
-            put(COLUMN_TOTAL_BALANCE, totalBalance)
-            put(COLUMN_NOTIFICATIONS_ENABLED, if (notificationsEnabled) 1 else 0)
-            put(COLUMN_PROFILE_PICTURE_URL, profilePictureUrl)
-            put(COLUMN_GRAPH_THEME, graphTheme)
-            put(COLUMN_LANGUAGE, language)
+            put(COLUMN_USER_ID, user.userId)
+            put(COLUMN_EMAIL, user.email)
+            put(COLUMN_NAME, user.name)
+            put(COLUMN_USERNAME, user.username)
+            put(COLUMN_TOTAL_BALANCE, user.totalBalance)
+            put(COLUMN_NOTIFICATIONS_ENABLED, user.notificationsEnabled)
+            put(COLUMN_PROFILE_PICTURE_URL, user.profilePictureUrl)
+            put(COLUMN_GRAPH_THEME, user.graphTheme)
+            put(COLUMN_LANGUAGE, user.language)
         }
         db.insert(TABLE_USERS, null, values)
         db.close()
     }
 
-    fun clearUsers() {
-        val db = writableDatabase
-        try {
-            db.execSQL("DELETE FROM $TABLE_USERS")
-            Log.d("SQLiteHelper", "Users table cleared")
-        } catch (e: SQLiteException) {
-            Log.e("SQLiteHelper", "Error clearing users: ${e.message}")
-        } finally {
-            db.close()
+    fun getUserByEmail(email: String): User? {
+        val db = this.readableDatabase
+        var user: User? = null
+        val cursor = db.query(
+            TABLE_USERS,
+            null,
+            "$COLUMN_EMAIL = ?",
+            arrayOf(email),
+            null,
+            null,
+            null
+        )
+
+        if (cursor.moveToFirst()) {
+            user = User(
+                userId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USER_ID)),
+                email = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EMAIL)),
+                name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
+                username = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME)),
+                totalBalance = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_TOTAL_BALANCE)),
+                notificationsEnabled = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_NOTIFICATIONS_ENABLED)) == 1,
+                profilePictureUrl = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PROFILE_PICTURE_URL)),
+                graphTheme = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_GRAPH_THEME)),
+                language = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LANGUAGE))
+            )
         }
+
+        cursor.close()
+        db.close()
+        return user
     }
 
-    fun addWallet(wallet: WalletModel, userId: String) {
-        val db = writableDatabase
+    fun updateUser(user: User): Int {
+        val db = this.writableDatabase
         val values = ContentValues().apply {
-            put(COLUMN_WALLET_USER_ID, userId)
+            put(COLUMN_EMAIL, user.email)
+            put(COLUMN_NAME, user.name)
+            put(COLUMN_USERNAME, user.username)
+            put(COLUMN_TOTAL_BALANCE, user.totalBalance)
+            put(COLUMN_NOTIFICATIONS_ENABLED, if (user.notificationsEnabled == true) 1 else 0)
+            put(COLUMN_PROFILE_PICTURE_URL, user.profilePictureUrl)
+            put(COLUMN_GRAPH_THEME, user.graphTheme)
+            put(COLUMN_LANGUAGE, user.language)
+        }
+
+        // Updating row and returning the number of rows affected
+        val rowsUpdated = db.update(
+            TABLE_USERS,
+            values,
+            "$COLUMN_USER_ID = ?",
+            arrayOf(user.userId)
+        )
+        db.close()
+        return rowsUpdated
+    }
+
+
+
+    fun getAllUsers(): List<User> {
+        val userList = mutableListOf<User>()
+        val db = this.readableDatabase
+        val cursor = db.query(TABLE_USERS, null, null, null, null, null, null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                val user = User(
+                    userId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USER_ID)),
+                    email = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EMAIL)),
+                    name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
+                    username = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME)),
+                    totalBalance = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_TOTAL_BALANCE)),
+                    notificationsEnabled = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_NOTIFICATIONS_ENABLED)) == 1,
+                    profilePictureUrl = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PROFILE_PICTURE_URL)),
+                    graphTheme = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_GRAPH_THEME)),
+                    language = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LANGUAGE))
+                )
+                userList.add(user)
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+        return userList
+    }
+
+
+    // CRUD operations for Wallets
+    fun addWallet(wallet: WalletModel, userId: String) {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_WALLET_USER_ID, userId) // Storing userId in the wallet entry
             put(COLUMN_WALLET_TYPE, wallet.walletType)
             put(COLUMN_WALLET_AMOUNT, wallet.amountInCoin)
             put(COLUMN_WALLET_COLOR, wallet.color)
@@ -164,107 +228,42 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         db.close()
     }
 
-    fun clearWallets() {
-        val db = writableDatabase
-        try {
-            db.execSQL("DELETE FROM $TABLE_WALLETS")
-            Log.d("SQLiteHelper", "Wallets table cleared")
-        } catch (e: SQLiteException) {
-            Log.e("SQLiteHelper", "Error clearing wallets: ${e.message}")
-        } finally {
-            db.close()
-        }
-    }
-
-    fun addWatchlistItem(stockItem: StockItem, userId: String) {
-        val db = writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_WATCHLIST_USER_ID, userId)
-            put(COLUMN_STOCK_ID, stockItem.stockId)
-            put(COLUMN_STOCK_NAME, stockItem.name)
-            put(COLUMN_STOCK_IMAGE, stockItem.imageRes)
-            put(COLUMN_CURRENT_PRICE, stockItem.currentPrice)
-            put(COLUMN_PRICE_DIFFERENCE, stockItem.priceDifference)
-            put(COLUMN_UP_DOWN, if (stockItem.upDown) 1 else 0)
-        }
-        db.insert(TABLE_WATCHLIST, null, values)
-        db.close()
-    }
-
-    fun clearWatchlist() {
-        val db = writableDatabase
-        try {
-            db.execSQL("DELETE FROM $TABLE_WATCHLIST")
-            Log.d("SQLiteHelper", "Watchlist table cleared")
-        } catch (e: SQLiteException) {
-            Log.e("SQLiteHelper", "Error clearing watchlist: ${e.message}")
-        } finally {
-            db.close()
-        }
-    }
-
-    fun isUserExists(userId: String): Boolean {
-        val db = readableDatabase
-        val cursor =
-            db.query(TABLE_USERS, null, "$COLUMN_USER_ID=?", arrayOf(userId), null, null, null)
-        val exists = cursor.count > 0
-        cursor.close()
-        return exists
-    }
-
-    fun updateUser(
-        userId: String,
-        email: String,
-        name: String,
-        username: String,
-        totalBalance: Double,
-        notificationsEnabled: Boolean,
-        profilePictureUrl: String,
-        graphTheme: String,
-        language: String
-    ) {
-        val db = writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_EMAIL, email)
-            put(COLUMN_NAME, name)
-            put(COLUMN_USERNAME, username)
-            put(COLUMN_TOTAL_BALANCE, totalBalance)
-            put(COLUMN_NOTIFICATIONS_ENABLED, if (notificationsEnabled) 1 else 0)
-            put(COLUMN_PROFILE_PICTURE_URL, profilePictureUrl)
-            put(COLUMN_GRAPH_THEME, graphTheme)
-            put(COLUMN_LANGUAGE, language)
-        }
-        db.update(TABLE_USERS, values, "$COLUMN_USER_ID=?", arrayOf(userId))
-        db.close()
-    }
-
-    fun isWalletExists(walletId: String, userId: String): Boolean {
-
-        val db = readableDatabase
-
-        if (!db.isOpen) {
-            return false
-        }
-
-
+    fun getWalletsByUserId(userId: String): List<WalletModel> {
+        val walletList = mutableListOf<WalletModel>()
+        val db = this.readableDatabase
         val cursor = db.query(
             TABLE_WALLETS,
             null,
-            "$COLUMN_WALLET_USER_ID=? AND $COLUMN_WALLET_ID=?",
-            arrayOf(userId, walletId),
+            "$COLUMN_WALLET_USER_ID = ?",
+            arrayOf(userId),
             null,
             null,
             null
         )
-        val exists = cursor.count > 0
+
+        if (cursor.moveToFirst()) {
+            do {
+                val wallet = WalletModel(
+                    walletType = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WALLET_TYPE)),
+                    amountInCoin = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WALLET_AMOUNT)),
+                    color = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_WALLET_COLOR)),
+                    percentage = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WALLET_PERCENTAGE)),
+                    walletGradient = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_WALLET_GRADIENT)),
+                    walletImage = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_WALLET_IMAGE))
+                )
+                walletList.add(wallet)
+            } while (cursor.moveToNext())
+        }
+
         cursor.close()
-        return exists
+        db.close()
+        return walletList
     }
 
-    fun updateWallet(walletId: String, wallet: WalletModel, userId: String) {
-        val db = writableDatabase
+    fun updateWallet(wallet: WalletModel, walletId: Int) {
+        val db = this.writableDatabase
         val values = ContentValues().apply {
-            put(COLUMN_WALLET_USER_ID, userId)
+            put(COLUMN_WALLET_USER_ID, wallet.walletType) // Assuming you want to keep userId
             put(COLUMN_WALLET_TYPE, wallet.walletType)
             put(COLUMN_WALLET_AMOUNT, wallet.amountInCoin)
             put(COLUMN_WALLET_COLOR, wallet.color)
@@ -272,141 +271,64 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
             put(COLUMN_WALLET_GRADIENT, wallet.walletGradient)
             put(COLUMN_WALLET_IMAGE, wallet.walletImage)
         }
-        db.update(TABLE_WALLETS, values, "$COLUMN_WALLET_ID=?", arrayOf(walletId))
+        db.update(TABLE_WALLETS, values, "$COLUMN_WALLET_ID = ?", arrayOf(walletId.toString()))
         db.close()
     }
 
-    fun isStockInWatchlist(stockId: String, userId: String): Boolean {
-        val db = readableDatabase
-        if (!db.isOpen) {
-            return false
-        }
-
-
-        val cursor = db.query(
-            TABLE_WATCHLIST,
-            null,
-            "$COLUMN_WATCHLIST_USER_ID=? AND $COLUMN_STOCK_ID=?",
-            arrayOf(userId, stockId),
-            null,
-            null,
-            null
-        )
-        val exists = cursor.count > 0
-        cursor.close()
-        return exists
+    fun deleteWallet(walletId: Int) {
+        val db = this.writableDatabase
+        db.delete(TABLE_WALLETS, "$COLUMN_WALLET_ID = ?", arrayOf(walletId.toString()))
+        db.close()
     }
 
-    fun updateWatchlistItem(stockId: String, stockItem: StockItem, userId: String) {
-        val db = writableDatabase
+
+    fun addWatchlistItem(stockItem: StockItem, userId: String) {
+        val db = this.writableDatabase
         val values = ContentValues().apply {
+            put(COLUMN_WATCHLIST_USER_ID, userId)
+            put(COLUMN_STOCK_ID, stockItem.stockId)
             put(COLUMN_STOCK_NAME, stockItem.name)
             put(COLUMN_STOCK_IMAGE, stockItem.imageRes)
             put(COLUMN_CURRENT_PRICE, stockItem.currentPrice)
             put(COLUMN_PRICE_DIFFERENCE, stockItem.priceDifference)
-            put(COLUMN_UP_DOWN, if (stockItem.upDown) 1 else 0)
+            put(COLUMN_UP_DOWN, if (stockItem.upDown) 1 else 0) // Store as 1 for true and 0 for false
         }
-        db.update(
-            TABLE_WATCHLIST,
-            values,
-            "$COLUMN_WATCHLIST_USER_ID=? AND $COLUMN_STOCK_ID=?",
-            arrayOf(userId, stockId)
-        )
+        db.insert(TABLE_WATCHLIST, null, values)
         db.close()
     }
 
-    fun getUserDataByEmail(email: String): User? {
+
+    fun getWatchlistItemsByUserId(userId: String): List<StockItem> {
+        val watchlistItems = mutableListOf<StockItem>()
         val db = this.readableDatabase
-        val query = """
-        SELECT 
-            u.user_id,
-            u.email,
-            u.name,
-            u.username,
-            u.total_balance,
-            u.notifications_enabled,
-            w.wallet_id,
-            w.wallet_type,
-            w.amount_in_coin,
-            wl.watchlist_id,
-            wl.stock_id,
-            wl.name AS stock_name,
-            wl.current_price,
-            wl.price_difference,
-            wl.up_down
-        FROM 
-            users u
-        LEFT JOIN 
-            wallets w ON u.user_id = w.user_id
-        LEFT JOIN 
-            watchlist wl ON u.user_id = wl.user_id
-        WHERE 
-            u.email = ?
-    """
-
-        val cursor = db.rawQuery(query, arrayOf(email))
-
-        var userData: User? = null
+        val cursor = db.query(
+            TABLE_WATCHLIST,
+            null,
+            "$COLUMN_WATCHLIST_USER_ID = ?",
+            arrayOf(userId),
+            null,
+            null,
+            null
+        )
 
         if (cursor.moveToFirst()) {
-            userData = User(
-                userId = cursor.getString(cursor.getColumnIndexOrThrow("user_id")),
-                email = cursor.getString(cursor.getColumnIndexOrThrow("email")),
-                name = cursor.getString(cursor.getColumnIndexOrThrow("name")),
-                username = cursor.getString(cursor.getColumnIndexOrThrow("username")),
-                totalBalance = cursor.getDouble(cursor.getColumnIndexOrThrow("total_balance")),
-                wallets = mutableListOf(),
-                watchlistItems = mutableListOf()
-            )
-
             do {
-                // Retrieve wallet data
-                var walletType = cursor.getString(cursor.getColumnIndexOrThrow("wallet_type"))
-                var percentage= cursor.getString(cursor.getColumnIndexOrThrow("percentage"))
-                var amountInCoin  = cursor.getString(cursor.getColumnIndexOrThrow("amount_in_coin"))
-                val walletImage  = cursor.getInt(cursor.getColumnIndexOrThrow("wallet_image"))
-                val color = cursor.getInt(cursor.getColumnIndexOrThrow("color"))
-                val walletGradient = cursor.getInt(cursor.getColumnIndexOrThrow("wallet_gradient"))
-
-                if (walletType != null) {
-                    userData.wallets?.add(WalletModel(walletType,percentage,amountInCoin,walletImage,color,walletGradient ))
-                }
-
-                val stockId = cursor.getString(cursor.getColumnIndexOrThrow("stock_id"))
-                val name  = cursor.getString(cursor.getColumnIndexOrThrow("stock_name"))
-                val imageRes = cursor.getString(cursor.getColumnIndexOrThrow("image_res"))
-                val upDown = cursor.getInt(cursor.getColumnIndexOrThrow("up_down"))
-                val currentPrice = cursor.getString(cursor.getColumnIndexOrThrow("current_price"))
-                val priceDifference  = cursor.getString(cursor.getColumnIndexOrThrow("price_difference"))
-                var upDownBoolean = true
-
-                if (upDown == 0)
-                {
-                    upDownBoolean = false
-                }
-                else
-                {
-                    upDownBoolean = true
-                }
-
-                if (stockId != null) {
-                    userData.watchlistItems?.add(
-                        StockItem(
-                            stockId,
-                            name,
-                            imageRes,
-                            upDownBoolean,
-                            currentPrice,
-                            priceDifference
-                        )
-                    )
-                }
+                val stockItem = StockItem(
+                    stockId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STOCK_ID)),
+                    name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STOCK_NAME)),
+                    imageRes = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STOCK_IMAGE)),
+                    upDown = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_UP_DOWN)) == 1, // Convert 1 or 0 to Boolean
+                    currentPrice = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CURRENT_PRICE)),
+                    priceDifference = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRICE_DIFFERENCE))
+                )
+                watchlistItems.add(stockItem)
             } while (cursor.moveToNext())
         }
 
         cursor.close()
         db.close()
-        return userData
+        return watchlistItems
     }
 
 }
+

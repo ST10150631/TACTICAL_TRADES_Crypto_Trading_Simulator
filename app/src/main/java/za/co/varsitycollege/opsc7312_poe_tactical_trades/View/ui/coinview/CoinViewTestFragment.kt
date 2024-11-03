@@ -20,8 +20,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.CoinAPIHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.SQLiteHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.LoggedInUser
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.OHLCV
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
@@ -264,11 +266,19 @@ class CoinViewTestFragment : Fragment() {
                         imageRes = imageUrl,
                         stockId = coinId
                     )
+                    val dbHelper = SQLiteHelper(requireContext())
+
 
                     val currentUser = auth.currentUser
                     if (currentUser != null) {
+                        dbHelper.addWatchlistItem(stockItem,currentUser.uid)
                         addStockToUserWatchlist(stockItem, currentUser.uid)
                     } else {
+                        LoggedInUser.LoggedInUser.userId?.let {
+                            dbHelper.addWatchlistItem(stockItem,
+                                it
+                            )
+                        }
                         Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
                     }
                 } else {
