@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        (activity as MainActivity).setHeaderTitle("Home")
+        (activity as MainActivity).setHeaderTitle(getString(R.string.title_home))
 
         loadProfilePicture()
         loadTotalBalance()

@@ -2,15 +2,15 @@
 <resources>
     <string name="title_notifications">Kennisgewings</string>
     <string name="amazon_icon" translatable="false">amazon_icon</string>
-    <string name="account">"Rekening "</string>
+    <string name="account">"Profiel "</string>
     <string name="edit_username" translatable="false">Wysig gebruikersnaam</string>
     <string name="app_name">OPSC7312_POE_TACTICAL_TRADES</string>
-    <string name="title_home">Hoof Blad</string>
-    <string name="edit_name">Wysig Naam</string>
-    <string name="edit_password">" Wysig wagwoord"</string>
-    <string name="delete_account">" Vee rekening uit"</string>
+    <string name="title_home">Tuis Blad</string>
+    <string name="edit_name">Verander Naam</string>
+    <string name="edit_password">" Verander wagwoord"</string>
+    <string name="delete_account">"Verwyder profiel"</string>
     <string name="display">Vertoon</string>
-    <string name="delete_account_button">" Vee rekening uit"</string>
+    <string name="delete_account_button">"Verwyder profiel"</string>
     <string name="select_theme">Kies Tema</string>
     <string name="graph_theme">Grafiek Tema</string>
     <string name="language">Taal</string>
@@ -30,7 +30,7 @@
     <string name="email">Epos:</string>
     <string name="confirm_password">Bevestig wagwoord</string>
     <string name="click_here_to_login">Klik hier om aan te meld</string>
-    <string name="home">Hoof Blad</string>
+    <string name="home">Tuis Blad</string>
     <string name="trade">Handel</string>
     <string name="watchlist">Kyklys</string>
     <string name="wallets">"Beursies "</string>
@@ -39,7 +39,7 @@
     <string name="confirm">Bevestig</string>
     <string name="price">$ Prys</string>
     <string name="total_balance">Totale balans</string>
-    <string name="news_articles">" Nuus Artikels"</string>
+    <string name="news_articles">Nuusartikels</string>
     <string name="select_colour">Kies Kleur</string>
     <string name="add_to_watch_list">Voeg by kyklys</string>
     <string name="buy_coin">"Koop munt "</string>
@@ -50,4 +50,7 @@
     <string name="save">Stoor</string>
     <string name="my_wallets">"My Beursies "</string>
     <string name="my_watchlist">"My Kyklys "</string>
+    <string name="coin">Munt</string>
+    <string name="settings_header">Instellings</string>
+    <string name="leaderboard">Ranglys</string>
 </resources>

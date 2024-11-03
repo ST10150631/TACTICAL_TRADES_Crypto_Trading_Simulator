@@ -43,7 +43,7 @@ class MarketFragment : Fragment() {
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.navigation_home) {
             if (activity is MainActivity) {
-                (activity as MainActivity).setHeaderTitle("Trade")
+                (activity as MainActivity).setHeaderTitle(getString(R.string.trade))
             }
         }
 

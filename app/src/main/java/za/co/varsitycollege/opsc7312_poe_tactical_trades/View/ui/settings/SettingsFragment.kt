@@ -45,7 +45,7 @@ class SettingsFragment : Fragment() {
 
         if (navController.currentDestination?.id != R.id.navigation_home) {
             if (activity is MainActivity) {
-                (activity as MainActivity).setHeaderTitle("Settings")
+                (activity as MainActivity).setHeaderTitle(getString(R.string.settings_header))
             }
         }
 

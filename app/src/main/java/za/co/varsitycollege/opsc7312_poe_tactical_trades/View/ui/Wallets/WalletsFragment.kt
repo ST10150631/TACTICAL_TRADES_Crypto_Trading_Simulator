@@ -110,13 +110,13 @@ class WalletsFragment : Fragment() {
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.navigation_home) {
             if (activity is MainActivity) {
-                (activity as MainActivity).setHeaderTitle("Wallets")
+                (activity as MainActivity).setHeaderTitle(getString(R.string.wallets))
             }
         }
         val userId: String = if(isConnected(requireContext())){
             FirebaseHelper.firebaseAuth.currentUser?.uid ?: return
         }else {
-            LoggedInUser.LoggedInUser?.userId!!
+            LoggedInUser.LoggedInUser.userId!!
         }
 
 

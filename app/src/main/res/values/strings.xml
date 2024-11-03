@@ -83,4 +83,6 @@
     <string name="my_wallets">My Wallets</string>
     <string name="my_watchlist">My watchlist</string>
     <string name="coin">Coin</string>
+    <string name="settings_header">Settings</string>
+    <string name="leaderboard">Leaderboard</string>
 </resources>

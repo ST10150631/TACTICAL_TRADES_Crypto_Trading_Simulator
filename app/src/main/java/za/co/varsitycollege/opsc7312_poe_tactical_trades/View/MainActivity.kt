@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
             if (user != null) {
 
                 headerTitle = findViewById(R.id.headerTitle)
-                headerTitle.text = "Home"
+                headerTitle.text = getString(R.string.title_home)
 
                 setupNavigation()
             } else {
