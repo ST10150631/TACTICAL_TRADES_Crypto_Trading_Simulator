@@ -12,11 +12,16 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.LoggedInUser
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.User
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.WalletModel
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.SellCrypto.SellCryptoFragment
 import java.util.UUID
+import kotlin.concurrent.thread
 
 object FirebaseHelper {
     // Firebase Authentication instance
@@ -254,6 +259,49 @@ object FirebaseHelper {
                 onComplete(null, task.exception?.message)
             }
         }
+    }
+
+    fun calculateBitcoinToDollar(bitcoinAmount: String, coinAssetId: String): Double {
+
+        val bitcoin = bitcoinAmount.toDoubleOrNull()
+        val coin = coins.find { it.assetId == coinAssetId }
+        if (coin == null) {
+            Log.e("HomeFragment", "Coin is null for assetId: $coinAssetId")
+        }
+        return if (bitcoin != null && bitcoin > 0 && coin != null) {
+            bitcoin * (coin.priceUsd?.toDouble() ?: 0.0)
+        } else {
+            0.0
+        }
+    }
+
+    fun getAllWalletsAndCalculateTotalUsdAmount(userId: String, onComplete: (Double) -> Unit) {
+        val walletsRef = databaseReference.child(userId).child("wallets")
+
+        walletsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var totalUsdAmount = 0.0
+
+                for (walletSnapshot in snapshot.children) {
+                    val wallet = walletSnapshot.getValue(WalletModel::class.java)
+                    if (wallet != null) {
+                        val bitcoinAmount = wallet.amountInCoin?.toDouble()
+                        val dollarAmount = FirebaseHelper.calculateBitcoinToDollar(bitcoinAmount.toString(),  wallet.walletType.toString())
+
+                        if (bitcoinAmount != null) {
+                            totalUsdAmount += bitcoinAmount * dollarAmount
+                        }
+                    }
+                }
+
+                onComplete(totalUsdAmount)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseHelper", "Error fetching wallets: ${error.message}")
+                onComplete(0.0)
+            }
+        })
     }
 
     fun updateWalletAmount(userId: String, walletType: String, newAmountInCoin: Double, isBuying: Boolean, onComplete: (Boolean, String?) -> Unit) {
