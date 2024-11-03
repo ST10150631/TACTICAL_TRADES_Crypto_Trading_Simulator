@@ -147,7 +147,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun storeUserData(userId: String, username: String, name: String, email: String) {
         // Create a User object with the provided details
-        val user = User(userId, username,name, email, 5000.00)
+        val user = User(userId, username, name, email, 500000.00,500000.00)
         val dbHelper = SQLiteHelper(this)
         dbHelper.addUser(user)
         LoggedInUser.LoggedInUser = user

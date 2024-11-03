@@ -38,7 +38,7 @@ object FirebaseHelper {
     }
 
 
-    fun updateTotalBalance(userId: String, amount: Double, isBuying: Boolean, onComplete: (Boolean, String?) -> Unit) {
+    fun updateTotalBalance(userId: String, amount: Double,priceDifference:Double, isBuying: Boolean, onComplete: (Boolean, String?) -> Unit) {
         val userRef = databaseReference.child(userId).child("totalBalance")
 
         userRef.get().addOnCompleteListener { task ->
@@ -46,7 +46,7 @@ object FirebaseHelper {
                 val currentBalance = task.result?.getValue(Double::class.java) ?: 0.0
 
                 val newBalance = if (isBuying) {
-                    currentBalance + amount
+                    currentBalance + amount + priceDifference
                 } else {
                     currentBalance - amount
                 }
@@ -73,11 +73,46 @@ object FirebaseHelper {
                 onComplete(totalBalance, null)
             } else {
                 try {
-                    LoggedInUser.LoggedInUser?.totalBalance?.let { onComplete(it, null) }
+                    LoggedInUser.LoggedInUser.totalBalance?.let { onComplete(it, null) }
                 }
                 catch (e: Exception) {
                     onComplete(null, task.exception?.message)
                 }
+            }
+        }
+    }
+
+    fun updateDifference(userId: String, difference: Double) {
+        val userRef = databaseReference.child(userId).child("difference")
+        userRef.setValue(difference).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("FirebaseHelper", "Difference updated successfully.")
+            } else {
+                Log.e("FirebaseHelper", "Failed to update difference: ${task.exception?.message}")
+            }
+        }
+    }
+
+    fun getDifference(userId: String, onComplete: (Double?, String?) -> Unit) {
+        val userRef = databaseReference.child(userId).child("difference")
+        userRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val difference = task.result?.getValue(Double::class.java)
+                onComplete(difference, null)
+            } else {
+                onComplete(null, task.exception?.message)
+            }
+        }
+    }
+
+    fun getStartValue(userId: String, onComplete: (Double?, String?) -> Unit) {
+        val userRef = databaseReference.child(userId).child("startValue")
+        userRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val startValue = task.result?.getValue(Double::class.java)
+                onComplete(startValue, null)
+            } else {
+                onComplete(null, task.exception?.message)
             }
         }
     }
@@ -136,8 +171,16 @@ object FirebaseHelper {
         val userReference = databaseReference.child(userId)
 
         userReference.get().addOnSuccessListener { snapshot ->
-            val currentUser = snapshot.getValue(User::class.java)
+            val currentUser = firebaseAuth.currentUser
+
             val totalBalance = startValue?.toDoubleOrNull()
+
+            val startValue = totalBalance
+
+            if (totalBalance != null)
+            {
+                deleteUserWalletsAndResetDifference(currentUser?.uid.toString())
+            }
 
             if (currentUser != null) {
                 val updatedData = mutableMapOf<String, Any?>()
@@ -149,7 +192,7 @@ object FirebaseHelper {
                 if (!theme.isNullOrEmpty()) updatedData["theme"] = theme
                 if (!graphTheme.isNullOrEmpty()) updatedData["graphTheme"] = graphTheme
                 if (!language.isNullOrEmpty()) updatedData["language"] = language
-                updatedData["profilePictureUrl"] = currentUser.profilePictureUrl
+                if (startValue != null) updatedData["startValue"] = startValue
 
                 userReference.updateChildren(updatedData).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -166,6 +209,28 @@ object FirebaseHelper {
         }
     }
 
+
+    fun deleteUserWalletsAndResetDifference(userId: String) {
+        val userRef = databaseReference.child(userId)
+
+        userRef.child("wallets").removeValue().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("FirebaseHelper", "Successfully deleted wallets for user: $userId")
+
+
+            } else {
+                Log.e("FirebaseHelper", "Failed to delete wallets for user: $userId", task.exception)
+            }
+        }
+
+        userRef.child("difference").setValue(0.00).addOnCompleteListener { resetTask ->
+            if (resetTask.isSuccessful) {
+                Log.d("FirebaseHelper", "Successfully reset difference for user: $userId")
+            } else {
+                Log.e("FirebaseHelper", "Failed to reset difference for user: $userId", resetTask.exception)
+            }
+        }
+    }
 
     fun saveWalletToFirebase(userId: String, wallet: WalletModel, onComplete: (Boolean, String?) -> Unit) {
         databaseReference.child(userId).child("wallets").child(wallet.walletType.toString()).setValue(wallet)
