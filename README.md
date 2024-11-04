@@ -60,6 +60,13 @@ By using github we were able to peform version control. This allowed us to be ab
 
 ### Utilization of Github Actions
 
+
+---
+
+---
+### Purpose of the Application
+The purpose of Tactical Trades is to provide a safe, realistic environment for users to learn and practice cryptocurrency trading without financial risk. By leveraging real-time data through Coin API, the app aims to simulate the experience of trading on major platforms, equipping users with essential insights and data for making informed trades. Tactical Trades is designed for accessibility and learning, with features like colorblind-friendly graphs, intuitive interfaces, and advanced analytical tools to deepen users’ understanding of market trends. With customizable difficulty settings and achievable trading goals, the app serves as an engaging educational tool for both beginners and seasoned enthusiasts looking to refine their trading strategies.
+
 ---
 
 ### Design Considerations
@@ -94,9 +101,6 @@ By using github we were able to peform version control. This allowed us to be ab
 - Added offline mode that allows the user to perform actions when not connected to the internet using SQLLite
 - Implemented real time notifications 
 
-
-
-  
 
 ## How To Use
 ---
@@ -291,6 +295,14 @@ By using github we were able to peform version control. This allowed us to be ab
 ![Screenshot (1112)](https://github.com/user-attachments/assets/181cd67e-3258-438f-a91f-563fae953390)
 ![Screenshot (1113)](https://github.com/user-attachments/assets/26074670-ba5c-4665-ad4a-258b14d9f566)
 
+## AI Usage Writeup 
+Use of AI in development:
+GitHub Copilot and ChatGPT were two AI tools that were very helpful in debugging and improving the code as it was being developed. Copilot offered solutions and code recommendations for typical coding problems.
+When some features did not work as intended, ChatGPT helped with more thorough troubleshooting by assisting in the identification and resolution of particular coding problems.
+ChatGPT offers multiple processes and apporaches to solving a problem which helps to save time in debigging the errors. 
+
+AI use Acknowledgement and Citations:
+As part of our development process, AI technologies were cited in line with academic honesty and transparency. While ChatGPT and GitHub Copilot offered assistance with debugging and code recommendations, they were not responsible for any of the fundamental choices regarding functionality, architecture, or design. The team examined and modified any code changes or recommendations from Copilot and ChatGPT as needed to meet the project's particular needs. This strategy made sure that, even while AI technologies increased productivity, Tactical Trades' main design and logic components were still the result of the team's autonomous labor.
   
 ## License
 
