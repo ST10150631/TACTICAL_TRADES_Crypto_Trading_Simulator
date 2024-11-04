@@ -64,7 +64,6 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.junit.ktx)
-    implementation(libs.androidx.runtime.android)
     testImplementation(libs.junit)
     //charts
     implementation("com.diogobernardino:williamchart:3.10.1")
