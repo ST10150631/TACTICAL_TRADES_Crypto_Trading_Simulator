@@ -94,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
 
             promptManager.showBiometricPrompt(
                 title ="Use finger print to login",
-                description = "Sample prompt description"
+                description = "Please use your fingerprint or pattern to log in"
             )
            /* if (android.util.Patterns.EMAIL_ADDRESS.matcher(loginDetail).matches())
             {

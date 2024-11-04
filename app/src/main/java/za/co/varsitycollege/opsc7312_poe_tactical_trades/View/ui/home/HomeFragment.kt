@@ -121,8 +121,6 @@ class HomeFragment : Fragment() {
                             .error(R.drawable.profile_image)
                     ).into(binding.ivProfile)
 
-                } else {
-                    Toast.makeText(requireContext(), "Failed to load profile picture: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }

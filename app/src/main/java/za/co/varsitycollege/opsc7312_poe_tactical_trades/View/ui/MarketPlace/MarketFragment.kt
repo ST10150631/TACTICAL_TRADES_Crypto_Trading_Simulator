@@ -121,11 +121,7 @@ class MarketFragment : Fragment() {
                                 .placeholder(R.drawable.profile_image)
                                 .error(R.drawable.profile_image)
                         ).into(imageView)
-                    } else {
-                        Toast.makeText(requireContext(), "Failed to load profile picture: $message", Toast.LENGTH_LONG).show()
                     }
-                } else {
-                    Toast.makeText(requireContext(), "Image view is not available", Toast.LENGTH_SHORT).show()
                 }
             }
         } ?: run {
