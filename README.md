@@ -61,7 +61,6 @@ By using github we were able to peform version control. This allowed us to be ab
 ### Utilization of Github Actions
 
 In the development of Tactical Trades, we utilized GitHub Actions to streamline our testing process and ensure continuous integration. GitHub Actions was configured to automatically run our suite of tests each time code was pushed to the repository, allowing us to quickly identify and resolve any issues that might impact functionality. By automating these tests, we maintained code reliability and minimized potential errors before they reached the app’s build. This integration significantly enhanced our workflow by providing instant feedback on code changes, helping us uphold the app’s stability and performance throughout development
----
 
 ---
 ### Purpose of the Application
