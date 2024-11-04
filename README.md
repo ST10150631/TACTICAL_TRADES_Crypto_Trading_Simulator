@@ -294,6 +294,44 @@ The purpose of Tactical Trades is to provide a safe, realistic environment for u
 ![Screenshot (1112)](https://github.com/user-attachments/assets/181cd67e-3258-438f-a91f-563fae953390)
 ![Screenshot (1113)](https://github.com/user-attachments/assets/26074670-ba5c-4665-ad4a-258b14d9f566)
 
+## Attempt to publish to google playstore 
+
+- The app APK was creted along with a keystore
+  ![Screenshot 2024-11-03 212251](https://github.com/user-attachments/assets/0142d735-5f9b-4c4a-a508-51cada345a38)
+-  The console account however did not allow me access required to publish the app
+  ![Screenshot 2024-11-03 222349](https://github.com/user-attachments/assets/c240288a-0fac-461a-9777-1f41b8c4764b)
+- However I proceeded and created a new app and filled in the various app details.
+  ![Screenshot 2024-11-03 222432](https://github.com/user-attachments/assets/198c2b24-9e63-4128-8126-9eefc0596f56)
+![Screenshot 2024-11-03 222528](https://github.com/user-attachments/assets/f3ec2f3b-8a7e-4c78-8b0a-7253ddec84dc)
+![Screenshot 2024-11-03 223352](https://github.com/user-attachments/assets/fe86992f-10c3-4c98-9a43-58e089c6c3d5)
+![Screenshot 2024-11-03 224232](https://github.com/user-attachments/assets/27dff403-129b-4bc1-95bf-0f359eb8b0f2)
+the graphics and Icons were uploaded:
+![Screenshot 2024-11-03 224756](https://github.com/user-attachments/assets/efe50516-1448-4f7d-a79e-e473129905eb)
+![Screenshot 2024-11-03 225627](https://github.com/user-attachments/assets/1e0a45b0-b9ad-442b-9569-b216013f90e1)
+![Screenshot 2024-11-03 225632](https://github.com/user-attachments/assets/8cf10f76-75b4-4510-aeb6-e51ab5123a59)
+Logo:
+
+![Tactical_Trades_Logo](https://github.com/user-attachments/assets/706bdde3-9ed4-4c99-8c8f-0d83b8785241)
+
+Screen Banner:
+
+![Group 237597](https://github.com/user-attachments/assets/2530e973-8a64-4a89-b61f-c01d555c99ac)
+
+Data safety required a privacy policy URL that was attempted but ultimately failed
+![Screenshot 2024-11-03 225805](https://github.com/user-attachments/assets/01ca2b35-1080-490e-ae6b-3a7a81bbefac)
+
+- The app draught was created however could not proceed as my account did not have the relevant permisssions needed:
+  ![Screenshot 2024-11-04 125129](https://github.com/user-attachments/assets/005b584c-1b18-4abc-908e-7af367672c4c)
+  - This was the primary reason for being unable to published and could not be resolved despite our best efforts.
+    
+
+
+
+
+
+
+
+
 ## AI Usage Writeup 
 Use of AI in development:
 GitHub Copilot and ChatGPT were two AI tools that were very helpful in debugging and improving the code as it was being developed. Copilot offered solutions and code recommendations for typical coding problems.
