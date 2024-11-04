@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.Navigation.findNavController
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.FirebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.StockItem
 
@@ -27,6 +29,15 @@ class LeaderboardAdapter(private val users: List<Map<String, Any>>) : RecyclerVi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = users[position]
         holder.username.text = user["username"] as String
+
+        if (user["email"] == FirebaseAuth.getInstance().currentUser?.email)
+        {
+            holder.background.setBackgroundResource(R.drawable.rounded_filled_box_leaderboard)
+        }
+        else
+        {
+            holder.background.setBackgroundResource(R.drawable.rounded_filled_box)
+        }
 
         val difference = user["difference"] as? Double ?: 0.0
         holder.amountMade.text = "$%.2f".format(difference)
@@ -49,5 +60,6 @@ class LeaderboardAdapter(private val users: List<Map<String, Any>>) : RecyclerVi
         val username: TextView = itemView.findViewById(R.id.TxtViewUsername)
         val amountMade: TextView = itemView.findViewById(R.id.TxtViewHowMuchTheyHaveMade)
         val profile: ImageView = itemView.findViewById(R.id.ivProfile)
+        val background: LinearLayout = itemView.findViewById(R.id.Background)
     }
 }

@@ -35,7 +35,7 @@ class NewsFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        // Fetch articles in a separate thread
+        /* Fetch articles in a separate thread
         thread {
             val newsList = try {
                 NewsAPIHelper().getArticles()
@@ -50,7 +50,7 @@ class NewsFragment : Fragment() {
                 adapter = NewsAdapter(newsList)
                 recyclerView.adapter = adapter // Set the adapter to RecyclerView
             }
-        }
+        }*/
         return view
     }
     //Method that sends the user back to the add wallets screen
