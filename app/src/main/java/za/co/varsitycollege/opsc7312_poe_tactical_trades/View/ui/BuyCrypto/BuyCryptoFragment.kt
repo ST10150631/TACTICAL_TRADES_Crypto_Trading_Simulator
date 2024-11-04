@@ -1,6 +1,13 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.BuyCrypto
 
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context.ALARM_SERVICE
+import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.text.InputType
@@ -15,12 +22,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.Notification
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.channelID
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.notificationID
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.MainActivity
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.SellCrypto.SellCryptoFragment
-import za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.Wallets.WalletsFragment
 
 class BuyCryptoFragment : Fragment() {
     private lateinit var coin: CoinAsset
@@ -47,6 +55,7 @@ class BuyCryptoFragment : Fragment() {
         val coinData = arguments?.getString("coinData")
         if (coinData != null) {
             coin = coins.find { it.assetId == coinData } ?: coins[0]
+
             updateUI(coin)
         }
         val navController = findNavController()
@@ -55,6 +64,7 @@ class BuyCryptoFragment : Fragment() {
                 (activity as MainActivity).setHeaderTitle("Buy Crypto")
             }
         }
+
 
         val confirmPurchase: ImageButton = view.findViewById(R.id.imgBtnConfirmPurchase)
 
@@ -91,7 +101,8 @@ class BuyCryptoFragment : Fragment() {
                     ).show()
                     return@getTotalBalance
                 }
-
+                createNotificationChannel()
+                scheduleNotification()
                 performPurchase(dollars, coins!!) { success, errorMessage ->
                     if (success) {
                         Toast.makeText(context, "Crypto Purchased Successfully", Toast.LENGTH_SHORT).show()
@@ -123,7 +134,7 @@ class BuyCryptoFragment : Fragment() {
     private fun performPurchase(dollars: Double, coins: Double, callback: (Boolean, String?) -> Unit) {
         val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
 
-        FirebaseHelper.updateTotalBalance(userId, dollars, false) { success, error ->
+        FirebaseHelper.updateTotalBalance(userId, dollars, 0.00,false) { success, error ->
             if (!success) {
                 callback(false, error ?: "Error updating balance.")
                 return@updateTotalBalance
@@ -162,6 +173,28 @@ class BuyCryptoFragment : Fragment() {
             dialog.cancel()
         }
         builder.show()
+    }
+    private fun scheduleNotification() {
+        val intent = Intent(requireContext(), Notification::class.java)
+        val message = "You have successfully purchased ${coin.name}"
+        intent.putExtra("message", message)
+        val pendingIntent = PendingIntent.getBroadcast(
+            requireContext(), notificationID, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val  alarmManager = requireContext().getSystemService(ALARM_SERVICE) as AlarmManager
+        val time = System.currentTimeMillis() +1000
+        alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent)
+        AlertDialog.Builder(requireContext()).setTitle("Notification Scheduled").setMessage(
+            "Message: $message"
+        ).setPositiveButton("Okay"){ _, _ ->}.show()
+    }
+    private fun createNotificationChannel(){
+        val name = "Tactical Trades Channel"
+        val descriptionText = "Channel for Tactical Trades notifications"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelID, name, importance)
+        channel.description = descriptionText
+        val notificationManager = requireContext().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
     //Updates UI based on coin passed
     private fun updateUI(coinAsset: CoinAsset) {

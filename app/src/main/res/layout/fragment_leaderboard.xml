@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
                 android:layout_marginLeft="8dp"
-                android:text="@string/news_articles"
+                android:text="@string/leaderboard"
                 android:textAlignment="textStart"
                 android:textSize="20sp" />
 
@@ -31,12 +31,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
         </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.news.NewsFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
     </LinearLayout>
 </ScrollView>

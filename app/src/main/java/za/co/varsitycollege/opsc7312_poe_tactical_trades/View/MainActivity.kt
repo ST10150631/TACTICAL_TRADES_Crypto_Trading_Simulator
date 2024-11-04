@@ -1,10 +1,13 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
@@ -17,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.databinding.ActivityMainBinding
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var settingsButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
 
@@ -42,7 +47,27 @@ class MainActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         setupAuthStateListener()
-        //setupNavigation()
+        setupNavigation()
+
+        val userId = firebaseAuth.currentUser?.uid
+        if (userId != null) {
+            FirebaseHelper.getLanguage(userId) { language, error ->
+                if (error != null) {
+                    Log.e("MainActivity", "Error fetching language preference: $error")
+                    Toast.makeText(this, "Failed to load language preference", Toast.LENGTH_SHORT).show()
+                } else {
+                    language?.let {
+                        changeLanguage(it)
+                    } ?: run {
+                        changeLanguage("English")
+                    }
+                }
+            }
+        } else {
+            changeLanguage("English")
+        }
+
+
         applyTheme()
 
         settingsButton.setOnClickListener {
@@ -55,15 +80,42 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun setAppLocale(language: String) {
+        val locale = when (language) {
+            "Afrikaans" -> Locale("af")
+            "English" -> Locale("en")
+            else -> Locale.getDefault()
+        }
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
+
+    public fun changeLanguage(language: String) {
+        setAppLocale(language)
+        val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putString("selected_language", language)
+            apply()
+        }
+    }
 
     override fun onStart() {
         super.onStart()
-        firebaseAuth.addAuthStateListener(authStateListener)
+        if (isConnected(this)) {
+            firebaseAuth.addAuthStateListener(authStateListener)
+        } else {
+            // Handle the offline case, such as showing a message to the user
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        firebaseAuth.removeAuthStateListener(authStateListener)
+        if (isConnected(this)) {
+            firebaseAuth.removeAuthStateListener(authStateListener)
+        }
     }
 
 
@@ -75,6 +127,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun isConnected(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
+    }
 
     override fun onBackPressed() {
         if (navController.currentDestination?.id == R.id.nav_host_fragment_activity_main) {
@@ -96,7 +153,7 @@ class MainActivity : AppCompatActivity() {
             if (user != null) {
 
                 headerTitle = findViewById(R.id.headerTitle)
-                headerTitle.text = "Home"
+                headerTitle.text = getString(R.string.title_home)
 
                 setupNavigation()
             } else {
@@ -139,4 +196,5 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
     }
+
 }

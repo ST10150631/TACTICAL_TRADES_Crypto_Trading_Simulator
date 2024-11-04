@@ -27,16 +27,22 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <ImageView
-                    android:id="@+id/myImageView"
+                <FrameLayout
                     android:layout_width="90dp"
                     android:layout_height="90dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/profile_image"
-                    android:background="@drawable/rounded_corners"
-                    android:clipToOutline="true"
-                    android:scaleType="centerCrop"/>
+                    android:layout_margin="10dp">
 
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/profile_image"
+                        app:shapeAppearanceOverlay="@style/RoundedImage" />
+
+
+                </FrameLayout>
                 <Space
                     android:layout_width="1dp"
                     android:layout_height="wrap_content"
@@ -52,7 +58,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total balance"
+                        android:text="@string/total_balance"
                         android:textSize="18dp"
                         android:layout_marginBottom="1dp"
                         style="@style/TxtSmallPrimaryStyle"/>
@@ -120,6 +126,12 @@
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView5"
                 android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.watchlist.WatchListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView6"
+                android:name="za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.leaderboard.LeaderboardFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

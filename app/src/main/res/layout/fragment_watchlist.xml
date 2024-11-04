@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
             android:layout_marginLeft="8dp"
-            android:text="My watchlist"
+            android:text="@string/my_watchlist"
             android:textAlignment="textStart"
             android:textSize="20sp" />
 

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/ImgBtnStock"
+            android:layout_width="match_parent"
+            android:background="@drawable/rounded_filled_box"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:layout_height="match_parent"
+            android:padding="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profile_image"
+                    app:shapeAppearanceOverlay="@style/RoundedImage" />
+
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/TxtViewUsername"
+                    style="@style/TxtSmallPrimaryStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="1dp"
+                    android:textSize="20sp"
+                    android:text="User Name" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/TxtViewHowMuchTheyHaveMade"
+                style="@style/TxtSmallPrimaryStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:textSize="20sp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_gravity="end"
+                android:padding="20dp"
+                android:text="$0.00" />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

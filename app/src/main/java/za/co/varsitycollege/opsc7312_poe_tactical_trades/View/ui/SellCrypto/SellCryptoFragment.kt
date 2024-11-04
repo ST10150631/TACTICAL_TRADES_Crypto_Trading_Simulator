@@ -1,6 +1,13 @@
 package za.co.varsitycollege.opsc7312_poe_tactical_trades.View.ui.SellCrypto
 
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context.ALARM_SERVICE
+import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.text.InputType
@@ -15,6 +22,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.FirebaseHelper
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.Notification
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.channelID
+import za.co.varsitycollege.opsc7312_poe_tactical_trades.Controller.notificationID
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinAsset
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.Model.CoinList.coins
 import za.co.varsitycollege.opsc7312_poe_tactical_trades.R
@@ -80,6 +90,7 @@ class SellCryptoFragment : Fragment() {
 
                     val dollars = dollarAmount.toDouble()
                     val coins = coinAmount.toDouble()
+                    val priceDifference = arguments?.getDouble("priceChange")
 
                     if (coins == null || coins <= 0 || amountInCoin == null || coins > amountInCoin) {
                         Toast.makeText(
@@ -89,8 +100,9 @@ class SellCryptoFragment : Fragment() {
                         ).show()
                         return@getaWalletFromFirebase
                     }
-
-                    performPurchase(dollars!!, coins!!) { success, errorMessage ->
+                    scheduleNotification()
+                    createNotificationChannel()
+                    performPurchase(dollars!!, coins!!, priceDifference!!) { success, errorMessage ->
                         if (success) {
                             Toast.makeText(context, "Crypto Sold", Toast.LENGTH_SHORT).show()
                         } else {
@@ -121,10 +133,33 @@ class SellCryptoFragment : Fragment() {
         }
     }
 
-    private fun performPurchase(dollars: Double, coins: Double, callback: (Boolean, String?) -> Unit) {
+    private fun scheduleNotification() {
+        val intent = Intent(requireContext(), Notification::class.java)
+        val message = "You have successfully sold ${coin.name}"
+        intent.putExtra("message", message)
+        val pendingIntent = PendingIntent.getBroadcast(
+            requireContext(), notificationID, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val  alarmManager = requireContext().getSystemService(ALARM_SERVICE) as AlarmManager
+        val time = System.currentTimeMillis() +1000
+        alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent)
+        AlertDialog.Builder(requireContext()).setTitle("Notification Scheduled").setMessage(
+            "Message: $message"
+        ).setPositiveButton("Okay"){ _, _ ->}.show()
+    }
+    private fun createNotificationChannel(){
+        val name = "Tactical Trades Channel"
+        val descriptionText = "Channel for Tactical Trades notifications"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelID, name, importance)
+        channel.description = descriptionText
+        val notificationManager = requireContext().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun performPurchase(dollars: Double, coins: Double, priceDifference: Double, callback: (Boolean, String?) -> Unit) {
         val userId = FirebaseHelper.firebaseAuth.currentUser?.uid ?: ""
 
-        FirebaseHelper.updateTotalBalance(userId, dollars, true) { success, error ->
+        FirebaseHelper.updateTotalBalance(userId, dollars, priceDifference,true ) { success, error ->
             if (!success) {
                 callback(false, error ?: "Error updating balance.")
                 return@updateTotalBalance

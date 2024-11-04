@@ -12,6 +12,10 @@
         <item name="borderWidth">2dp</item>
     </style>
 
+    <style name="RoundedImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30%</item>
+    </style>
 
     <style name="TxtPrimaryStyle">
         <item name="android:layout_width">wrap_content</item>
@@ -82,25 +86,29 @@
     </style>
 
     <string-array name="theme_options">
-        <item>Light Theme</item>
-        <item>Dark Theme</item>
+        <item>@string/default_selection</item>
+        <item>@string/theme_2</item>
+        <item>@string/theme_1</item>
     </string-array>
 
     <string-array name="starting_value_options">
-        <item>1000</item>
-        <item>2000</item>
-        <item>3000</item>
-        <item>4000</item>
+        <item>@string/default_selection</item>
         <item>5000</item>
+        <item>50000</item>
+        <item>500000</item>
     </string-array>
 
     <string-array name="graph_theme_options">
-        <item>Cyber Space</item>
-        <item>Colour Blind</item>
+        <item>@string/default_selection</item>
+        <item>@string/graph_theme_1</item>
+        <item>@string/graph_theme_2</item>
+        <item>@string/graph_theme_3</item>
+        <item>@string/graph_theme_4</item>
     </string-array>
 
     <string-array name="language_options">
-        <item>English</item>
-        <item>Afrikaans</item>
+        <item>@string/default_selection</item>
+        <item>@string/language_1</item>
+        <item>@string/language_2</item>
     </string-array>
 </resources>

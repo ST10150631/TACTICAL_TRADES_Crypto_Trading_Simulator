@@ -29,7 +29,7 @@ class NewsFragment : Fragment() {
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.navigation_home) {
             if (activity is MainActivity) {
-                (activity as MainActivity).setHeaderTitle("News")
+                (activity as MainActivity).setHeaderTitle(getString(R.string.news))
             }
         }
 

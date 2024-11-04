@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/inter_bold"
-            android:text="My Wallets"
+            android:text="@string/my_wallets"
             android:textColor="@color/PrimaryTxtColor"
             android:textSize="20sp" />
 
@@ -69,7 +69,7 @@
             android:id="@+id/txtSelectCoin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Coin"
+            android:text="@string/select_coin"
             android:textColor="@color/PrimaryTxtColor"
             android:textSize="18sp" />
 
@@ -89,7 +89,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:entries="@array/spinner_coin_names"
-                android:hint="Select Coin"
+                android:hint="@string/select_coin"
                 android:popupTheme="@style/CustomSpinnerDropdown" />
 
         </LinearLayout>
@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Select Colour"
+            android:text="@string/select_colour"
             android:textColor="@color/PrimaryTxtColor"
             android:textSize="18sp" />
 

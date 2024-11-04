@@ -1,4 +1,4 @@
-import java.util.regex.Pattern.compile
+
 
 plugins {
     alias(libs.plugins.android.application)
@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "za.co.varsitycollege.opsc7312_poe_tactical_trades"
-        minSdk = 26
+        minSdk = 27
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -64,11 +64,18 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.junit.ktx)
-    implementation(libs.androidx.runtime.android)
+    implementation(libs.play.services.fido)
+    //implementation(libs.androidx.biometric.ktx)
     testImplementation(libs.junit)
+    implementation(libs.gson)
+    implementation(libs.okhttp)
+    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.glide)
+    //implementation(libs.biometric)
+    implementation("androidx.biometric:biometric:1.1.0")
+    kapt(libs.compiler)
     //charts
     implementation("com.diogobernardino:williamchart:3.10.1")
-    androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     // Mockito for instrumented tests
     androidTestImplementation("org.mockito:mockito-android:5.2.0")
@@ -100,11 +107,6 @@ dependencies {
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
 
-    implementation(libs.gson)
-    implementation(libs.okhttp) // Check for the latest version
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.glide)
-    kapt(libs.compiler)
 
 }
 
