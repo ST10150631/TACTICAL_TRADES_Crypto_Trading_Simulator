@@ -60,6 +60,12 @@ By using github we were able to peform version control. This allowed us to be ab
 
 ### Utilization of Github Actions
 
+In the development of Tactical Trades, we utilized GitHub Actions to streamline our testing process and ensure continuous integration. GitHub Actions was configured to automatically run our suite of tests each time code was pushed to the repository, allowing us to quickly identify and resolve any issues that might impact functionality. By automating these tests, we maintained code reliability and minimized potential errors before they reached the app’s build. This integration significantly enhanced our workflow by providing instant feedback on code changes, helping us uphold the app’s stability and performance throughout development
+
+---
+### Purpose of the Application
+The purpose of Tactical Trades is to provide a safe, realistic environment for users to learn and practice cryptocurrency trading without financial risk. By leveraging real-time data through Coin API, the app aims to simulate the experience of trading on major platforms, equipping users with essential insights and data for making informed trades. Tactical Trades is designed for accessibility and learning, with features like colorblind-friendly graphs, intuitive interfaces, and advanced analytical tools to deepen users’ understanding of market trends. With customizable difficulty settings and achievable trading goals, the app serves as an engaging educational tool for both beginners and seasoned enthusiasts looking to refine their trading strategies.
+
 ---
 
 ### Design Considerations
@@ -94,9 +100,6 @@ By using github we were able to peform version control. This allowed us to be ab
 - Added offline mode that allows the user to perform actions when not connected to the internet using SQLLite
 - Implemented real time notifications 
 
-
-
-  
 
 ## How To Use
 ---
@@ -291,6 +294,52 @@ By using github we were able to peform version control. This allowed us to be ab
 ![Screenshot (1112)](https://github.com/user-attachments/assets/181cd67e-3258-438f-a91f-563fae953390)
 ![Screenshot (1113)](https://github.com/user-attachments/assets/26074670-ba5c-4665-ad4a-258b14d9f566)
 
+## Attempt to publish to google playstore 
+
+- The app APK was creted along with a keystore
+  ![Screenshot 2024-11-03 212251](https://github.com/user-attachments/assets/0142d735-5f9b-4c4a-a508-51cada345a38)
+-  The console account however did not allow me access required to publish the app
+  ![Screenshot 2024-11-03 222349](https://github.com/user-attachments/assets/c240288a-0fac-461a-9777-1f41b8c4764b)
+- However I proceeded and created a new app and filled in the various app details.
+  ![Screenshot 2024-11-03 222432](https://github.com/user-attachments/assets/198c2b24-9e63-4128-8126-9eefc0596f56)
+![Screenshot 2024-11-03 222528](https://github.com/user-attachments/assets/f3ec2f3b-8a7e-4c78-8b0a-7253ddec84dc)
+![Screenshot 2024-11-03 223352](https://github.com/user-attachments/assets/fe86992f-10c3-4c98-9a43-58e089c6c3d5)
+![Screenshot 2024-11-03 224232](https://github.com/user-attachments/assets/27dff403-129b-4bc1-95bf-0f359eb8b0f2)
+the graphics and Icons were uploaded:
+![Screenshot 2024-11-03 224756](https://github.com/user-attachments/assets/efe50516-1448-4f7d-a79e-e473129905eb)
+![Screenshot 2024-11-03 225627](https://github.com/user-attachments/assets/1e0a45b0-b9ad-442b-9569-b216013f90e1)
+![Screenshot 2024-11-03 225632](https://github.com/user-attachments/assets/8cf10f76-75b4-4510-aeb6-e51ab5123a59)
+Logo:
+
+![Tactical_Trades_Logo](https://github.com/user-attachments/assets/706bdde3-9ed4-4c99-8c8f-0d83b8785241)
+
+Screen Banner:
+
+![Group 237597](https://github.com/user-attachments/assets/2530e973-8a64-4a89-b61f-c01d555c99ac)
+
+Data safety required a privacy policy URL that was attempted but ultimately failed
+![Screenshot 2024-11-03 225805](https://github.com/user-attachments/assets/01ca2b35-1080-490e-ae6b-3a7a81bbefac)
+
+- The app draught was created however could not proceed as my account did not have the relevant permisssions needed:
+  ![Screenshot 2024-11-04 125129](https://github.com/user-attachments/assets/005b584c-1b18-4abc-908e-7af367672c4c)
+  - This was the primary reason for being unable to published and could not be resolved despite our best efforts.
+    
+
+
+
+
+
+
+
+
+## AI Usage Writeup 
+Use of AI in development:
+GitHub Copilot and ChatGPT were two AI tools that were very helpful in debugging and improving the code as it was being developed. Copilot offered solutions and code recommendations for typical coding problems.
+When some features did not work as intended, ChatGPT helped with more thorough troubleshooting by assisting in the identification and resolution of particular coding problems.
+ChatGPT offers multiple processes and apporaches to solving a problem which helps to save time in debigging the errors. 
+
+AI use Acknowledgement and Citations:
+As part of our development process, AI technologies were cited in line with academic honesty and transparency. While ChatGPT and GitHub Copilot offered assistance with debugging and code recommendations, they were not responsible for any of the fundamental choices regarding functionality, architecture, or design. The team examined and modified any code changes or recommendations from Copilot and ChatGPT as needed to meet the project's particular needs. This strategy made sure that, even while AI technologies increased productivity, Tactical Trades' main design and logic components were still the result of the team's autonomous labor.
   
 ## License
 
