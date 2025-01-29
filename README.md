@@ -1,5 +1,4 @@
-# OPSC7312_POE_TACTICAL_TRADES_README_FILE
-
+# Tactical Trades crypto trading simulator
 ---
 ![image](https://github.com/user-attachments/assets/a79cff73-fac1-41e4-9b77-3433b0828d79)
 
